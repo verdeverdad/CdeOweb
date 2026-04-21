@@ -7,7 +7,7 @@ Este proyecto es una plataforma Full Stack diseñada para la gestión de servici
 ### Frontend
 * **React 18** con **Vite** para un desarrollo ultra rápido.
 * **TypeScript** para asegurar la integridad de los datos.
-* **CSS Bootstrap** (ajustar según tu elección) para un diseño responsivo.
+* **CSS Bootstrap** para un diseño responsivo y personalizado.
 
 ### Backend
 * **Node.js & Express** para el servidor API REST.
