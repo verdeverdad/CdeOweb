@@ -1,21 +1,52 @@
-# React + TypeScript + Vite
+# 🛶 Costa de Oro - Sistema de Gestión (CdeO)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Este proyecto es una plataforma Full Stack diseñada para la gestión de servicios en la zona de la Costa de Oro (comenzando con **Actividades culturales** y **intereses de la zona**). Construido con un enfoque en **accesibilidad digital**, rendimiento y escalabilidad.
 
-Currently, two official plugins are available:
+## 🚀 Tecnologías Utilizadas
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+### Frontend
+* **React 18** con **Vite** para un desarrollo ultra rápido.
+* **TypeScript** para asegurar la integridad de los datos.
+* **CSS Bootstrap** (ajustar según tu elección) para un diseño responsivo.
 
-## React Compiler
+### Backend
+* **Node.js & Express** para el servidor API REST.
+* **Prisma 7** como ORM de última generación.
+* **PostgreSQL** hospedado en **Supabase** para una persistencia de datos robusta.
+* **TypeScript** en el servidor para un entorno Full-Stack Type-Safe.
 
-The React Compiler is enabled on this template. See [this documentation](https://react.dev/learn/react-compiler) for more information.
+## 🏗️ Arquitectura del Proyecto
 
-Note: This will impact Vite dev & build performances.
+El repositorio está organizado como un monorepo simple:
+* `/client`: Aplicación frontend en React.
+* # 🛶 Costa de Oro - Sistema de Gestión (CdeO)
 
-## Expanding the ESLint configuration
+Este proyecto es una plataforma Full Stack diseñada para la gestión de servicios en la zona de la Costa de Oro. Construido con un enfoque en **accesibilidad digital**, rendimiento y escalabilidad. Puedes ver el caso de estudio de UX en el siguiente link https://www.sdstudio.click/costadeoro.html
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+## 🚀 Tecnologías Utilizadas
+
+### Frontend
+* **React 18** con **Vite** para un desarrollo ultra rápido.
+* **TypeScript** para asegurar la integridad de los datos.
+* **CSS Modules / Tailwind** (ajustar según tu elección) para un diseño responsivo.
+
+### Backend
+* **Node.js & Express** para el servidor API REST.
+* **Prisma 7** como ORM de última generación.
+* **PostgreSQL** hospedado en **Supabase** para una persistencia de datos robusta.
+* **TypeScript** en el servidor para un entorno Full-Stack Type-Safe.
+
+## 🏗️ Arquitectura del Proyecto
+
+El repositorio está organizado como un monorepo simple:
+* `/client`: Aplicación frontend en React.
+* `/server`: Servidor de API, lógica de negocio y base de datos.
+
+
+
+
+
+
 
 ```js
 export default defineConfig([

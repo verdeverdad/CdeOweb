@@ -3,13 +3,14 @@ import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/logo.png'
 import './App.css'
+import NavBar from "./components/NavBar"
 
 
 function App() {
   const [count, setCount] = useState(0)
 
   return (
-    <>
+    <><header><NavBar></NavBar></header>
       <section id="center">
         <div className="hero">
           <img src={heroImg} className="base" width="170" height="179" alt="" />
@@ -17,6 +18,7 @@ function App() {
         <div>
           <h1>hola sofi en que andas?</h1>
           <p>
+          
             Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
           </p>
         </div>
