@@ -1,13 +1,43 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Get a free hosted Postgres database in seconds: `npx create-db`
-
-generator client {
-  provider = "prisma-client"
-  output   = "../src/generated/prisma"
-}
-
+// prisma/schema.prisma
 datasource db {
   provider = "postgresql"
+}
+
+generator client {
+  provider = "prisma-client-js"
+  previewFeatures = ["driverAdapters"]
+}
+
+// Modelo para los equipos (Kayaks, Tablas de SUP, etc.)
+model Equipment {
+  id          Int      @id @default(autoincrement())
+  name        String   // Ejemplo: "Kayak Single Rotomod"
+  category    String   // "Kayak", "SUP", "Windsurf"
+  description String?
+  isAvailable Boolean  @default(true)
+  rentals     Rental[]
+  createdAt   DateTime @default(now())
+}
+
+// Modelo para los clientes
+model Customer {
+  id        Int      @id @default(autoincrement())
+  name      String
+  email     String   @unique
+  phone     String?
+  rentals   Rental[]
+  createdAt DateTime @default(now())
+}
+
+// Modelo para las reservas/alquileres
+model Rental {
+  id          Int       @id @default(autoincrement())
+  equipment   Equipment @relation(fields: [equipmentId], references: [id])
+  equipmentId Int
+  customer    Customer  @relation(fields: [customerId], references: [id])
+  customerId  Int
+  startTime   DateTime  @default(now())
+  endTime     DateTime?
+  totalPrice  Decimal?  @db.Decimal(10, 2)
+  status      String    @default("ACTIVE") // ACTIVE, COMPLETED, CANCELLED
 }
