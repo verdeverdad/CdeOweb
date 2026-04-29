@@ -4,11 +4,11 @@
     // File Layout
     "outDir": "./dist", // Esto le dice: "Poné los archivos finales acá"
     "rootDir": "./src", // Esto le dice: "Buscá el código fuente acá"
-   "include": ["src/**/*"],
+   "include": ["src/**/*"], //Esto evita que intente compilar archivos fuera de src
     // Environment Settings
     // See also https://aka.ms/tsconfig/module
-    "module": "nodenext",
-    "target": "esnext",
+    "module": "NodeNext",
+    "target": "ESNext",
     "types": [],
     // For nodejs:
     // "lib": ["esnext"],
