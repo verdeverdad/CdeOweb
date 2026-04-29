@@ -1,7 +1,7 @@
 import express from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv'; // Usa * as dotenv para evitar problemas de import
-import { PrismaClient } from '@prisma/client';
+import { PrismaClient } from '@prisma/client'; 
 import { PrismaPg } from '@prisma/adapter-pg';
 import pg from 'pg';
 
@@ -46,3 +46,4 @@ app.get('/api/health', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);
 });
+
