@@ -37,15 +37,14 @@ const NavBar = (): ReactElement => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
               <img src={MenuIcon} alt="Menú" width={50} height={50} />
-              <small className="fw-bold" style={{ fontSize: '18px', color: 'var(--violeta)' }}>MENÚ</small>
+              <small className="fw-bold" style={{ fontSize: '18px', color: 'var(--blanco)' }}>MENÚ</small>
             </div>
           </Navbar.Toggle>
 
           <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
-
               <img src={PerfilIcon} alt="Perfil" width={50} height={50} />
-              <small style={{ color: 'var(--violeta)', fontSize: '18px', fontWeight: 'bold' }}>PERFIL</small>
+              <small style={{ color: 'var(--blanco)', fontSize: '18px', fontWeight: 'bold' }}>PERFIL</small>
             </div>
           </Nav.Link>
         </div>
