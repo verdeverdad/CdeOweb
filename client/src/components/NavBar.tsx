@@ -1,18 +1,16 @@
-// src/Menu.js
-import { useState, useEffect } from 'react';
+import { useState, useEffect, type ReactElement } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import Navbar from 'react-bootstrap/Navbar';
-import Nav from 'react-bootstrap/Nav';
-import Container from 'react-bootstrap/Container';
-import Form from 'react-bootstrap/Form';
-import Button from 'react-bootstrap/Button';
+import { Navbar, Nav, Container, Form, Button } from 'react-bootstrap';
 import portada from '../assets/Nav-CdeO2.png';
-import { FaUser } from 'react-icons/fa';
+import PerfilIcon from '../assets/Perfil.svg';
+import MenuIcon from '../assets/menu.svg';
+import '../App.css';
 
-function NavBar() {
-  const [expanded, setExpanded] = useState(false);
+const NavBar = (): ReactElement => {
+  const [expanded, setExpanded] = useState<boolean>(false);
   const location = useLocation();
 
+  // Cerramos el menú al cambiar de ruta
   useEffect(() => {
     setExpanded(false);
   }, [location]);
@@ -21,28 +19,37 @@ function NavBar() {
     <Navbar
       expand="xxl"
       expanded={expanded}
-      onToggle={() => setExpanded(!expanded)}
-      className="d-flex flex-column sticky-top" // Clave: convierte el Navbar en un contenedor de columna
+      onToggle={(nextExpand: boolean) => setExpanded(nextExpand)}
+      className="sticky-top p-0"
       style={{
         backgroundImage: `url(${portada})`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
-        color: 'white',
-        height: '150px',
+        minHeight: '150px',
+        display: 'flex',
+        flexDirection: 'column'
       }}
     >
-      {/* Fila superior: Botón de menú y perfil */}
-      <Container fluid className="d-flex justify-content-between align-items-center flex-grow-1" style={{
-        position: 'absolute',
-        top: '5px',
-      }}>
-        <Navbar.Toggle aria-controls="basic-navbar-nav" className="d-flex flex-column align-items-center">
-          <span className="navbar-toggler-icon"></span>
-          <small className="mt-1">MENÚ</small>
-        </Navbar.Toggle>
+      <Container fluid className="d-flex flex-column justify-content-between h-100 py-2" style={{ minHeight: '150px' }}>
+        
+        {/* SECCIÓN SUPERIOR */}
+        <div className="d-flex justify-content-between align-items-center w-100">
+          <Navbar.Toggle aria-controls="basic-navbar-nav" className="border-0 bg-transparent p-0" style={{ zIndex: 1020 }}>
+            <div className="d-flex flex-column align-items-center">
+              <img src={MenuIcon} alt="Menú" width={50} height={50} />
+              <small className="fw-bold" style={{ fontSize: '18px' , color: 'var(--blanco' }}>MENÚ</small>
+            </div>
+          </Navbar.Toggle>
 
-        <Navbar.Collapse id="basic-navbar-nav" style={{ backgroundColor: 'rgba(255, 204, 0, 0.8)', fontWeight: 'bold' }}>
-          <Nav className="me-auto text-center">
+          <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center">
+            <img src={PerfilIcon} alt="Perfil" width={50} height={50} />
+            <small style={{ color: 'var(--blanco', fontSize: '18px', fontWeight: 'bold' }}>PERFIL</small>
+          </Nav.Link>
+        </div>
+
+        {/* MENÚ COLAPSABLE */}
+        <Navbar.Collapse id="basic-navbar-nav" className="w-100">
+          <Nav className="mx-auto text-center w-100 my-2 p-3" style={{ backgroundColor: 'rgba(255, 204, 0, 0.95)', borderRadius: '10px' }}>
             <Nav.Link as={Link} to="/">INICIO</Nav.Link>
             <Nav.Link as={Link} to="/nosotros">LA COMUNIDAD</Nav.Link>
             <Nav.Link as={Link} to="/cultura">CULTURA</Nav.Link>
@@ -54,44 +61,31 @@ function NavBar() {
             <Nav.Link as={Link} to="/trabajos">TRABAJOS</Nav.Link>
             <Nav.Link as={Link} to="/viajes">VIAJES</Nav.Link>
             <Nav.Link as={Link} to="/animales">MASCOTAS</Nav.Link>
-            <Nav.Link as={Link} to="/perfil">
-              <FaUser className="mb-1" size={40} color="#6b2985" />
-              <small >PERFIL</small>
+            
+            <hr className="bg-dark" />
+            <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center pt-2">
+              <img src={PerfilIcon} alt="Perfil" width={40} height={40} />
+              <span style={{ color: 'var(--violeta)', fontWeight: 'bold' }}>MI PERFIL</span>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
-        {!expanded && (
-          <Nav.Link as={Link} to="/perfil" className="ms-auto d-flex flex-column align-items-center">
-            <FaUser className="mb-1 mt-1" size={36} color="#6b2985" />
-            <small style={{ color: '#6b2985', fontSize: '18px' }}>PERFIL</small>
-          </Nav.Link>
-        )}
-      </Container>
 
-      {/* Fila inferior: Barra de búsqueda que ocupa todo el ancho */}
-      {!expanded && (
-        <div style={{
-          position: 'absolute',
-          bottom: '5px',
-          left: 0,
-          width: '100%',
-          padding: '0 16px',
-        }}>
-          <Container fluid>
-            <Form className="d-flex w-100">
-              <Form.Control
-                type="search"
-                placeholder="Buscar"
-                className="me-2 buscar"
-                aria-label="Search"
-              />
-              <Button className='botonVioleta'>Buscar</Button>
-            </Form>
-          </Container>
+        {/* SECCIÓN INFERIOR */}
+        <div className="w-100 mt-auto pb-1">
+          <Form className="d-flex w-100" onSubmit={(e: React.FormEvent) => e.preventDefault()}>
+            <Form.Control
+              type="search"
+              placeholder="Buscar en Costa de Oro..."
+              className="me-2 buscar"
+              style={{ borderRadius: '20px' }}
+            />
+            <Button type="submit" className='botonVioleta'>Buscar</Button>
+          </Form>
         </div>
-      )}
+
+      </Container>
     </Navbar>
   );
-}
+};
 
 export default NavBar;
