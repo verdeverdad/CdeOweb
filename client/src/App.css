@@ -13,10 +13,17 @@ section {
     background-color: var(--negro);
 }
 .navbar-toggler {
-  /* Color de fondo */
+  border-color: transparent !important;
+  background-color: transparent !important;
   color: var(--violeta) !important;
   text-align: center;
+}
 
+.navbar-toggler:focus,
+.navbar-toggler:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+  border-color: transparent !important;
 }
 
 .navbar-toggler-icon {
@@ -34,6 +41,7 @@ section {
   color: var(--violeta) !important;
   font-weight: bold;
 }
+
 
 #basic-navbar-nav {
   color: yellow;
