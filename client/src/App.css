@@ -7,12 +7,12 @@
   --verde: #81b622;
   --turqueza: #0097b2;
   --naranja: #f15a24;
+  --gris: #585454;
 }
 section {
     background-color: var(--negro);
 }
 .navbar-toggler {
-  border-color: rgb(107, 41, 133) !important;
   /* Color de fondo */
   color: var(--violeta) !important;
   text-align: center;
@@ -34,7 +34,6 @@ section {
   color: var(--violeta) !important;
   font-weight: bold;
 }
-
 
 #basic-navbar-nav {
   color: yellow;
