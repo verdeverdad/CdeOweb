@@ -48,26 +48,27 @@ section {
 }
 
 .botonVioleta:hover {
-  Color: #ffcc14 !important;
+  Color: var(--amarillo) !important;
   background-color: var(--violeta) !important;
-  border-color: #ffcc14 !important;
+  border-color: var(--amarillo) !important;
 }
 
 .botonVioleta {
-  background-color: #ffcc14 !important;
-  Color: var(--violeta) !important;
-  border-color: #ffcc14 !important;
+  background-color: var(--amarillo) !important;
+  Color: var(--blanco) !important;
+  border-color: var(--amarillo) !important;
+  font-weight: bold;
 
 }
 
 .buscar {
   color: var(--blanco) !important;
   background-color: var(--violeta)28 !important;
-  border-color: #ffcc14 !important;
+  border-color: var(--amarillo) !important;
 }
 
 .buscar::placeholder {
-  color: #ffcc14 !important;
+  color: var(--blanco) !important;
   opacity: 1;
   font-weight: bold;
 
