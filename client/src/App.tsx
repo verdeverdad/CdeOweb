@@ -23,7 +23,13 @@ function App() {
       {/* Solo usamos las clases de Bootstrap. "ratio-16x9" mantiene la forma perfecta siempre */}
       <Col>
         <div className="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
-          <iframe src="https://www.google.com/maps/d/embed?mid=1qE9a4cb6S1a3dFzRKKzFtbjoUTs8ALA&ehbc=2E312F&noprof=1" width="640" height="480"></iframe>
+          <iframe
+            src="https://www.google.com/maps/d/embed?mid=1qE9a4cb6S1a3dFzRKKzFtbjoUTs8ALA&hl=es&ehbc=2E312F"
+            style={{ border: 0 }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
         </div>
       </Col>
     </Row>
