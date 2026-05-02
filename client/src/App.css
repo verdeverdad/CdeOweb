@@ -55,8 +55,9 @@ section {
 
 .botonVioleta {
   background-color: var(--amarillo) !important;
-  Color: var(--blanco) !important;
+  Color: var(--violeta) !important;
   border-color: var(--amarillo) !important;
+  border-radius: 15px;
   font-weight: bold;
 
 }
@@ -89,19 +90,3 @@ section {
   opacity: 1;
 }
 
-
-.video-responsive {
-  overflow: hidden;
-  padding-bottom: 400px;
-  /* Adecua este valor para controlar la altura del video */
-  position: relative;
-  height: 0;
-}
-
-.video-responsive iframe {
-  left: 0;
-  top: 0;
-  height: 100%;
-  width: 100%;
-  position: absolute;
-}

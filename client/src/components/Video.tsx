@@ -7,20 +7,22 @@ interface VideoHeroProps {
 }
 
 const VideoHero: React.FC<VideoHeroProps> = ({ videoId, titulo = "YouTube video player" }) => {
-  // Construimos la URL con los parámetros para que sea un loop infinito y muteado
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playlist=${videoId}&loop=1`;
 
   return (
     <Row className="mb-4">
-      <Col className="ratio ratio-16x9 shadow-sm rounded video-responsive overflow-hidden">
-        <iframe
-          src={embedUrl}
-          title={titulo}
-          style={{ border: 0 }}
-          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-          allowFullScreen
-          loading="lazy"
-        ></iframe>
+      {/* Solo usamos las clases de Bootstrap. "ratio-16x9" mantiene la forma perfecta siempre */}
+      <Col>
+        <div className="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
+          <iframe
+            src={embedUrl}
+            title={titulo}
+            style={{ border: 0 }}
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+            allowFullScreen
+            loading="lazy"
+          ></iframe>
+        </div>
       </Col>
     </Row>
   );

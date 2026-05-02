@@ -79,9 +79,9 @@ const NavBar = (): ReactElement => {
               type="search"
               placeholder="Buscar en Costa de Oro..."
               className="me-2 buscar"
-              style={{ borderRadius: '20px' }}
+              style={{ borderRadius: '15px' }}
             />
-            <Button type="submit" className='botonVioleta'>Buscar</Button>
+            <Button type="submit" className='botonVioleta'>BUSCAR</Button>
           </Form>
         </div>
 
