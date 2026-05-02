@@ -36,7 +36,7 @@ const NavBar = (): ReactElement => {
         <div className="d-flex justify-content-between align-items-center w-100">
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
-              <img src={MenuIcon} alt="Menú" width={50} height={50} />
+              <img src={MenuIcon} alt="Menú" width={50} height={50} /><b></b>
               <small className="fw-bold" style={{ fontSize: '18px', color: 'var(--blanco)' }}>MENÚ</small>
             </div>
           </Navbar.Toggle>
