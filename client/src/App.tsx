@@ -13,7 +13,7 @@ function App() {
         <VideoHero videoId="hYAOS2ZkfN8" titulo="Video de prueba"></VideoHero>
         <Row className="g-4 my-4">
           <Col xs={12} md={6}>
-            <ComunidadCard titulo={'prueba'} descripcion={'es una prueba'} fechaPublicacion={'hoy'} imagenUrl={img} onVerMas={function (): void {
+            <ComunidadCard titulo={'prueba'} descripcion={'es una prueba, es una prueba, es una prueba,es una prueba,es una prueba,es una prueba,es una prueba'} fechaPublicacion={'Domingo 26 de febrero de 2026 20:30hs'} imagenUrl={img} onVerMas={function (): void {
               throw new Error('Function not implemented.')
             }}></ComunidadCard>
           </Col>

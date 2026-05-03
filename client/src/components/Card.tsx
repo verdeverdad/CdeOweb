@@ -1,6 +1,8 @@
 import React from 'react';
 import { Card, Button, Badge } from 'react-bootstrap';
-
+import InstaIcon from '../assets/Instagram.png';
+import WppIcon from '../assets/WhatsApp.png';
+import WebIcon from '../assets/Facebook.png';
 // Definimos la interfaz para mantener el orden de TypeScript
 interface ComunidadCardProps {
   titulo: string;
@@ -20,7 +22,7 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
   onVerMas
 }) => {
   return (
-    <Card className="h-100 shadow-sm " style={{ borderRadius: '15px', overflow: 'hidden',borderColor: 'var(--violeta)', borderWidth: '2px', borderStyle: 'solid' }}>
+    <Card className="h-100 shadow-sm p-3" style={{ borderRadius: '15px', overflow: 'hidden',borderColor: 'var(--violeta)', borderWidth: '2px', borderStyle: 'solid' }}>
       {/* Imagen con estilo grabado - Aseguramos el ratio para que no se deforme */}
       <div style={{ backgroundColor: '#f8f9fa', padding: '20px', textAlign: 'center' }}>
         <Card.Img 
@@ -51,6 +53,18 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
           {/* Truncamos el texto si es muy largo para mantener la estética */}
           {descripcion.length > 100 ? `${descripcion.substring(0, 100)}...` : descripcion}
         </Card.Text>
+
+        <div className="redes-container">
+          <a href="https://wa.me/tu-numero" target="_blank" rel="noreferrer">
+            <img src={WppIcon} alt="WhatsApp" className="icono-red"/>
+          </a>
+          <a href="https://instagram.com/tu-cuenta" target="_blank" rel="noreferrer">
+            <img src={InstaIcon} alt="Instagram" className="icono-red"/>
+          </a>
+          <a href="#web" target="_blank" rel="noreferrer">
+            <img src={WebIcon} alt="Web" className="icono-red"/>
+          </a>
+        </div>
 
         <Button 
           variant="primary" 
