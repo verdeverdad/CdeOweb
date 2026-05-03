@@ -93,7 +93,7 @@ section {
 
 .redes-container {
   position: absolute;
-  bottom: 80px; /* Ajustá la distancia del borde inferior */
+  bottom: 72px; /* Ajustá la distancia del borde inferior */
   right: 35px;  /* Ajustá la distancia del borde derecho */
   display: flex;
   gap: 14px;     /* Espacio entre los iconos */
@@ -101,8 +101,8 @@ section {
 }
 
 .icono-red {
-  width: 30px;  /* Tamaño de los iconos */
-  height: 30px;
+  width: 40px;  /* Tamaño de los iconos */
+  height: 40px;
   object-fit: contain;
   transition: transform 0.2s ease;
   filter: drop-shadow(0px 2px 2px rgba(0,0,0,0.1)); /* Sombra suave para que resalten */

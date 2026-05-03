@@ -49,12 +49,12 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
           {titulo}
         </Card.Title>
 
-        <Card.Text className="text-secondary flex-grow-1">
+        <Card.Text className="text-secondary flex-grow-1 mb-3">
           {/* Truncamos el texto si es muy largo para mantener la estética */}
-          {descripcion.length > 100 ? `${descripcion.substring(0, 100)}...` : descripcion}
+          {descripcion.length > 70 ? `${descripcion.substring(0, 70)}...` : descripcion}
         </Card.Text>
 
-        <div className="redes-container">
+        <div className="redes-container m-1" >
           <a href="https://wa.me/tu-numero" target="_blank" rel="noreferrer">
             <img src={WppIcon} alt="WhatsApp" className="icono-red"/>
           </a>
