@@ -20,14 +20,14 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
   onVerMas
 }) => {
   return (
-    <Card className="h-100 shadow-sm border-0" style={{ borderRadius: '15px', overflow: 'hidden' }}>
+    <Card className="h-100 shadow-sm " style={{ borderRadius: '15px', overflow: 'hidden',borderColor: 'var(--violeta)', borderWidth: '2px', borderStyle: 'solid' }}>
       {/* Imagen con estilo grabado - Aseguramos el ratio para que no se deforme */}
       <div style={{ backgroundColor: '#f8f9fa', padding: '20px', textAlign: 'center' }}>
         <Card.Img 
           variant="top" 
           src={imagenUrl} 
           alt={`Icono de ${titulo}`}
-          style={{ width: '280px', height: '280px', objectFit: 'contain' }} 
+          style={{ width: '200px', height: '200px', objectFit: 'contain' }} 
         />
       </div>
 
@@ -56,7 +56,7 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
           variant="primary" 
           onClick={onVerMas}
           className="mt-3 w-100 fw-bold"
-          style={{ borderRadius: '10px', backgroundColor: '#ffcc00', border: 'none', color: '#000' }}
+          style={{ borderRadius: '10px', backgroundColor: 'var(--violeta)', border: 'none', color: 'var(--blanco)' }}
           aria-label={`Ver más detalles sobre ${titulo}`}
         >
           Ver más

@@ -51,7 +51,7 @@ const NavBar = (): ReactElement => {
 
         {/* MENÚ COLAPSABLE */}
         <Navbar.Collapse id="basic-navbar-nav" className="w-100">
-          <Nav className="mx-auto text-center w-100 my-2 p-3" style={{ backgroundColor: 'rgba(255, 204, 0, 0.95)', borderRadius: '10px' }}>
+          <Nav className="mx-auto text-center w-100 my-2 p-3" style={{ backgroundColor: 'var(--amarilloClaro)', borderRadius: '10px' }}>
             <Nav.Link as={Link} to="/">INICIO</Nav.Link>
             <Nav.Link as={Link} to="/nosotros">LA COMUNIDAD</Nav.Link>
             <Nav.Link as={Link} to="/cultura">CULTURA</Nav.Link>

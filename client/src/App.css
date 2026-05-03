@@ -2,6 +2,7 @@
   --blanco: #f6f6f6;
   --negro: #181818;
   --amarillo: #ffcc14;
+  --amarilloClaro: #FFE485;
   --violeta: #6c2a86;
   --rosa: #ff5757;
   --verde: #81b622;
@@ -48,15 +49,15 @@ section {
 }
 
 .botonVioleta:hover {
-  Color: var(--amarillo) !important;
+  Color: var(--amarilloClaro) !important;
   background-color: var(--violeta) !important;
-  border-color: var(--amarillo) !important;
+  border-color: var(--amarilloClaro) !important;
 }
 
 .botonVioleta {
-  background-color: var(--amarillo) !important;
+  background-color: var(--amarilloClaro) !important;
   Color: var(--violeta) !important;
-  border-color: var(--amarillo) !important;
+  border-color: var(--violeta) !important;
   border-radius: 15px;
   font-weight: bold;
 
@@ -65,7 +66,7 @@ section {
 .buscar {
   color: var(--blanco) !important;
   background-color: var(--violeta)28 !important;
-  border-color: var(--amarillo) !important;
+  border-color: var(--amarilloClaro) !important;
 }
 
 .buscar::placeholder {
