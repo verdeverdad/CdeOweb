@@ -22,14 +22,14 @@ const ComunidadCard: React.FC<ComunidadCardProps> = ({
   onVerMas
 }) => {
   return (
-    <Card className="h-100 shadow-sm p-3" style={{ borderRadius: '15px', overflow: 'hidden',borderColor: 'var(--violeta)', borderWidth: '2px', borderStyle: 'solid' }}>
+    <Card className="h-100 shadow-sm p-3" style={{ borderRadius: '15px', overflow: 'hidden',borderColor: 'var(--violeta)', borderWidth: '2px', borderStyle: 'solid'}}>
       {/* Imagen con estilo grabado - Aseguramos el ratio para que no se deforme */}
       <div style={{ backgroundColor: '#f8f9fa', padding: '20px', textAlign: 'center' }}>
-        <Card.Img 
+        <Card.Img
           variant="top" 
           src={imagenUrl} 
           alt={`Icono de ${titulo}`}
-          style={{ width: '200px', height: '200px', objectFit: 'contain' }} 
+          style={{ width: '400px', height: '400px', objectFit: 'contain' }} 
         />
       </div>
 
