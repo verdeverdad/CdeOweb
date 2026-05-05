@@ -1,7 +1,8 @@
+import 'dotenv/config';
 import { defineConfig } from '@prisma/config';
 
-// No necesitas dotenv.config() aquí; Prisma 7 busca el .env automáticamente
-// y Render ya inyecta las variables directamente en el sistema.
+// Cargamos variables de entorno desde server/.env para que Prisma pueda leer DATABASE_URL.
+// Prisma config no carga .env automáticamente cuando se usa `process.env` aquí.
 
 export default defineConfig({
   // Prisma busca el esquema en ./prisma/schema.prisma por defecto, 

@@ -6,6 +6,7 @@ import img2 from './assets/eventos_com.png'
 import VideoHero from './components/Video'
 import { Container, Row, Col } from 'react-bootstrap'
 import map from "./assets/mapa.png"
+import { CrearPost } from './components/CreatePost'
 
 function App() {
 
@@ -45,6 +46,7 @@ function App() {
             </div>
           </Col>
         </Row>
+        <CrearPost></CrearPost>
       </Container>
     </>
   )

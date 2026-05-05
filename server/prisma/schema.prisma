@@ -46,6 +46,14 @@ enum Localidad {
   JAUREGUIBERRY
 }
 
+enum Categoria {
+  MERCADO
+  PATITAS
+  CULTURA
+  SERVICIOS
+  TRABAJO
+}
+
 model User {
   id          String   @id @default(uuid())
   email       String   @unique
