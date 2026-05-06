@@ -60,7 +60,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
             publicacionesFiltradas.map((post) => (
               <div className="col" key={post.id}>
                 <div className="card h-100 shadow-sm border-0">
-                  {/* Imagen (con click para ampliar) */}
+                  {/* Imagen (con click para ampliar) 
                   <img
                     src={post.image || 'https://via.placeholder.com/300x200?text=Costa+de+Oro'}
                     className="card-img-top"
@@ -68,7 +68,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                     style={{ height: "200px", objectFit: "cover", cursor: "pointer" }}
                     onClick={() => setImgAmpliada(post.image || '')}
                   />
-                  
+          */}
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span className={`badge ${
