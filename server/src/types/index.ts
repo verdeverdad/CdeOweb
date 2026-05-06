@@ -16,4 +16,4 @@ export interface Post {
     fecha: string;
     hora: string;
     authorId: string;
-}
+};

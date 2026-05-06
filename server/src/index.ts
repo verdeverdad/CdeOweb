@@ -54,34 +54,51 @@ app.post('/api/users', async (req, res) => {
   }
 });
 
-// Obtener todas las publicaciones (Cartelera)
-app.get('/api/posts', async (req, res) => {
-  const { categoria, localidad } = req.query;
-  
-  const posts = await prisma.post.findMany({
-    where: {
-      ...(categoria && { categoria: String(categoria) }),
-      ...(localidad && { localidad: String(localidad) as any }),
-    },
-    include: { author: true }, // Trae datos del vecino/negocio que publicó
-    orderBy: { createdAt: 'desc' }
-  });
-  res.json(posts);
-});
-
 // Crear una publicación
 app.post('/api/posts', async (req, res) => {
   const { authorId, titulo, contenido, localidad, categoria, subCategoria, fecha, hora } = req.body;
   try {
     const post = await prisma.post.create({
-      data: { authorId, titulo, contenido, localidad, categoria, subCategoria, fecha, hora }
+      data: {
+        authorId,
+        titulo,
+        contenido,
+        localidad,
+        categoria,
+        subCategoria: subCategoria || '',
+        fecha: fecha || new Date().toISOString(),
+        hora: hora || '',
+      }
     });
     res.status(201).json(post);
   } catch (error) {
+    console.error(error);
     res.status(400).json({ error: "Error al crear la publicación" });
   }
 });
 
+// Obtener todas las publicaciones (La Cartelera)
+app.get('/api/posts', async (req, res) => {
+  try {
+    const posts = await prisma.post.findMany({
+      include: {
+        author: {
+          select: {
+            nombre: true,
+            telefono: true, // Lo necesitamos para el botón de WhatsApp
+          },
+        },
+      },
+      orderBy: {
+        createdAt: 'desc', // Las más nuevas primero, como en una cartelera real
+      },
+    });
+    res.json(posts);
+  } catch (error) {
+    console.error("Error al obtener posts:", error);
+    res.status(500).json({ error: "No se pudo cargar la cartelera" });
+  }
+});
 
 app.listen(PORT, () => {
   console.log(`🚀 Servidor corriendo en http://localhost:${PORT}`);

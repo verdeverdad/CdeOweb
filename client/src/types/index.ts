@@ -4,20 +4,24 @@ export type Localidad =
     'LOS_TITANES' | 'LATUNA' | 'ARAMINDA' | 'SANTA_LUCIA_DEL_ESTE' | 'BIARRITZ' | 'CUCHILLA_ALTA' | 'EL_GALEON' | 'SANTA_ANA' | 'BALNEARIO_ARGENTINO' | 'JAUREGUIBERRY'
     ;
 
-export type Categoria =
-    | 'MERCADO'
-    | 'PATITAS'
-    | 'CULTURA'
-    | 'TRABAJO'
-    | 'SERVICIOS';
+export const CATEGORIAS = {
+  MERCADO: 'MERCADO',
+  PATITAS: 'PATITAS',
+  CULTURA: 'CULTURA',
+  TRABAJO: 'TRABAJO',
+  SERVICIOS: 'SERVICIOS'
+} as const;
+
+export type Categoría = typeof CATEGORIAS[keyof typeof CATEGORIAS];
 
 export interface Post {
     id: string;
     titulo: string;
     contenido: string;
     localidad: Localidad;
-    categoria: Categoria;
+    categoria: Categoría;
     subCategoria: string;
+    image?: string;
     fecha: string;
     hora: string;
     createdAt: string;

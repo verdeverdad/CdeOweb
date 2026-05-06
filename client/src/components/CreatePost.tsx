@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import type { Post, Localidad, Categoria } from '../types';
+import type { Post, Localidad, Categoría } from '../types';
+import '../App.css';
 
 const LOCALIDADES: Localidad[] = [
   'NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL_FORTIN', 'VILLA_ARGENTINA', 'ATLANTIDA', 'LAS_TOSCAS', 'PARQUE_DEL_PLATA', 'LAS_VEGAS', 'LAS_VEGAS_NORTE', 'ESTACION_FLORESTA', 'LA_FLORESTA', 'COSTA_AZUL', 'BELLO_HORIZONTE', 'GUAZUVIRA_NUEVO', 'GUAZUVIRA_VIEJO', 'SAN_LUIS',  'LOS_TITANES', 'LATUNA', 'ARAMINDA', 'SANTA_LUCIA_DEL_ESTE', 'BIARRITZ', 'CUCHILLA_ALTA','EL_GALEON', 'SANTA_ANA', 'BALNEARIO_ARGENTINO', 'JAUREGUIBERRY',    
@@ -17,10 +18,9 @@ export const CrearPost: React.FC = () => {
   const [formData, setFormData] = useState<Partial<Post>>(initialState);
   const [posts, setPosts] = useState<Post[]>([]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
-    // Validamos que los campos obligatorios existan antes de crear el post
+
     if (!formData.titulo || !formData.contenido || !formData.localidad) return;
 
     const newPost: Post = {
@@ -33,22 +33,47 @@ export const CrearPost: React.FC = () => {
       fecha: new Date().toISOString().split('T')[0],
       hora: new Date().toTimeString().split(' ')[0],
       author: {
-        nombre: 'user1',
+        nombre: '1',
         telefono: '0000-0000'
       },
       createdAt: new Date().toISOString(),
     };
 
-    setPosts([...posts, newPost]);
-    setFormData(initialState);
-    console.log("Enviando a Render:", newPost);
+    try {
+      const response = await fetch('http://localhost:3001/api/posts', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          authorId: '1', // Reemplaza esto por un authorId real de tu tabla User
+          titulo: newPost.titulo,
+          contenido: newPost.contenido,
+          localidad: newPost.localidad,
+          categoria: newPost.categoria,
+          subCategoria: newPost.subCategoria,
+          fecha: newPost.fecha,
+          hora: newPost.hora,
+        }),
+      });
+
+      if (!response.ok) {
+        const body = await response.json().catch(() => null);
+        console.error('Error al guardar el post en la DB:', response.status, body);
+        return;
+      }
+
+      setPosts([...posts, newPost]);
+      setFormData(initialState);
+      console.log('Post enviado al backend y agregado en la vista previa.', newPost);
+    } catch (error) {
+      console.error('Error al enviar el post:', error);
+    }
   };
 
   return (
     <div className="container mt-4">
-      <div className="card shadow-sm mb-5">
+      <div className="card shadow-sm mb-5" style={{ borderColor: 'var(--violeta)', borderWidth: '1px'}}>
         <div className="card-body">
-          <h2 className="card-title h4 mb-4">Crear nueva publicación</h2>
+          <h2 className="card-title h4 mb-4" style={{color:  'var(--violeta)'}}>Crear nueva publicación</h2>
           <form onSubmit={handleSubmit}>
 
             <div className="mb-3">
@@ -83,7 +108,7 @@ export const CrearPost: React.FC = () => {
                 <select
                   className="form-select"
                   value={formData.categoria ?? 'MERCADO'}
-                  onChange={e => setFormData({ ...formData, categoria: e.target.value as Categoria })}
+                  onChange={e => setFormData({ ...formData, categoria: e.target.value as Categoría })}
                 >
                   <option value="MERCADO">Mercado</option>
                   <option value="PATITAS">Encontrando Patitas</option>
@@ -103,7 +128,7 @@ export const CrearPost: React.FC = () => {
               ></textarea>
             </div>
 
-            <button type="submit" className="btn btn-primary w-100">
+            <button type="submit" className="btn w-100" style={{ backgroundColor: 'var(--violeta)', color: 'var(--blanco)', fontWeight: 'bold', fontSize: '1.3rem'}}>
               Publicar en la Comunidad
             </button>
           </form>

@@ -7,6 +7,8 @@ import VideoHero from './components/Video'
 import { Container, Row, Col } from 'react-bootstrap'
 import map from "./assets/mapa.png"
 import { CrearPost } from './components/CreatePost'
+import MostrarPublicaciones from './components/MostrarPubliaciones'
+import { CATEGORIAS } from './types'
 
 function App() {
 
@@ -29,11 +31,13 @@ function App() {
           {/* Solo usamos las clases de Bootstrap. "ratio-16x9" mantiene la forma perfecta siempre */}
 
           <Col>
-            
-          
-            <h3 className='text-center' style={{ color: 'var(--violeta)', marginBottom: '50px', marginTop: '20px' }}><img src={map} alt="Mapa de la comunidad" className="img-fluid mb-4 shadow-sm rounded" style={{ width: '90px', height: '90px'}}/><br></br>Más que un mapa,<br></br> nuestros puntos de encuentro.</h3></Col>
-            </Row>
+
+
+            <h3 className='text-center' style={{ color: 'var(--violeta)', marginBottom: '50px', marginTop: '20px' }}><img src={map} alt="Mapa de la comunidad" className="img-fluid mb-4 shadow-sm rounded" style={{ width: '90px', height: '90px' }} /><br></br>Más que un mapa,<br></br> nuestros puntos de encuentro.</h3></Col>
+        </Row>
         <Row className="mb-4">
+
+          {/* MAPA MAPA MAPA MAPA*/}
           <Col>
             <div className="ratio ratio-16x9 shadow-sm rounded overflow-hidden" >
               <iframe
@@ -47,6 +51,7 @@ function App() {
           </Col>
         </Row>
         <CrearPost></CrearPost>
+        <MostrarPublicaciones filtroCategoria={CATEGORIAS.MERCADO} />
       </Container>
     </>
   )
