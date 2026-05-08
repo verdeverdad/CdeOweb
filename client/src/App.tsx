@@ -52,6 +52,9 @@ function App() {
         </Row>
         <CrearPost></CrearPost>
         <MostrarPublicaciones filtroCategoria={CATEGORIAS.MERCADO} />
+        <MostrarPublicaciones filtroCategoria={CATEGORIAS.CULTURA} />
+        <MostrarPublicaciones filtroCategoria={CATEGORIAS.PATITAS} />
+
       </Container>
     </>
   )
