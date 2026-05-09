@@ -20,8 +20,8 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
   const fetchPublicaciones = async () => {
     try {
       setLoading(true);
-      // Usamos tu variable de entorno de Vite
-      const response = await fetch('[https://cdeoweb.onrender.comapi/posts](https://cdeoweb.onrender.com/api/posts)');
+      // Cambiar a localhost mientras desarrollas
+      const response = await fetch('http://localhost:3001/api/posts');
       const data = await response.json();
       setPublicaciones(data);
     } catch (error) {
