@@ -20,8 +20,9 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
   const fetchPublicaciones = async () => {
     try {
       setLoading(true);
-      // Cambiar a localhost mientras desarrollas
-      const response = await fetch('http://localhost:3001/api/posts');
+      // Usar variable de entorno para la URL de la API
+      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const response = await fetch(`${apiUrl}/api/posts`);
       const data = await response.json();
       setPublicaciones(data);
     } catch (error) {

@@ -41,3 +41,42 @@ Este proyecto es una plataforma Full Stack diseñada para la gestión de servici
 El repositorio está organizado como un monorepo simple:
 * `/client`: Aplicación frontend en React.
 * `/server`: Servidor de API, lógica de negocio y base de datos.
+
+## 🚀 Despliegue
+
+### Frontend (Vercel)
+
+1. **Variables de entorno en Vercel:**
+   - Ve a tu proyecto en Vercel → Settings → Environment Variables
+   - Agrega: `VITE_API_URL=https://cdeoweb.onrender.com`
+
+2. **Deploy automático:**
+   - Conecta tu repositorio de GitHub a Vercel
+   - Cada push a main se desplegará automáticamente
+
+### Backend (Render)
+
+El backend ya está desplegado en: `https://cdeoweb.onrender.com`
+
+### Desarrollo Local
+
+1. **Backend:**
+   ```bash
+   cd server
+   npm install
+   npm run dev
+   ```
+
+2. **Frontend:**
+   ```bash
+   cd client
+   npm install
+   npm run dev
+   ```
+
+3. **Base de datos:**
+   ```bash
+   cd server
+   npx prisma db push
+   npx prisma db seed
+   ```
