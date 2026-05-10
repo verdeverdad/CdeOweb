@@ -21,7 +21,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
     try {
       setLoading(true);
       // Usar variable de entorno para la URL de la API
-      const apiUrl = import.meta.env.VITE_API_URL || 'http://localhost:3001';
+      const apiUrl = import.meta.env.VITE_API_URL_PRODUCTTION || import.meta.env.VITE_API_URL;
       const response = await fetch(`${apiUrl}/api/posts`);
       const data = await response.json();
       setPublicaciones(data);
