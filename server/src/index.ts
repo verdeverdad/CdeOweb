@@ -10,7 +10,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // MIDDLEWARES
-app.use(cors());
+app.use(cors({
+  origin: '*' // Esto permite que cualquier origen pida datos. Es lo más fácil para probar ahora.
+}));
 app.use(express.json());
 
 // RUTAS
