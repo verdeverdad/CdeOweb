@@ -4,7 +4,7 @@ import { prisma } from '../db.js'; // Asegurate de que la ruta al db.ts sea corr
 const router = Router();
 
 // Obtener todas las publicaciones
-router.get('/', async (req, res) => {
+router.get('/api', async (req, res) => {
   try {
     const posts = await prisma.post.findMany({
       include: {

@@ -24,9 +24,10 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
       const apiUrl = import.meta.env.VITE_API_URL || 'https://cdeoweb.onrender.com';
       const response = await fetch(`${apiUrl}/api/posts`);
       const data = await response.json();
+
       setPublicaciones(data);
     } catch (error) {
-      console.error("Error al obtener publicaciones:", error);
+      console.error("Error al obtener publicaciones y que mas era ???:", error);
     } finally {
       setLoading(false);
     }
