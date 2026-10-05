@@ -15,6 +15,7 @@ router.get('/', async (req, res) => {
     res.json(posts);
   } catch (error) {
     res.status(500).json({ error: "No se pudo cargar la cartelera" });
+    console.log("Error al obtener publicaciones:", error);
   }
 });
 

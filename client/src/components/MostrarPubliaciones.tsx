@@ -17,21 +17,38 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
     fetchPublicaciones();
   }, [filtroCategoria]);
 
-  const fetchPublicaciones = async () => {
-    try {
-      setLoading(true);
-      // Usar variable de entorno para la URL de la API
-      const apiUrl = import.meta.env.VITE_API_URL || 'https://cdeoweb.onrender.com';
-      const response = await fetch(`${apiUrl}/api/posts`);
-      const data = await response.json();
+const fetchPublicaciones = async () => {
+  try {
+    setLoading(true);
 
-      setPublicaciones(data);
-    } catch (error) {
-      console.error("Error al obtener publicaciones y que mas era ???:", error);
-    } finally {
-      setLoading(false);
+    const apiUrl =
+      import.meta.env.VITE_API_URL || "https://cdeoweb.onrender.com" 
+
+    const response = await fetch(`${apiUrl}/api/posts`);
+
+    if (!response.ok) {
+  throw new Error(`HTTP ${response.status}`);
+}
+    console.log("Status:", response.status);
+    console.log("URL:", `${apiUrl}/api/posts`);
+
+    const texto = await response.text();
+
+    console.log("Respuesta del servidor:", texto);
+
+    if (!response.ok) {
+      throw new Error(`Error HTTP ${response.status}: ${texto}`);
     }
-  };
+
+    const data = JSON.parse(texto);
+
+    setPublicaciones(data);
+  } catch (error) {
+    console.error("Error al obtener publicaciones:", error);
+  } finally {
+    setLoading(false);
+  }
+};
 
   // Función para contactar por WhatsApp (adaptada para Web)
   const handleContactPress = (telefono?: string) => {
