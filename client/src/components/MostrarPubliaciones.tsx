@@ -21,16 +21,16 @@ const fetchPublicaciones = async () => {
   try {
     setLoading(true);
 
-    const apiUrl =
+    const API_URL =
       import.meta.env.VITE_API_URL || "https://cdeoweb.onrender.com" 
 
-    const response = await fetch(`${apiUrl}/api/posts`);
+    const response = await fetch(`${API_URL}/api/posts`);
 
     if (!response.ok) {
   throw new Error(`HTTP ${response.status}`);
 }
     console.log("Status:", response.status);
-    console.log("URL:", `${apiUrl}/api/posts`);
+    console.log("URL:", `${API_URL}/api/posts`);
 
     const texto = await response.text();
 
