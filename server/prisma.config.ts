@@ -9,7 +9,7 @@ export default defineConfig({
   // pero lo dejamos explícito por seguridad.
   schema: './prisma/schema.prisma',
   datasource: {
-    url: process.env.DATABASE_URL,
+    url: process.env.DIRECT_URL ?? process.env.DATABASE_URL, // Usamos la URL directa para evitar problemas con pgbouncer
   },
   migrations: {
     seed: 'tsx prisma/seed.ts',
