@@ -41,7 +41,7 @@ const fetchPublicaciones = async () => {
     }
 
     const data = JSON.parse(texto);
-
+console.log('✅ Éxito:', data);
     setPublicaciones(data);
   } catch (error) {
     console.error("Error al obtener publicaciones:", error);
