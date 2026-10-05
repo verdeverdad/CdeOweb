@@ -15,15 +15,35 @@ if (!databaseUrl) {
 const connectionUrl = new URL(databaseUrl);
 connectionUrl.searchParams.delete('sslmode');
 
+// Obtiene el certificado de la variable de entorno (Render/Prod)
+// Si no existe, intenta leer el archivo local .crt (Desarrollo)
+const getCaCert = (): string | undefined => {
+  if (process.env.DB_CA_CERT) {
+    return process.env.DB_CA_CERT;
+  }
+  
+  const localCertPath = new URL('./prod-ca-2021.crt', import.meta.url);
+  if (fs.existsSync(localCertPath)) {
+    return fs.readFileSync(localCertPath, 'utf8');
+  }
+
+  return undefined;
+};
+
+const caCert = getCaCert();
+
 const pool = new pg.Pool({ 
   connectionString: connectionUrl.toString(),
-  ssl: {
-    ca: fs.readFileSync(new URL('./prod-ca-2021.crt', import.meta.url), 'utf8'),
-    rejectUnauthorized: true,
-  },
+  ssl: caCert
+    ? {
+        ca: caCert,
+        rejectUnauthorized: true,
+      }
+    : {
+        rejectUnauthorized: false,
+      },
 });
 
 const adapter = new PrismaPg(pool);
 
-// Exportamos la instancia que YA SABEMOS que funciona
 export const prisma = new PrismaClient({ adapter });

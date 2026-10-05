@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "tsx watch src/index.ts",
-    "build": "tsc && cp src/prod-ca-2021.crt dist/prod-ca-2021.crt",
+    "build": "tsc",
     "start": "node dist/index.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
