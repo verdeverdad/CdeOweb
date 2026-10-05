@@ -1,0 +1,7 @@
+export default function Mercado() {
+    return (
+        <>
+        <h1 style={{ color: "red"} }>M E R C A D O</h1>
+        </>
+    );
+}

@@ -62,7 +62,7 @@ const NavBar = (): ReactElement => {
             <Nav.Link as={Link} to="/servicios">SERVICIOS</Nav.Link>
             <Nav.Link as={Link} to="/trabajos">TRABAJOS</Nav.Link>
             <Nav.Link as={Link} to="/viajes">VIAJES</Nav.Link>
-            <Nav.Link as={Link} to="/animales">MASCOTAS</Nav.Link>
+            <Nav.Link as={Link} to="/encontrando_patitas">MASCOTAS</Nav.Link>
 
             <hr className="bg-dark" />
             <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center pt-2">
