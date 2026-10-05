@@ -34,14 +34,15 @@ const caCert = getCaCert();
 
 const pool = new pg.Pool({ 
   connectionString: connectionUrl.toString(),
+  
   ssl: caCert
     ? {
         ca: caCert,
         rejectUnauthorized: true,
       }
-    : {
-        rejectUnauthorized: false,
-      },
+    : process.env.NODE_ENV === 'production' || process.env.RENDER
+      ? { rejectUnauthorized: false }
+      : undefined,
 });
 
 const adapter = new PrismaPg(pool);
