@@ -10,13 +10,7 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // MIDDLEWARES
-app.use(cors({
-  origin: [
-    'https://cdeoweb.vercel.app', //  URL rVercel
-    'http://localhost:5173' // Para desarrollo local
-  ],
-  credentials: true
-}));
+app.use(cors());
 app.use(express.json());
 
 // RUTAS
