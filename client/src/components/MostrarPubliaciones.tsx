@@ -17,38 +17,38 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
     fetchPublicaciones();
   }, [filtroCategoria]);
 
-const fetchPublicaciones = async () => {
-  try {
-    setLoading(true);
+  const fetchPublicaciones = async () => {
+    try {
+      setLoading(true);
 
-    const API_URL =
-      import.meta.env.VITE_API_URL || "https://cdeoweb.onrender.com" 
+      const rawApiUrl = import.meta.env.VITE_API_URL || "https://cdeoweb.onrender.com";
+      const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
 
-    const response = await fetch(`${API_URL}/api/posts`);
+      const response = await fetch(`${API_URL}/api/posts`);
 
-    if (!response.ok) {
-  throw new Error(`HTTP ${response.status}`);
-}
-    console.log("Status:", response.status);
-    console.log("URL:", `${API_URL}/api/posts`);
+      if (!response.ok) {
+        throw new Error(`HTTP ${response.status}`);
+      }
+      console.log("Status:", response.status);
+      console.log("URL:", `${API_URL}/api/posts`);
 
-    const texto = await response.text();
+      const texto = await response.text();
 
-    console.log("Respuesta del servidor:", texto);
+      console.log("Respuesta del servidor:", texto);
 
-    if (!response.ok) {
-      throw new Error(`Error HTTP ${response.status}: ${texto}`);
+      if (!response.ok) {
+        throw new Error(`Error HTTP ${response.status}: ${texto}`);
+      }
+
+      const data = JSON.parse(texto);
+      console.log('✅ Éxito:', data);
+      setPublicaciones(data);
+    } catch (error) {
+      console.error("Error al obtener publicaciones:", error);
+    } finally {
+      setLoading(false);
     }
-
-    const data = JSON.parse(texto);
-console.log('✅ Éxito:', data);
-    setPublicaciones(data);
-  } catch (error) {
-    console.error("Error al obtener publicaciones:", error);
-  } finally {
-    setLoading(false);
-  }
-};
+  };
 
   // Función para contactar por WhatsApp (adaptada para Web)
   const handleContactPress = (telefono?: string) => {
@@ -90,10 +90,9 @@ console.log('✅ Éxito:', data);
           */}
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className={`badge ${
-                        post.categoria === CATEGORIAS.PATITAS ? 'bg-danger' : 
-                        post.categoria === CATEGORIAS.MERCADO ? 'bg-primary' : 'bg-warning'
-                      }`}>
+                      <span className={`badge ${post.categoria === CATEGORIAS.PATITAS ? 'bg-danger' :
+                          post.categoria === CATEGORIAS.MERCADO ? 'bg-primary' : 'bg-warning'
+                        }`}>
                         {post.categoria}
                       </span>
                       <small className="text-muted">📍 {post.localidad.replace(/_/g, ' ')}</small>
@@ -105,7 +104,7 @@ console.log('✅ Éxito:', data);
                     </p>
 
                     <div className="d-grid gap-2 mt-3">
-                      <button 
+                      <button
                         className="btn btn-outline-primary btn-sm"
                         onClick={() => handleContactPress(post.author?.telefono)}
                       >
@@ -113,7 +112,7 @@ console.log('✅ Éxito:', data);
                       </button>
                     </div>
                   </div>
-                  
+
                   <div className="card-footer bg-transparent border-0 text-muted">
                     <small>Publicado por: {post.author?.nombre}</small>
                   </div>
@@ -130,16 +129,16 @@ console.log('✅ Éxito:', data);
 
       {/* Modal de Imagen Ampliada (Usando Clases de Bootstrap) */}
       {imgAmpliada && (
-        <div 
-          className="modal fade show d-block" 
+        <div
+          className="modal fade show d-block"
           style={{ backgroundColor: 'rgba(0,0,0,0.9)' }}
           onClick={() => setImgAmpliada(null)}
         >
           <div className="modal-dialog modal-dialog-centered modal-lg">
             <div className="modal-content bg-transparent border-0">
               <img src={imgAmpliada} className="img-fluid rounded" alt="Ampliada" />
-              <button 
-                className="btn btn-light mt-3 mx-auto" 
+              <button
+                className="btn btn-light mt-3 mx-auto"
                 onClick={() => setImgAmpliada(null)}
               >
                 Cerrar
