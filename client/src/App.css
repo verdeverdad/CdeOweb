@@ -45,17 +45,17 @@ section {
 
 
 #basic-navbar-nav {
-  color: yellow;
+  color: var(--amarillo);
 }
 
 .botonVioleta:hover {
-  Color: var(--amarilloClaro) !important;
+  Color: var(--amarillo) !important;
   background-color: var(--violeta) !important;
-  border-color: var(--amarilloClaro) !important;
+  border-color: var(--amarillo) !important;
 }
 
 .botonVioleta {
-  background-color: var(--amarilloClaro) !important;
+  background-color: var(--amarillo) !important;
   Color: var(--violeta) !important;
   border-color: var(--violeta) !important;
   border-radius: 15px;
