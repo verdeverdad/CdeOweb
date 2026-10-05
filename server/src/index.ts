@@ -11,7 +11,11 @@ const PORT = process.env.PORT || 3001;
 
 // MIDDLEWARES
 app.use(cors({
-  origin: '*' // Esto permite que cualquier origen pida datos. Es lo más fácil para probar ahora.
+  origin: [
+    'https://cdeoweb.vercel.app', //  URL rVercel
+    'http://localhost:5173' // Para desarrollo local
+  ],
+  credentials: true
 }));
 app.use(express.json());
 
