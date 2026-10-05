@@ -28,6 +28,16 @@ app.get('/api/health', async (req, res) => {
   }
 });
 
+app.get('/api/test-db', async (req, res) => {
+  try {
+    const result = await prisma.$queryRaw`SELECT 1 as connected`;
+    res.json({ ok: true, result });
+  } catch (error: any) {
+    console.error('Error de conexión a Supabase:', error);
+    res.status(500).json({ ok: false, error: error.message });
+  }
+});
+
 app.listen(PORT, () => {
   console.log(`🚀 Servidor en http://localhost:${PORT}`);
 });
