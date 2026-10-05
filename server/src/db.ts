@@ -18,7 +18,7 @@ connectionUrl.searchParams.delete('sslmode');
 const pool = new pg.Pool({ 
   connectionString: connectionUrl.toString(),
   ssl: {
-    ca: fs.readFileSync(new URL('../prod-ca-2021.crt', import.meta.url), 'utf8'),
+    ca: fs.readFileSync(new URL('./prod-ca-2021.crt', import.meta.url), 'utf8'),
     rejectUnauthorized: true,
   },
 });
