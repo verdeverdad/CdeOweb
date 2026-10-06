@@ -3,7 +3,7 @@ import type { Post, Localidad, Categoría } from '../types';
 import '../App.css';
 
 const LOCALIDADES: Localidad[] = [
-  'NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL_FORTIN', 'VILLA_ARGENTINA', 'ATLANTIDA', 'LAS_TOSCAS', 'PARQUE_DEL_PLATA', 'LAS_VEGAS', 'LAS_VEGAS_NORTE', 'ESTACION_FLORESTA', 'LA_FLORESTA', 'COSTA_AZUL', 'BELLO_HORIZONTE', 'GUAZUVIRA_NUEVO', 'GUAZUVIRA_VIEJO', 'SAN_LUIS',  'LOS_TITANES', 'LATUNA', 'ARAMINDA', 'SANTA_LUCIA_DEL_ESTE', 'BIARRITZ', 'CUCHILLA_ALTA','EL_GALEON', 'SANTA_ANA', 'BALNEARIO_ARGENTINO', 'JAUREGUIBERRY',    
+  'NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL_FORTIN', 'VILLA_ARGENTINA', 'ATLANTIDA', 'LAS TOSCAS', 'PARQUE DEL PLATA', 'LAS VEGAS', 'LAS VEGAS NORTE', 'ESTACION FLORESTA', 'LA FLORESTA', 'COSTA AZUL', 'BELLO HORIZONTE', 'GUAZUVIRA NUEVO', 'GUAZUVIRA VIEJO', 'SAN LUIS',  'LOS TITANES', 'LATUNA', 'ARAMINDA', 'SANTA LUCIA DEL ESTE', 'BIARRITZ', 'CUCHILLA ALTA','EL GALEON', 'SANTA ANA', 'BALNEARIO ARGENTINO', 'JAUREGUIBERRY',    
 ];
 
 export const CrearPost: React.FC = () => {
@@ -11,7 +11,7 @@ export const CrearPost: React.FC = () => {
   const initialState: Partial<Post> = {
     titulo: '',
     contenido: '',
-    localidad: 'LA_FLORESTA' as Localidad,
+    localidad: 'LA FLORESTA' as Localidad,
     categoria: 'MERCADO',
   };
 

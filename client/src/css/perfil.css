@@ -1,0 +1,121 @@
+.auth-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  background-color: var(--blanco);
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  padding: 20px;
+}
+
+.auth-card {
+  background: var(--blanco);
+  padding: 2.5rem;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
+  width: 100%;
+  max-width: 400px;
+  box-sizing: border-box;
+}
+
+.auth-card h2 {
+  margin: 0 0 0.5rem 0;
+  color: var(--violeta);
+  font-size: 1.75rem;
+  text-align: center;
+}
+
+.auth-subtitle {
+  margin: 0 0 1.5rem 0;
+  color: var(--violeta);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.auth-form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.form-group label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--violeta);
+}
+
+.form-group input {
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--violeta);
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group input:focus {
+  border-color: var(--violeta);
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
+
+.submit-btn {
+  margin-top: 0.5rem;
+  padding: 0.8rem;
+  background-color: var(--violeta);
+  color: var(--blanco);
+  border: none;
+  border-radius: 8px;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.submit-btn:hover {
+  background-color: var(--azul);
+}
+
+.auth-switch {
+  margin-top: 1.5rem;
+  text-align: center;
+  font-size: 0.9rem;
+  color: #555555;
+}
+
+.switch-btn {
+  background: none;
+  border: none;
+  color: var(--violeta);
+  font-weight: 600;
+  cursor: pointer;
+  margin-left: 0.4rem;
+  text-decoration: underline;
+  font-size: 0.9rem;
+  padding: 0;
+}
+
+.switch-btn:hover {
+  color: var(--azul);
+}
+
+.form-group select {
+  padding: 0.75rem 1rem;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  outline: none;
+  background-color: #ffffff;
+  cursor: pointer;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.form-group select:focus {
+  border-color: #4f46e5;
+  box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.15);
+}
