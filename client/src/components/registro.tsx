@@ -2,12 +2,16 @@ import React, { useState } from 'react';
 import type { Rol } from '../types';
 import { Localidad } from '../types';
 
+const rawApiUrl =
+  import.meta.env.VITE_API_URL ||
+  "https://cdeoweb.onrender.com";
 
 interface RegisterFormProps {
-  onRegisterSuccess: (userData: { nombre: string; email: string; localidad: Localidad; telefono: string; rol: Rol; }) => void;
+  onRegisterSuccess: (userData: { nombre: string; email: string; localidad: Localidad; telefono: string; role: Rol; }) => void;
   onSwitchToLogin: () => void;
 }
 
+const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
     nombre: '',
@@ -16,7 +20,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
     password: '',
     repetirPassword: '',
     localidad: '' as Localidad,
-    rol: 'VECINO' as Rol,
+    role: 'VECINO' as Rol,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -26,21 +30,50 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
     if (formData.password !== formData.repetirPassword) {
       alert('Las contraseñas no coinciden');
       return;
     }
-    console.log('Datos de Registro:', formData);
-    // Simulación de registro exitoso
-    onRegisterSuccess({
-      nombre: formData.nombre,
-      email: formData.email,
-      localidad: formData.localidad,
-      telefono: formData.telefono,
-      rol: formData.rol,
-    });
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/register`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          nombre: formData.nombre,
+          email: formData.email,
+          telefono: formData.telefono,
+          password: formData.password,
+          localidad: formData.localidad,
+          role: formData.role,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || 'No se pudo registrar el usuario');
+        return;
+      }
+
+      onRegisterSuccess({
+        nombre: data.nombre,
+        email: data.email,
+        localidad: data.localidad,
+        telefono: data.telefono,
+        role: data.role,
+      });
+
+    } catch (error) {
+      console.error('Error al registrar usuario:', error);
+      alert('No se pudo conectar con el servidor');
+    }
   };
 
   return (
@@ -75,7 +108,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
           />
         </div>
 
-         <div className="form-group">
+        <div className="form-group">
           <label htmlFor="telefono">Telefono</label>
           <input
             type="tel"
@@ -124,22 +157,22 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
             required
           >
             <option value="" disabled>
-              Selecciona tu localidad
+              Selecciona una localidad
             </option>
             {Localidad.map((localidad) => (
               <option key={localidad} value={localidad}>
-                {localidad}
+                {localidad.replaceAll('_', ' ')}
               </option>
             ))}
           </select>
         </div>
 
-<div className="form-group">
+        <div className="form-group">
           <label htmlFor="rol">Tipo de Usuario</label>
           <select
             id="rol"
             name="rol"
-            value={formData.rol}
+            value={formData.role}
             onChange={handleChange}
             required
           >

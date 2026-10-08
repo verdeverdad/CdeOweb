@@ -8,7 +8,7 @@ export const CrearPost: React.FC = () => {
   const initialState: Partial<Post> = {
     titulo: '',
     contenido: '',
-    localidad: 'LA FLORESTA',
+    localidad: 'LA_FLORESTA',
     categoria: 'MERCADO',
     subCategoria: 'TRUEQUE',
   };
@@ -39,7 +39,7 @@ export const CrearPost: React.FC = () => {
       fecha: new Date().toISOString().split('T')[0],
       hora: new Date().toTimeString().split(' ')[0],
       author: {
-        nombre: '1',
+        nombre: 'ca4932a0-d2ca-460d-ae4f-ccfd8143019a',
         telefono: '0000-0000',
       },
       createdAt: new Date().toISOString(),
@@ -57,7 +57,7 @@ export const CrearPost: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          authorId: '1',
+          authorId: 'ca4932a0-d2ca-460d-ae4f-ccfd8143019a',
           titulo: newPost.titulo,
           contenido: newPost.contenido,
           localidad: newPost.localidad,
