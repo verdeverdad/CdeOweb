@@ -1,5 +1,4 @@
 import { useEffect, useState } from "react";
-import { CATEGORIAS } from "../types";
 import type { Post, Categoría } from "../types";
 
 // Definición de las Props (usamos tu Enum de Categoría)
@@ -21,14 +20,14 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
     try {
       setLoading(true);
 
-      const rawApiUrl = import.meta.env.VITE_API_URL || "https://cdeoweb.onrender.com";
+      const rawApiUrl =
+        import.meta.env.VITE_API_URL ||
+        "https://cdeoweb.onrender.com";
+
       const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
 
       const response = await fetch(`${API_URL}/api/posts`);
 
-      if (!response.ok) {
-        throw new Error(`HTTP ${response.status}`);
-      }
       console.log("Status:", response.status);
       console.log("URL:", `${API_URL}/api/posts`);
 
@@ -37,14 +36,22 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
       console.log("Respuesta del servidor:", texto);
 
       if (!response.ok) {
-        throw new Error(`Error HTTP ${response.status}: ${texto}`);
+        throw new Error(
+          `Error HTTP ${response.status}: ${texto}`
+        );
       }
 
       const data = JSON.parse(texto);
-      console.log('✅ Éxito:', data);
+
+      console.log("✅ Éxito:", data);
+
       setPublicaciones(data);
+
     } catch (error) {
-      console.error("Error al obtener publicaciones:", error);
+      console.error(
+        "Error al obtener publicaciones:",
+        error
+      );
     } finally {
       setLoading(false);
     }
@@ -62,8 +69,18 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
 
   // Lógica de filtrado
   const publicacionesFiltradas = filtroCategoria
-    ? publicaciones.filter((p) => p.categoria === filtroCategoria)
+    ? publicaciones.filter(
+      post => post.categoria === filtroCategoria
+    )
     : publicaciones;
+
+  console.log("PUBLICACIONES:", publicaciones);
+  console.log("FILTRADAS:", publicacionesFiltradas);
+  console.log("filtroCategoria:", filtroCategoria);
+  console.log(
+    "categorias de los posts:",
+    publicaciones.map(post => post.categoria)
+  );
 
   return (
     <div className="container mt-4">
@@ -90,8 +107,8 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
           */}
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className={`badge ${post.categoria === CATEGORIAS.PATITAS ? 'bg-danger' :
-                          post.categoria === CATEGORIAS.MERCADO ? 'bg-primary' : 'bg-warning'
+                      <span className={`badge ${post.categoria === 'PATITAS' ? 'bg-danger' :
+                        post.categoria === 'MERCADO' ? 'bg-primary' : 'bg-warning'
                         }`}>
                         {post.categoria}
                       </span>

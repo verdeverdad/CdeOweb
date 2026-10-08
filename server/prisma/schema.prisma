@@ -11,7 +11,7 @@ generator client {
 enum Role {
   SUPER_ADMIN
   ADMIN
-  NEGOCIO
+  PERFIL_PUBLICO
   VECINO
 }
 
@@ -47,33 +47,35 @@ enum Localidad {
 }
 
 enum Categoria {
-  MERCADO
-  PATITAS
-  CULTURA
-  SERVICIOS
-  TRABAJO
-}
+COMUNIDAD
+MERCADO
+CULTURA
+ENCONTRANDO_PATITAS
+VIAJES
+OFICIOS_Y_SERVICIOS}
 
 model User {
-  id          String   @id @default(uuid())
-  email       String   @unique
-  nombre      String
-  telefono    String?
-  localidad   Localidad
-  role        Role     @default(VECINO)
-  fotoUrl     String?
-  profile     Profile? // Solo si es Negocio/Org
-  posts       Post[]
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  nombre       String
+  telefono     String?
+  localidad    Localidad
+  role         Role     @default(VECINO)
+  fotoUrl      String?
+  profile      Profile?
+  posts        Post[]
 }
 
 model Profile {
-  id         String  @id @default(uuid())
-  userId     String  @unique
-  user       User    @relation(fields: [userId], references: [id])
-  googleMaps String?
-  instagram  String?
-  facebook   String?
-  tiktok     String?
+  id          String   @id @default(uuid())
+  userId      String   @unique
+  user        User     @relation(fields: [userId], references: [id])
+  descripcion String?
+  googleMaps  String?
+  instagram   String?
+  facebook    String?
+  tiktok      String?
 }
 
 model Post {

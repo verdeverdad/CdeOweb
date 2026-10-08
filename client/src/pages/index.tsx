@@ -6,7 +6,6 @@ import ComunidadCard from "../components/Card"
 import VideoHero from "../components/Video"
 import img from '../assets/profesiones.png'
 import img2 from '../assets/eventos_com.png'
-import { CATEGORIAS } from "../types"
 
 export default function Home() {
     return (<>
@@ -25,9 +24,9 @@ export default function Home() {
         </Row>
         <Mapa></Mapa>
         <CrearPost></CrearPost>
-        <MostrarPublicaciones filtroCategoria={CATEGORIAS.MERCADO} />
-        <MostrarPublicaciones filtroCategoria={CATEGORIAS.CULTURA} />
-        <MostrarPublicaciones filtroCategoria={CATEGORIAS.PATITAS} />
+        <MostrarPublicaciones filtroCategoria="MERCADO" />
+        <MostrarPublicaciones filtroCategoria="CULTURA" />
+        <MostrarPublicaciones filtroCategoria="PATITAS" />
 
       </Container>
       </>)

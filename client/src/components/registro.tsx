@@ -1,9 +1,7 @@
 import React, { useState } from 'react';
-import type { Localidad, Rol } from '../types';
+import type { Rol } from '../types';
+import { Localidad } from '../types';
 
-const LOCALIDADES: Localidad[] = [
-  'NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL FORTIN', 'VILLA ARGENTINA', 'ATLANTIDA', 'LAS TOSCAS', 'PARQUE DEL PLATA', 'LAS VEGAS', 'LAS VEGAS NORTE', 'ESTACION FLORESTA', 'LA FLORESTA', 'COSTA AZUL', 'BELLO HORIZONTE', 'GUAZUVIRA NUEVO', 'GUAZUVIRA VIEJO', 'SAN LUIS', 'LOS TITANES', 'LATUNA', 'ARAMINDA', 'SANTA LUCIA DEL ESTE', 'BIARRITZ', 'CUCHILLA ALTA', 'EL GALEON', 'SANTA ANA', 'BALNEARIO ARGENTINO', 'JAUREGUIBERRY',
-];
 
 interface RegisterFormProps {
   onRegisterSuccess: (userData: { nombre: string; email: string; localidad: Localidad; telefono: string; rol: Rol; }) => void;
@@ -128,9 +126,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
             <option value="" disabled>
               Selecciona tu localidad
             </option>
-            {LOCALIDADES.map((loc) => (
-              <option key={loc} value={loc}>
-                {loc}
+            {Localidad.map((localidad) => (
+              <option key={localidad} value={localidad}>
+                {localidad}
               </option>
             ))}
           </select>
