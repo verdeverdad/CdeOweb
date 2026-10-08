@@ -2,6 +2,7 @@ import express from 'express';
 import cors from 'cors';
 import * as dotenv from 'dotenv';
 import postRoutes from './routes/postRoutes.js'; // <--- Importamos las rutas
+import userRoutes from './routes/users.Routes.js';
 import { prisma } from './db.js';
 
 dotenv.config();
@@ -15,7 +16,7 @@ app.use(express.json());
 
 // RUTAS
 app.use('/api/posts', postRoutes); // <--- Todas las rutas de posts ahora viven bajo /api/posts
-
+app.use('/api/users', userRoutes); // <--- Todas las rutas de usuarios ahora viven bajo /api/users
 // Health check sigue acá por ser general
 app.get('/api/health', async (req, res) => {
   try {

@@ -52,7 +52,8 @@ MERCADO
 CULTURA
 ENCONTRANDO_PATITAS
 VIAJES
-OFICIOS_Y_SERVICIOS}
+OFICIOS_Y_SERVICIOS
+}
 
 model User {
   id           String   @id @default(uuid())
