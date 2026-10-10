@@ -2,6 +2,7 @@ import { Router } from 'express';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
+import { verificarToken, type AuthRequest } from '../middleware/auth.js';
 
 dotenv.config();
 
@@ -129,5 +130,56 @@ router.post('/login', async (req, res) => {
         });
     }
 });
+
+
+router.get('/me', verificarToken, async (req, res) => {
+    const authReq = req as AuthRequest;
+
+    try {
+        const user = await prisma.user.findUnique({
+            where: { id: authReq.user!.userId },
+            select: {
+                id: true,
+                email: true,
+                nombre: true,
+                telefono: true,
+                localidad: true,
+                role: true,
+                fotoUrl: true
+            }
+        });
+
+        if (!user) {
+            return res.status(404).json({
+                error: 'Usuario no encontrado'
+            });
+        }
+
+        return res.status(200).json({ user });
+    } catch (error) {
+        console.error('Error al consultar la sesión:', error);
+
+        return res.status(500).json({
+            error: 'No se pudo consultar la sesión'
+        });
+    }
+});
+
+
+
+router.post('/logout', (_req, res) => {
+    res.clearCookie('token', {
+        httpOnly: true,
+        secure: process.env.NODE_ENV === 'production',
+        sameSite:
+            process.env.NODE_ENV === 'production' ? 'none' : 'lax',
+        path: '/',
+    });
+
+    return res.status(200).json({
+        message: 'Sesión cerrada correctamente',
+    });
+});
+
 
 export default router;

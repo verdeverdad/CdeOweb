@@ -13,7 +13,9 @@ const PORT = process.env.PORT || 3001;
 
 // MIDDLEWARES
 app.use(cors({
-  origin: 'https://cdeoweb.vercel.app',
+  origin: ['https://cdeoweb.vercel.app',
+      'http://localhost:5173'],
+
   credentials: true
 }));
 app.use(cookieParser());
