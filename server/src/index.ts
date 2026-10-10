@@ -4,6 +4,7 @@ import * as dotenv from 'dotenv';
 import postRoutes from './routes/postRoutes.js'; // <--- Importamos las rutas
 import userRoutes from './routes/users.Routes.js';
 import { prisma } from './db.js';
+import cookieParser from 'cookie-parser';
 
 dotenv.config();
 
@@ -11,7 +12,11 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 
 // MIDDLEWARES
-app.use(cors());
+app.use(cors({
+  origin: 'https://cdeoweb.vercel.app',
+  credentials: true
+}));
+app.use(cookieParser());
 app.use(express.json());
 
 // RUTAS

@@ -14,11 +14,11 @@ export const Perfil: React.FC = () => {
     const [showRegister, setShowRegister] = useState<boolean>(false);
     const [isEditing, setIsEditing] = useState<boolean>(false);
 
-    const handleLoginSuccess = (email: string) => {
-        setUser({
-            userData: { email }
-        });
-    };
+  const handleLoginSuccess = (userData: UserData) => {
+  setUser({
+    userData
+  });
+};
 
     const handleRegisterSuccess = (userData: UserData) => {
         setUser({

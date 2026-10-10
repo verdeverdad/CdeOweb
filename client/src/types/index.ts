@@ -76,11 +76,12 @@ export interface User {
 }
 
 export interface UserData {
+    id?: string;
     nombre?: string;
     email: string;
     telefono?: string;
     localidad?: Localidad;
-    rol?: Rol;
+    rol?: Role;
 
 }
 
@@ -91,4 +92,4 @@ export interface PublicProfile {
     googleMaps?: string;
 }
 
-export type Rol = 'VECINO' | 'PERFIL_PUBLICO' | 'ADMIN' | 'SUPERADMIN';
+export type Role = 'VECINO' | 'PERFIL_PUBLICO' | 'ADMIN' | 'SUPERADMIN';

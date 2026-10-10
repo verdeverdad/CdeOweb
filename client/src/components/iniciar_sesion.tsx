@@ -1,7 +1,14 @@
 import React, { useState } from 'react';
+import type { UserData } from '../types';
+
+const rawApiUrl =
+  import.meta.env.VITE_API_URL ||
+  "https://cdeoweb.onrender.com";
+
+const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
 
 interface LoginFormProps {
-  onLoginSuccess: (email: string) => void;
+  onLoginSuccess: (userData: UserData) => void;
   onSwitchToRegister: () => void;
 }
 
@@ -18,11 +25,42 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onSwitchTo
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Datos de Login:', formData);
-    // Simulación de autenticación exitosa
-    onLoginSuccess(formData.email);
+
+    try {
+      const response = await fetch(`${API_URL}/api/users/login`, {
+        method: 'POST',
+        credentials: 'include',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          email: formData.email,
+          password: formData.password,
+        }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        alert(data.error || 'No se pudo iniciar sesión');
+        return;
+      }
+
+      onLoginSuccess({
+        id: data.user.id,
+        nombre: data.user.nombre,
+        email: data.user.email,
+        telefono: data.user.telefono,
+        localidad: data.user.localidad,
+        rol: data.user.role,
+      });
+
+    } catch (error) {
+      console.error('Error al iniciar sesión:', error);
+      alert('No se pudo conectar con el servidor');
+    }
   };
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import type { Rol } from '../types';
+import type { Role } from '../types';
 import { Localidad } from '../types';
 
 const rawApiUrl =
@@ -7,20 +7,21 @@ const rawApiUrl =
   "https://cdeoweb.onrender.com";
 
 interface RegisterFormProps {
-  onRegisterSuccess: (userData: { nombre: string; email: string; localidad: Localidad; telefono: string; role: Rol; }) => void;
+  onRegisterSuccess: (userData: { id: string; nombre: string; email: string; localidad: Localidad; telefono: string; rol: Role; }) => void;
   onSwitchToLogin: () => void;
 }
 
 const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
 export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, onSwitchToLogin }) => {
   const [formData, setFormData] = useState({
+    id: '',
     nombre: '',
     email: '',
     telefono: '',
     password: '',
     repetirPassword: '',
     localidad: '' as Localidad,
-    role: 'VECINO' as Rol,
+    role: 'VECINO' as Role,
   });
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
@@ -63,11 +64,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
       }
 
       onRegisterSuccess({
+        id: data.id,
         nombre: data.nombre,
         email: data.email,
         localidad: data.localidad,
         telefono: data.telefono,
-        role: data.role,
+        rol: data.role,
       });
 
     } catch (error) {
