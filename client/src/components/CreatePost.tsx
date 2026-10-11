@@ -53,11 +53,11 @@ export const CrearPost: React.FC = () => {
 
       const response = await fetch(`${apiUrl}/api/posts`, {
         method: 'POST',
+        credentials: 'include',
         headers: {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          authorId: 'ca4932a0-d2ca-460d-ae4f-ccfd8143019a',
           titulo: newPost.titulo,
           contenido: newPost.contenido,
           localidad: newPost.localidad,

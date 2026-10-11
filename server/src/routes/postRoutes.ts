@@ -1,5 +1,6 @@
 import { Router } from 'express';
 import { prisma } from '../db.js'; // Asegurate de que la ruta al db.ts sea correcta
+import { verificarToken, type AuthRequest } from '../middleware/auth.js';
 
 const router = Router();
 
@@ -20,8 +21,20 @@ router.get('/', async (req, res) => {
 });
 
 // Crear una publicación
-router.post('/', async (req, res) => {
-  const { authorId, titulo, contenido, localidad, categoria, subCategoria, fecha, hora } = req.body;
+
+router.post('/', verificarToken, async (req: AuthRequest, res) => {
+  const {
+    titulo,
+    contenido,
+    localidad,
+    categoria,
+    subCategoria,
+    fecha,
+    hora,
+  } = req.body;
+
+  const authorId = req.user!.userId;
+
   try {
     const post = await prisma.post.create({
       data: {
@@ -33,12 +46,17 @@ router.post('/', async (req, res) => {
         subCategoria: subCategoria || '',
         fecha: fecha || new Date().toISOString(),
         hora: hora || '',
-      }
+      },
     });
+
     res.status(201).json(post);
   } catch (error) {
-    res.status(400).json({ error: "Error al crear la publicación" });
+    console.error('Error al crear la publicación:', error);
+    res.status(400).json({
+      error: 'Error al crear la publicación',
+    });
   }
 });
+
 
 export default router;

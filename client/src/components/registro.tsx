@@ -32,8 +32,28 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
   };
 
 
+
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+
+    const nombre = formData.nombre.trim();
+    const email = formData.email.trim().toLowerCase();
+    const telefono = formData.telefono.trim();
+
+    if (!nombre) {
+      alert('Ingresá tu nombre');
+      return;
+    }
+
+    if (!/^09\d{7}$/.test(telefono)) {
+      alert('El teléfono debe empezar con 09 y tener exactamente 9 números. Ejemplo: 099123456');
+      return;
+    }
+
+    if (formData.password.length < 8) {
+      alert('La contraseña debe tener al menos 8 caracteres');
+      return;
+    }
 
     if (formData.password !== formData.repetirPassword) {
       alert('Las contraseñas no coinciden');
@@ -47,9 +67,9 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          nombre: formData.nombre,
-          email: formData.email,
-          telefono: formData.telefono,
+          nombre,
+          email,
+          telefono,
           password: formData.password,
           localidad: formData.localidad,
           role: formData.role,
@@ -71,12 +91,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
         telefono: data.telefono,
         rol: data.role,
       });
-
     } catch (error) {
       console.error('Error al registrar usuario:', error);
       alert('No se pudo conectar con el servidor');
     }
   };
+
 
   return (
     <div className="auth-card">
@@ -117,6 +137,11 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
             id="telefono"
             name="telefono"
             placeholder="Tu teléfono"
+            inputMode="numeric"
+            pattern="09[0-9]{7}"
+            minLength={9}
+            maxLength={9}
+            title="Ingresá 9 dígitos, empezando con 09. Ejemplo: 099123456"
             value={formData.telefono}
             onChange={handleChange}
             required
@@ -129,7 +154,8 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
             type="password"
             id="password"
             name="password"
-            placeholder="••••••••"
+            minLength={8}
+            placeholder="Mínimo 8 caracteres."
             value={formData.password}
             onChange={handleChange}
             required
@@ -142,6 +168,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
             type="password"
             id="repetirPassword"
             name="repetirPassword"
+            minLength={8}
             placeholder="••••••••"
             value={formData.repetirPassword}
             onChange={handleChange}
@@ -173,7 +200,7 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
           <label htmlFor="rol">Tipo de Usuario</label>
           <select
             id="rol"
-            name="rol"
+            name="role"
             value={formData.role}
             onChange={handleChange}
             required
