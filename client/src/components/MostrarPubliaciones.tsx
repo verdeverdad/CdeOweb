@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import type { Post, Categoría } from "../types";
+import { Link } from "react-router-dom";
 
 // Definición de las Props (usamos tu Enum de Categoría)
 interface MostrarPublicacionesProps {
@@ -115,12 +116,26 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                       <small className="text-muted">📍 {post.localidad.replace(/_/g, ' ')}</small>
                     </div>
 
-                    <h5 className="card-title fw-bold">{post.titulo}</h5>
+                    <h5 className="card-title fw-bold">
+                      <Link
+                        to={`/publicaciones/${post.id}`}
+                        className="text-decoration-none text-dark"
+                      >
+                        {post.titulo}
+                      </Link>
+                    </h5>
                     <p className="card-text text-secondary text-truncate-2">
                       {post.contenido}
                     </p>
 
                     <div className="d-grid gap-2 mt-3">
+                      <Link
+                        to={`/publicaciones/${post.id}`}
+                        className="btn btn-primary btn-sm"
+                      >
+                        VER PUBLICACIÓN
+                      </Link>
+
                       <button
                         className="btn btn-outline-primary btn-sm"
                         onClick={() => handleContactPress(post.author?.telefono)}

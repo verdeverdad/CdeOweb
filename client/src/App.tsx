@@ -11,6 +11,7 @@ import Servicios from './pages/servicios'
 import Trabajos from './pages/trabajos'
 import Viajes from './pages/viajes'
 import Perfil from './pages/perfil'
+import Post from './pages/post'
 
 function App() {
   return (
@@ -32,7 +33,7 @@ function App() {
         <Route path="/servicios" element={<Servicios />} />
         <Route path="/trabajos" element={<Trabajos />} />
         <Route path="/viajes" element={<Viajes />} />
-
+<Route path="/publicaciones/:id" element={<Post />} /> 
        
         <Route path="/perfil" element={<Perfil />} />
       </Routes>

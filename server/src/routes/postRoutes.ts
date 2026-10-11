@@ -20,6 +20,41 @@ router.get('/', async (req, res) => {
   }
 });
 
+
+ // Obtener una publicación por su ID
+router.get('/:id', async (req, res) => {
+  try {
+    const { id } = req.params; //obtiene el UUID que viene en la URL.
+
+    const post = await prisma.post.findUnique({ //busca una única publicación cuyo id coincida.
+      where: { id },
+      include: { //permite traer también el nombre y el teléfono del autor.
+        author: {
+          select: {
+            nombre: true, 
+            telefono: true,
+          },
+        },
+      },
+    });
+
+    if (!post) {
+      res.status(404).json({
+        error: 'No se encontró la publicación',
+      });
+      return;
+    }
+
+    res.json(post);
+  } catch (error) {
+    console.error('Error al obtener la publicación:', error);
+    res.status(500).json({
+      error: 'No se pudo cargar la publicación',
+    });
+  }
+});
+
+
 // Crear una publicación
 
 router.post('/', verificarToken, async (req: AuthRequest, res) => {

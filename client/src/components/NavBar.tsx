@@ -55,12 +55,8 @@ const NavBar = (): ReactElement => {
             <Nav.Link as={Link} to="/">INICIO</Nav.Link>
             <Nav.Link as={Link} to="/nosotros">LA COMUNIDAD</Nav.Link>
             <Nav.Link as={Link} to="/cultura">CULTURA</Nav.Link>
-            <Nav.Link as={Link} to="/educacion">EDUCACIÓN</Nav.Link>
             <Nav.Link as={Link} to="/mercado">MERCADO</Nav.Link>
-            <Nav.Link as={Link} to="/trueques">TRUEQUES</Nav.Link>
-            <Nav.Link as={Link} to="/gratiferia">GRATIFERIA</Nav.Link>
             <Nav.Link as={Link} to="/servicios">SERVICIOS</Nav.Link>
-            <Nav.Link as={Link} to="/trabajos">TRABAJOS</Nav.Link>
             <Nav.Link as={Link} to="/viajes">VIAJES</Nav.Link>
             <Nav.Link as={Link} to="/encontrando_patitas">MASCOTAS</Nav.Link>
 
