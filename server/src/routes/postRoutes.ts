@@ -31,6 +31,7 @@ router.get('/:id', async (req, res) => {
       include: { //permite traer también el nombre y el teléfono del autor.
         author: {
           select: {
+            id: true,
             nombre: true, 
             telefono: true,
           },

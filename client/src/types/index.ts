@@ -92,4 +92,4 @@ export interface PublicProfile {
     googleMaps?: string;
 }
 
-export type Role = 'VECINO' | 'PERFIL_PUBLICO' | 'ADMIN' | 'SUPERADMIN';
+export type Role = 'VECINO' | 'PERFIL_PUBLICO' | 'ADMIN' | 'SUPER_ADMIN';
