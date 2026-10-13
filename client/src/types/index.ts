@@ -1,7 +1,7 @@
 export const Localidad =
-    ['NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL_FORTIN', 'VILLA__ARGENTINA', 'ATLANTIDA'
+    ['NEPTUNIA', 'PINAMAR', 'SALINAS', 'MARINDIA', 'EL_FORTIN', 'VILLA_ARGENTINA', 'ATLANTIDA'
         , 'LAS_TOSCAS', 'PARQUE_DEL_PLATA', 'LAS_VEGAS', 'LAS_VEGAS_NORTE', 'LA_FLORESTA', 'ESTACION_FLORESTA', 'COSTA_AZUL', 'BELLO_HORIZONTE', 'GUAZUVIRA_NUEVO', 'GUAZUVIRA_VIEJO', 'SAN_LUIS', 'CUCHILLA_ALTA',
-        'LOS_TITANES', 'LATUNA', 'ARAMINDA', 'SANTA_LUCIA_DEL_ESTE', 'BIARRITZ', 'EL_GALEON', 'SANTA_ANA', 'BALNEARIO_ARGENTINO', 'JAUREGUIBERRY',
+        'LOS_TITANES', 'LA_TUNA', 'ARAMINDA', 'SANTA_LUCIA_DEL_ESTE', 'BIARRITZ', 'EL_GALEON', 'SANTA_ANA', 'BALNEARIO_ARGENTINO', 'JAUREGUIBERRY',
     ] as const;
 
 export type Localidad = typeof Localidad[number];
@@ -35,15 +35,14 @@ export const CATEGORIAS = {
         'PARTICIPACION',
         'GALERIA',
     ],
-    TRABAJO_Y_SERVICIOS: ['TRABAJOS_Y_SERVICIOS',
+    TRABAJO_Y_SERVICIOS: [
         'BUSCO_SERVICIO',
         'OFERTAS_DE_TRABAJO',
         'BUSCO_TRABAJO',
-        'OFICIOS',
-        'PROFESIONALES'],
-    VIAJES: ['OFREZCO_VIAJE',
+        'SERVICIOS'],
+    VIAJES: [
         'BUSCO_VIAJE',
-        'OFERTAS_DE_VIAJE',
+        'OFREZCO_VIAJE',
         'TRASLADOS',
         'TRANSPORTE']
 } as const;
@@ -65,6 +64,7 @@ export interface Post {
     hora: string;
     createdAt: string;
     author: {
+        id: string;
         nombre: string;
         telefono?: string;
     }

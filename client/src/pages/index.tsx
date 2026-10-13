@@ -1,16 +1,18 @@
 import { Col, Container, Row } from "react-bootstrap"
-import { CrearPost } from "../components/CreatePost"
+import { CrearPost } from "./CrearPost"
 import Mapa from "../components/Mapa"
 import MostrarPublicaciones from "../components/MostrarPubliaciones"
 import ComunidadCard from "../components/Card"
 import VideoHero from "../components/Video"
 import img from '../assets/profesiones.png'
 import img2 from '../assets/eventos_com.png'
-
+import ProbarFormulario from "../components/probarFormulario"
+import '../css/formularioPost.css'
 export default function Home() {
     return (<>
        <Container fluid="md" className="px-3">
         <VideoHero videoId="hYAOS2ZkfN8" titulo="Video de prueba"></VideoHero>
+        <ProbarFormulario></ProbarFormulario>
         <Row className="g-4 my-4">
           <Col xs={12} md={6}>
             <ComunidadCard titulo={'prueba'} descripcion={'es una prueba, es una prueba, es una prueba,es una prueba,es una prueba,es una prueba,es una prueba'} fechaPublicacion={'Domingo 26 de febrero de 2026 20:30hs'} imagenUrl={img} onVerMas={function (): void {

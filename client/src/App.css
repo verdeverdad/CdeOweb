@@ -10,9 +10,7 @@
   --naranja: #f15a24;
   --gris: #585454;
 }
-section {
-    background-color: var(--negro);
-}
+
 .navbar-toggler {
   border-color: transparent !important;
   background-color: transparent !important;

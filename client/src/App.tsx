@@ -12,20 +12,20 @@ import Trabajos from './pages/trabajos'
 import Viajes from './pages/viajes'
 import Perfil from './pages/perfil'
 import Post from './pages/post'
+import CrearPost from './pages/CrearPost'
+import BotonFlotante from './components/botonFlotante'
 
 function App() {
   return (
     <> {/* Usamos fragmento o nada, pero NO <Router> */}
       <NavBar />
+      <BotonFlotante />
       <Routes>
         {/* LA HOME */}
         <Route path="/" element={<Home />} />
 
         {/* LAS CATEGORÍAS */}
-        <Route path="/encontrando_patitas" element={
-         <Mascotas />
-        } />
-
+        <Route path="/encontrando_patitas" element={<Mascotas />} />
         <Route path="/cultura" element={<Cultura />} />
         <Route path="/mercado" element={<Mercado />} />
         <Route path="/educacion" element={<Educacion />} />
@@ -33,10 +33,11 @@ function App() {
         <Route path="/servicios" element={<Servicios />} />
         <Route path="/trabajos" element={<Trabajos />} />
         <Route path="/viajes" element={<Viajes />} />
-<Route path="/publicaciones/:id" element={<Post />} /> 
-       
+        <Route path="/publicaciones/:id" element={<Post />} />
+        <Route path="/crearPost" element={<CrearPost />} />
         <Route path="/perfil" element={<Perfil />} />
       </Routes>
+
     </>
   )
 }
