@@ -8,7 +8,6 @@ import CamposViajes from './formsCategorias/CamposViajes';
 import {
     CATEGORIAS as categorias,
     Localidad,
-    type Categoría,
 } from '../types/index';
 
 type SubCategoriaFormulario =
@@ -133,6 +132,12 @@ function ProbarFormulario() {
                 )}
                 {categoria === 'VIAJES' && (
                     <CamposViajes subCategoria={subCategoria} />
+                )}
+
+                {!foto && (
+                    <div className="campo">
+                        <label htmlFor="foto">Foto (opcional)</label>
+                    </div>
                 )}
                 <div className="campo">
                     <label htmlFor="foto">Foto (opcional)</label>
