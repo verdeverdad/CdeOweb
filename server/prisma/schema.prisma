@@ -1,11 +1,103 @@
-// prisma/schema.prisma
-datasource db {
-  provider = "postgresql"
-  
-}
-
 generator client {
   provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id           String   @id @default(uuid())
+  email        String   @unique
+  passwordHash String
+  nombre       String
+  telefono     String?
+  localidad    Localidad
+  role         Role     @default(VECINO)
+  fotoUrl      String?
+
+  profile Profile?
+  posts   Post[]
+
+  @@map("User")
+}
+
+model Profile {
+    id          String  @id @default(uuid())
+  userId      String  @unique
+  user        User    @relation(fields: [userId], references: [id])
+  descripcion String?
+  googleMaps  String?
+  instagram   String?
+  facebook    String?
+  tiktok      String?
+
+  @@map("Profile")
+}
+
+model Post {
+  id           String   @id @default(uuid())
+  authorId     String
+  author       User     @relation(fields: [authorId], references: [id])
+
+  // Datos generales
+  titulo       String
+  contenido    String
+  localidad    Localidad
+  categoria    String
+  subCategoria String
+  fotos        String[] @default([])
+
+  // Fechas generales
+  fecha        String   @default("")
+  hora         String   @default("")
+  createdAt    DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+  // Estado de la publicación
+  estado       String   @default("ACTIVA")
+
+  // Mercado: trueque, compra, venta y gratiferia
+  queOfrece             String?
+  queBusca              String?
+  descripcionAdicional  String?
+  precio                Decimal? @db.Decimal(10, 2)
+
+  // Trabajo y servicios: zonas donde se ofrece o busca un servicio
+  localidades Localidad[] @default([])
+
+  // Cultura: eventos, cursos y talleres
+  tipoActividad      String?
+  fechaActividad     DateTime?
+  fechaInicio        DateTime?
+  fechaFin           DateTime?
+  frecuencia         String?
+  diaSemana          String?
+  reglaMensual       String?
+  diaMes             Int?
+  ordinalMensual     String?
+  diaSemanaMensual   String?
+  horaActividad      String?
+  lugarActividad     String?
+  costoActividad     String?
+  importeActividad   Decimal? @db.Decimal(10, 2)
+
+  // Viajes compartidos y traslados
+  origen              String?
+  destino             String?
+  fechaViaje          DateTime?
+  horaViaje           String?
+  cantidadPasajeros   Int?
+  plazasDisponibles   Int?
+  compartirGastos     String?
+  aportePorPersona    Decimal? @db.Decimal(10, 2)
+  horarioDisponible   String?
+  modalidadCobro      String?
+
+  @@index([createdAt])
+  @@index([categoria, subCategoria])
+  @@index([localidad])
+  @@index([estado, createdAt])
+  @@map("Post")
 }
 
 enum Role {
@@ -20,19 +112,18 @@ enum Localidad {
   PINAMAR
   SALINAS
   MARINDIA
-  EL_FORTIN
+  EL_FORTIN_DE_SANTA_ROSA
   VILLA_ARGENTINA
   ATLANTIDA
   LAS_TOSCAS
   PARQUE_DEL_PLATA
   LAS_VEGAS
-  LAS_VEGAS_NORTE
-  LA_FLORESTA
   ESTACION_FLORESTA
+  LA_FLORESTA
   COSTA_AZUL
   BELLO_HORIZONTE
   GUAZUVIRA_NUEVO
-  GUAZUVIRA_VIEJO
+  GUAZUVIRA
   SAN_LUIS
   LOS_TITANES
   LA_TUNA
@@ -41,55 +132,18 @@ enum Localidad {
   BIARRITZ
   CUCHILLA_ALTA
   EL_GALEON
+  SIERRAS_DEL_MAR
   SANTA_ANA
   BALNEARIO_ARGENTINO
+  PARAISO_SUIZO
   JAUREGUIBERRY
 }
 
 enum Categoria {
-COMUNIDAD
-MERCADO
-CULTURA
-ENCONTRANDO_PATITAS
-VIAJES
-OFICIOS_Y_SERVICIOS
-}
-
-model User {
-  id           String   @id @default(uuid())
-  email        String   @unique
-  passwordHash String
-  nombre       String
-  telefono     String?
-  localidad    Localidad
-  role         Role     @default(VECINO)
-  fotoUrl      String?
-  profile      Profile?
-  posts        Post[]
-}
-
-model Profile {
-  id          String   @id @default(uuid())
-  userId      String   @unique
-  user        User     @relation(fields: [userId], references: [id])
-  descripcion String?
-  googleMaps  String?
-  instagram   String?
-  facebook    String?
-  tiktok      String?
-}
-
-model Post {
-  id           String   @id @default(uuid())
-  authorId     String
-  author       User     @relation(fields: [authorId], references: [id])
-  titulo       String
-  fecha        String
-  hora         String
-  contenido    String
-  localidad   Localidad
-  categoria    String   // Ej: "MERCADO"
-  subCategoria String   // Ej: "GRATIFERIA"
-  fotos        String[] 
-  createdAt    DateTime @default(now())
+  COMUNIDAD
+  MERCADO
+  CULTURA
+  ENCONTRANDO_PATITAS
+  VIAJES
+  OFICIOS_Y_SERVICIOS
 }
