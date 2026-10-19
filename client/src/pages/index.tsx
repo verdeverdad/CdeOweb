@@ -11,7 +11,7 @@ import '../css/formularioPost.css'
 export default function Home() {
     return (<>
        <Container fluid="md" className="px-3">
-        <VideoHero videoId="hYAOS2ZkfN8" titulo="Video de prueba"></VideoHero>
+        <VideoHero videoId="YiCP79bBQCQ" titulo="Video de prueba"></VideoHero>
         <ProbarFormulario></ProbarFormulario>
         <Row className="g-4 my-4">
           <Col xs={12} md={6}>
