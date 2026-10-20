@@ -80,7 +80,7 @@
     padding: 13px 20px;
     border: none;
     border-radius: 8px;
-    background: #286b5b;
+    background: var(--naranja);
     color: var(--blanco);
     font-size: 16px;
     font-weight: 600;
@@ -237,4 +237,35 @@
         accent-color: #375a7f;
     }
 
+}
+
+.formulario-prueba .btn-close {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  border: none;
+  border-radius: 50%;
+  background-color: var(--violeta);
+  color: var(--blanco);
+  font-size: 1.5rem;
+  font-weight: bold;
+  line-height: 1;
+  cursor: pointer;
+  transition: background-color 0.2s ease, transform 0.2s ease;
+}
+
+.formulario-prueba .btn-close:hover {
+  background-color: var(--rosa);
+  transform: scale(1.08);
+}
+
+.formulario-prueba .btn-close:focus-visible {
+  outline: 3px solid var(--amarillo);
+  outline-offset: 3px;
 }

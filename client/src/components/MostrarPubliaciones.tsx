@@ -108,9 +108,22 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
           */}
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className={`badge ${post.categoria === 'ENCONTRANDO_PATITAS' ? 'bg-danger' :
-                        post.categoria === 'MERCADO' ? 'bg-primary' : 'bg-warning'
-                        }`}>
+                      <span
+                        className={`badge ${post.categoria === 'ENCONTRANDO_PATITAS'
+                            ? 'badge-patitas'
+                            : post.categoria === 'MERCADO'
+                              ? 'badge-mercado'
+                              : post.categoria === 'CULTURA'
+                                ? 'badge-cultura'
+                                : post.categoria === 'COMUNIDAD'
+                                  ? 'badge-comunidad'
+                                  : post.categoria === 'OFICIOS_Y_SERVICIOS'
+                                    ? 'badge-trabajo'
+                                    : post.categoria === 'VIAJES'
+                                      ? 'badge-viajes'
+                                      : ''
+                          }`}
+                      >
                         {post.categoria}
                       </span>
                       <small className="text-muted">📍 {post.localidad.replace(/_/g, ' ')}</small>

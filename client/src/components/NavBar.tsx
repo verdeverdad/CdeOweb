@@ -37,14 +37,14 @@ const NavBar = (): ReactElement => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
               <img src={MenuIcon} alt="Menú" width={50} height={50} /><b></b>
-              <small className="fw-bold" style={{ color: expanded ? 'var(--violeta)' : 'var(--violeta)', fontSize: '18px'}}>MENÚ</small>
+              <small className="fw-bold" style={{color: 'var(--blanco)', fontSize: '18px',}}>MENÚ</small>
             </div>
           </Navbar.Toggle>
 
           <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
               <img src={PerfilIcon} alt="Perfil" width={50} height={50} />
-              <small style={{ color: expanded ? 'var(--violeta)' : 'var(--amarillo)', fontSize: '18px', fontWeight: 'bold' }}>PERFIL</small>
+              <small className="fw-bold" style={{ color:'var(--blanco)', fontSize: '18px',  }}>PERFIL</small>
             </div>
           </Nav.Link>
         </div>
@@ -53,17 +53,17 @@ const NavBar = (): ReactElement => {
         <Navbar.Collapse id="basic-navbar-nav" className="w-100">
           <Nav className="mx-auto text-center w-100 my-2 p-3" style={{ backgroundColor: 'var(--amarillo)', borderRadius: '10px' }}>
             <Nav.Link as={Link} to="/">INICIO</Nav.Link>
-            <Nav.Link as={Link} to="/nosotros">LA COMUNIDAD</Nav.Link>
+            <Nav.Link as={Link} to="/la_comunidad">LA COMUNIDAD</Nav.Link>
             <Nav.Link as={Link} to="/cultura">CULTURA</Nav.Link>
             <Nav.Link as={Link} to="/mercado">MERCADO</Nav.Link>
-            <Nav.Link as={Link} to="/servicios">SERVICIOS</Nav.Link>
+            <Nav.Link as={Link} to="/oficios_y_servicios">SERVICIOS</Nav.Link>
             <Nav.Link as={Link} to="/viajes">VIAJES</Nav.Link>
             <Nav.Link as={Link} to="/encontrando_patitas">MASCOTAS</Nav.Link>
 
             <hr className="bg-dark" />
             <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center pt-2">
               <img src={PerfilIcon} alt="Perfil" width={40} height={40} />
-              <span style={{ color: 'var(--violeta)', fontWeight: 'bold' }}>MI PERFIL</span>
+              <span style={{ color: 'var(--violeta)', fontWeight: 'bold', }}>MI PERFIL</span>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>

@@ -5,15 +5,13 @@ import Home from './pages/index'
 import Cultura from './pages/cultura'
 import Mascotas from './pages/encontrando_patitas.'
 import Mercado from './pages/mercado'
-import Educacion from './pages/educacion'
-import Trueques from './pages/trueques'
-import Servicios from './pages/servicios'
-import Trabajos from './pages/trabajos'
 import Viajes from './pages/viajes'
 import Perfil from './pages/perfil'
 import Post from './pages/post'
 import CrearPost from './pages/CrearPost'
 import BotonFlotante from './components/botonFlotante'
+import OficiosYServicios from './pages/oficios_y_servicios'
+import Comunidad from './pages/la_comunidad'
 
 function App() {
   return (
@@ -25,13 +23,11 @@ function App() {
         <Route path="/" element={<Home />} />
 
         {/* LAS CATEGORÍAS */}
+        <Route path="/la_comunidad" element={<Comunidad />} />
         <Route path="/encontrando_patitas" element={<Mascotas />} />
         <Route path="/cultura" element={<Cultura />} />
         <Route path="/mercado" element={<Mercado />} />
-        <Route path="/educacion" element={<Educacion />} />
-        <Route path="/trueques" element={<Trueques />} />
-        <Route path="/servicios" element={<Servicios />} />
-        <Route path="/trabajos" element={<Trabajos />} />
+        <Route path="/oficios_y_servicios" element={<OficiosYServicios />} />
         <Route path="/viajes" element={<Viajes />} />
         <Route path="/publicaciones/:id" element={<Post />} />
         <Route path="/crearPost" element={<CrearPost />} />

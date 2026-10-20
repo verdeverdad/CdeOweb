@@ -1,7 +1,11 @@
-export default function Counidad() {
+import MostrarPublicaciones from "../components/MostrarPubliaciones";
+
+export default function Comunidad() {
     return (
         <>
-        <h1 style={{ color: "red"} }>C O M U N I D A D</h1>
+        <h1 style={{ color: "red"} }>Comunidad</h1>
+            <MostrarPublicaciones filtroCategoria="COMUNIDAD"/>
+
         </>
     );
 }

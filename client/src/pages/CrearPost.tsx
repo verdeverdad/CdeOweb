@@ -9,6 +9,7 @@ import CamposPatitas from '../components/formsCategorias/CamposPatitas';
 import CamposTrabajosServicios from '../components/formsCategorias/CamposTrabajosServicios';
 import CamposViajes from '../components/formsCategorias/CamposViajes';
 import '../css/formularioPost.css'
+import CamposComunidad from '../components/formsCategorias/CamposComunidad';
 
 export const CrearPost: React.FC = () => {
   const navigate = useNavigate();
@@ -43,21 +44,20 @@ export const CrearPost: React.FC = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
+  e.preventDefault();
 
-    if (
-      !formData.titulo?.trim() ||
-      !formData.contenido?.trim() ||
-      !formData.localidad ||
-      !formData.categoria ||
-      !formData.subCategoria
-    ) {
-      return;
-    }
+  if (
+    !formData.titulo?.trim() ||
+    !formData.categoria ||
+    !formData.subCategoria
+  ) {
+    setError('Completá el título, la categoría y la subcategoría.');
+    return;
+  }
 
-    setError('');
-    setModalAbierto(true);
-  };
+  setError('');
+  setModalAbierto(true);
+};
 
 
 
@@ -279,6 +279,16 @@ export const CrearPost: React.FC = () => {
             </div>
           )}
 
+        {/* Campos específicos de Comunidad */}
+        {formData.categoria === 'COMUNIDAD' && (
+          <CamposComunidad
+            subCategoria={formData.subCategoria ?? ''}
+            localidadesCosta={Object.values(LOCALIDADES)}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
         {/* Campos específicos de Mercado */}
         {formData.categoria === 'MERCADO' && (
           <CamposMercado
@@ -323,6 +333,7 @@ export const CrearPost: React.FC = () => {
         {formData.categoria === 'VIAJES' && (
           <CamposViajes
             subCategoria={formData.subCategoria ?? ''}
+            
             valores={camposEspecificos}
             onCampoChange={actualizarCampo}
           />
@@ -376,7 +387,7 @@ export const CrearPost: React.FC = () => {
                           : volverAlFormulario
                       }
                       disabled={Boolean(publicacionCreadaId)}
-                    />
+                    >X</button>
                   )}
                 </div>
 
