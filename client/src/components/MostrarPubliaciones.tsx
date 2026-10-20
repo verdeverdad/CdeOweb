@@ -126,7 +126,13 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                       >
                         {post.categoria}
                       </span>
-                      <small className="text-muted">📍 {post.localidad.replace(/_/g, ' ')}</small>
+                      <small className="text-muted">📍  {post.localidad
+                                        ? post.localidad.replaceAll('_', ' ')
+                                        : post.localidades?.length
+                                            ? post.localidades
+                                                .map((localidad) => localidad.replaceAll('_', ' '))
+                                                .join(', ')
+                                            : 'Sin localidad especificada'}</small>
                     </div>
 
                     <h5 className="card-title fw-bold">

@@ -73,6 +73,7 @@ const NavBar = (): ReactElement => {
           <Form className="d-flex w-100" onSubmit={(e: React.FormEvent) => e.preventDefault()}>
             <Form.Control
               type="search"
+              aria-label='Buscar en Costa de Oro Comunidad'
               placeholder="Buscar en Costa de Oro..."
               className="me-2 buscar"
               style={{ borderRadius: '15px' }}
