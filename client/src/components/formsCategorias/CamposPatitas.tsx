@@ -1,35 +1,48 @@
 
+type ValorCampo = string | number | boolean | string[] | null;
+
 type CamposPatitasProps = {
   subCategoria: string;
   localidadesCosta: string[];
+  valores: Record<string, ValorCampo>;
+  onCampoChange: (nombre: string, valor: ValorCampo) => void;
 };
 
 function CamposPatitas({
   subCategoria,
   localidadesCosta,
+  valores,
+  onCampoChange,
 }: CamposPatitasProps) {
-  const localidadObligatoria =
-    subCategoria === 'PERDIDOS' ||
-    subCategoria === 'ENCONTRADOS' ||
-    subCategoria === 'ADOPCION';
+  const localidad = String(valores.localidad ?? '');
+
+  const localidadObligatoria = [
+    'PERDIDOS',
+    'ENCONTRADOS',
+    'ADOPCION',
+  ].includes(subCategoria);
 
   return (
     <section className="campos-patitas">
       <div className="campo">
-        <label htmlFor="localidadPatitas">Localidad</label>
+        <label htmlFor="localidadPatitas">
+          Localidad
+          {localidadObligatoria ? ' (obligatoria)' : ' (opcional)'}
+        </label>
 
         <select
           id="localidadPatitas"
-          defaultValue=""
+          value={localidad}
+          onChange={(e) =>
+            onCampoChange('localidad', e.target.value)
+          }
           required={localidadObligatoria}
         >
-          <option value="" disabled>
-            Seleccioná una localidad
-          </option>
+          <option value="">Seleccioná una localidad</option>
 
-          {localidadesCosta.map((localidad) => (
-            <option key={localidad} value={localidad}>
-              {localidad.replaceAll('_', ' ')}
+          {localidadesCosta.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc.replaceAll('_', ' ')}
             </option>
           ))}
         </select>
@@ -39,3 +52,5 @@ function CamposPatitas({
 }
 
 export default CamposPatitas;
+
+

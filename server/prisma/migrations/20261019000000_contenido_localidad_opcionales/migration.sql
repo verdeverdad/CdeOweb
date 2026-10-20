@@ -1,0 +1,3 @@
+ALTER TABLE "Post"
+  ALTER COLUMN "contenido" DROP NOT NULL,
+  ALTER COLUMN "localidad" DROP NOT NULL;

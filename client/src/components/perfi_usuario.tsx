@@ -138,9 +138,17 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                                     {publicacion.titulo}
                                 </a>
 
-                                <p style={{ margin: '0.25rem 0', color: '#666' }}>
-                                    {publicacion.localidad.replace(/_/g, ' ')}
-                                </p>
+                               
+<p style={{ margin: '0.25rem 0', color: '#666' }}>
+  {publicacion.localidad
+    ? publicacion.localidad.replaceAll('_', ' ')
+    : publicacion.localidades?.length
+      ? publicacion.localidades
+          .map((localidad) => localidad.replaceAll('_', ' '))
+          .join(', ')
+      : 'Sin localidad especificada'}
+</p>
+
                             </li>
                         ))}
                     </ul>

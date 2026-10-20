@@ -1,9 +1,14 @@
-
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import type { Post, Localidad, Categoría, SubCategoria } from '../types';
+import type { Post, Categoría, SubCategoria } from '../types';
 import { CATEGORIAS, Localidad as LOCALIDADES } from '../types';
 import '../App.css';
+import CamposMercado from '../components/formsCategorias/CamposMercado';
+import CamposCultura from '../components/formsCategorias/CamposCultura';
+import CamposPatitas from '../components/formsCategorias/CamposPatitas';
+import CamposTrabajosServicios from '../components/formsCategorias/CamposTrabajosServicios';
+import CamposViajes from '../components/formsCategorias/CamposViajes';
+import '../css/formularioPost.css'
 
 export const CrearPost: React.FC = () => {
   const navigate = useNavigate();
@@ -12,21 +17,31 @@ export const CrearPost: React.FC = () => {
     titulo: '',
     contenido: '',
     localidad: 'LA_FLORESTA',
-    categoria: 'MERCADO',
-    subCategoria: 'TRUEQUE',
+    categoria: 'CULTURA',
+    subCategoria: 'EVENTOS',
   };
 
   const [formData, setFormData] =
     useState<Partial<Post>>(initialState);
-
+  const [camposEspecificos, setCamposEspecificos] = useState<
+    Record<string, string | number | boolean | string[] | null>
+  >({});
   const [modalAbierto, setModalAbierto] = useState(false);
   const [enviando, setEnviando] = useState(false);
   const [error, setError] = useState('');
   const [publicacionCreadaId, setPublicacionCreadaId] =
     useState<string | null>(null);
 
+  const actualizarCampo = (
+    nombre: string,
+    valor: string | number | boolean | string[] | null
+  ) => {
+    setCamposEspecificos((anterior) => ({
+      ...anterior,
+      [nombre]: valor,
+    }));
+  };
 
-    
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
@@ -44,15 +59,15 @@ export const CrearPost: React.FC = () => {
     setModalAbierto(true);
   };
 
+
+
   const confirmarPublicacion = async () => {
     if (
       !formData.titulo?.trim() ||
-      !formData.contenido?.trim() ||
-      !formData.localidad ||
       !formData.categoria ||
       !formData.subCategoria
     ) {
-      setError('Revisá que todos los campos estén completos.');
+      setError('Completá el título, la categoría y la subcategoría.');
       return;
     }
 
@@ -67,6 +82,29 @@ export const CrearPost: React.FC = () => {
 
       const ahora = new Date();
 
+      // La descripción depende de la categoría.
+      const contenido =
+        formData.categoria === 'MERCADO' ||
+          formData.categoria === 'VIAJES'
+          ? (
+            typeof camposEspecificos.contenido === 'string' &&
+              camposEspecificos.contenido.trim()
+              ? camposEspecificos.contenido.trim()
+              : null
+          )
+          : (formData.contenido?.trim() || null);
+
+      // La localidad es opcional y depende del tipo de publicación.
+      const localidad =
+        typeof camposEspecificos.localidad === 'string' &&
+          camposEspecificos.localidad
+          ? camposEspecificos.localidad
+          : null;
+
+      // Este campo todavía no existe en el modelo Prisma.
+      const camposParaEnviar = { ...camposEspecificos };
+      delete camposParaEnviar.importeTraslado;
+
       const response = await fetch(`${apiUrl}/api/posts`, {
         method: 'POST',
         credentials: 'include',
@@ -74,9 +112,10 @@ export const CrearPost: React.FC = () => {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
+          ...camposParaEnviar,
           titulo: formData.titulo.trim(),
-          contenido: formData.contenido.trim(),
-          localidad: formData.localidad,
+          contenido,
+          localidad,
           categoria: formData.categoria,
           subCategoria: formData.subCategoria,
           fecha: ahora.toISOString().split('T')[0],
@@ -115,6 +154,8 @@ export const CrearPost: React.FC = () => {
     }
   };
 
+
+
   const volverAlFormulario = () => {
     if (enviando) return;
 
@@ -132,173 +173,176 @@ export const CrearPost: React.FC = () => {
     valor.replace(/_/g, ' ');
 
   return (
-    <div className="container mt-4 mb-5">
-      <div
-        className="card shadow-sm"
-        style={{
-          borderColor: 'var(--violeta)',
-          borderWidth: '1px',
-        }}
-      >
-        <div className="card-body">
-          <h2
-            className="card-title h4 mb-4"
-            style={{ color: 'var(--violeta)' }}
+    <main className="formulario-prueba">
+      <h1 >Crear publicación</h1>
+
+      <form onSubmit={handleSubmit}>
+
+        {/*CATEGORIA*/}
+        <div className="campo">
+          <label htmlFor="categoria" className="form-label">
+            Categoría
+          </label>
+
+          <select
+            id="categoria"
+            className="form-select"
+            value={formData.categoria ?? ''}
+            onChange={(e) => {
+              const categoria =
+                e.target.value as Categoría;
+
+              const primeraSubCategoria =
+                CATEGORIAS[categoria][0];
+
+              setFormData({
+                ...formData,
+                categoria,
+                subCategoria: primeraSubCategoria,
+              });
+            }}
+            required
           >
-            Crear nueva publicación
-          </h2>
+            {Object.keys(CATEGORIAS).map((categoria) => (
+              <option key={categoria} value={categoria}>
+                {mostrarTexto(categoria)}
+              </option>
+            ))}
+          </select>
+        </div>
 
-          <form onSubmit={handleSubmit}>
-            <div className="mb-3">
-              <label htmlFor="titulo" className="form-label">
-                Título
-              </label>
+        {/*SUBCATEGORIA*/}
+        <div className="campo">
+          <label htmlFor="subCategoria">Subcategoría</label>
+          <select
+            id="subCategoria"
+            className="form-select"
+            value={formData.subCategoria ?? ''}
+            onChange={(e) =>
+              setFormData((anterior) => ({
+                ...anterior,
+                subCategoria: e.target.value as SubCategoria,
+              }))
+            }
+            required
+          >
+            <option value="">Seleccioná una subcategoría</option>
+            {(CATEGORIAS[formData.categoria as keyof typeof CATEGORIAS] ?? []).map(
+              (subCategoria) => (
+                <option key={subCategoria} value={subCategoria}>
+                  {subCategoria.replaceAll('_', ' ')}
+                </option>
+              )
+            )}
+          </select>
+        </div>
 
-              <input
-                id="titulo"
-                type="text"
-                className="form-control"
-                value={formData.titulo ?? ''}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    titulo: e.target.value,
-                  })
-                }
-                placeholder="Ej.: Busco paseador de perros"
-                required
-              />
-            </div>
+        {/*TITULO*/}
+        <div className="campo">
+          <label htmlFor="titulo" className="form-label">
+            Título
+          </label>
 
-            <div className="row">
-              <div className="col-md-6 mb-3">
-                <label htmlFor="localidad" className="form-label">
-                  Localidad
-                </label>
+          <input
+            id="titulo"
+            type="text"
+            className="form-control"
+            value={formData.titulo ?? ''}
+            onChange={(e) =>
+              setFormData({
+                ...formData,
+                titulo: e.target.value,
+              })
+            }
+            placeholder="Ej.: Busco paseador de perros"
+            required
+          />
+        </div>
 
-                <select
-                  id="localidad"
-                  className="form-select"
-                  value={formData.localidad ?? ''}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      localidad: e.target.value as Localidad,
-                    })
-                  }
-                  required
-                >
-                  {LOCALIDADES.map((loc) => (
-                    <option key={loc} value={loc}>
-                      {mostrarTexto(loc)}
-                    </option>
-                  ))}
-                </select>
-              </div>
 
-              <div className="col-md-6 mb-3">
-                <label htmlFor="categoria" className="form-label">
-                  Categoría
-                </label>
-
-                <select
-                  id="categoria"
-                  className="form-select"
-                  value={formData.categoria ?? ''}
-                  onChange={(e) => {
-                    const categoria =
-                      e.target.value as Categoría;
-
-                    const primeraSubCategoria =
-                      CATEGORIAS[categoria][0];
-
-                    setFormData({
-                      ...formData,
-                      categoria,
-                      subCategoria: primeraSubCategoria,
-                    });
-                  }}
-                  required
-                >
-                  {Object.keys(CATEGORIAS).map((categoria) => (
-                    <option key={categoria} value={categoria}>
-                      {mostrarTexto(categoria)}
-                    </option>
-                  ))}
-                </select>
-              </div>
-            </div>
-
-            <div className="mb-3">
-              <label
-                htmlFor="subCategoria"
-                className="form-label"
-              >
-                Subcategoría
-              </label>
-
-              <select
-                id="subCategoria"
-                className="form-select"
-                value={formData.subCategoria ?? ''}
-                onChange={(e) =>
-                  setFormData({
-                    ...formData,
-                    subCategoria: e.target.value as SubCategoria,
-                  })
-                }
-                required
-              >
-                {formData.categoria &&
-                  CATEGORIAS[formData.categoria].map(
-                    (subCategoria) => (
-                      <option
-                        key={subCategoria}
-                        value={subCategoria}
-                      >
-                        {mostrarTexto(subCategoria)}
-                      </option>
-                    )
-                  )}
-              </select>
-            </div>
-
-            <div className="mb-4">
-              <label htmlFor="contenido" className="form-label">
-                Contenido
-              </label>
-
+        {/* Descripción general: se muestra en las categorías que la necesitan */}
+        {formData.categoria !== 'MERCADO' &&
+          formData.categoria !== 'VIAJES' && (
+            <div className="campo">
+              <label htmlFor="contenido">Descripción</label>
               <textarea
                 id="contenido"
-                className="form-control"
-                rows={5}
-                value={formData.contenido ?? ''}
+                value={String(formData.contenido ?? '')}
                 onChange={(e) =>
-                  setFormData({
-                    ...formData,
+                  setFormData((anterior) => ({
+                    ...anterior,
                     contenido: e.target.value,
-                  })
+                  }))
                 }
-                placeholder="Contá los detalles de tu publicación..."
                 required
               />
             </div>
+          )}
 
-            <button
-              type="submit"
-              className="btn w-100"
-              style={{
-                backgroundColor: 'var(--violeta)',
-                color: 'var(--blanco)',
-                fontWeight: 'bold',
-                fontSize: '1.15rem',
-              }}
-            >
-              Revisar publicación
-            </button>
-          </form>
-        </div>
-      </div>
+        {/* Campos específicos de Mercado */}
+        {formData.categoria === 'MERCADO' && (
+          <CamposMercado
+            subCategoria={formData.subCategoria ?? ''}
+            localidadesCosta={Object.values(LOCALIDADES)}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
+        {/* Campos específicos de Cultura */}
+        {formData.categoria === 'CULTURA' && (
+          <CamposCultura
+            subCategoria={formData.subCategoria ?? ''}
+            localidadesCosta={Object.values(LOCALIDADES)}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
+        {/* Campos específicos de Patitas */}
+        {formData.categoria === 'ENCONTRANDO_PATITAS' && (
+          <CamposPatitas
+            subCategoria={formData.subCategoria ?? ''}
+            localidadesCosta={Object.values(LOCALIDADES)}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
+        {/* Campos específicos de Oficios y Servicios */}
+        {formData.categoria === 'OFICIOS_Y_SERVICIOS' && (
+          <CamposTrabajosServicios
+            subCategoria={formData.subCategoria ?? ''}
+            localidadesCosta={Object.values(LOCALIDADES)}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
+        {/* Campos específicos de Viajes */}
+        {formData.categoria === 'VIAJES' && (
+          <CamposViajes
+            subCategoria={formData.subCategoria ?? ''}
+            valores={camposEspecificos}
+            onCampoChange={actualizarCampo}
+          />
+        )}
+
+        <button
+          type="submit"
+          className="btn w-100"
+          style={{
+            backgroundColor: 'var(--violeta)',
+            color: 'var(--blanco)',
+            fontWeight: 'bold',
+            fontSize: '1.15rem',
+          }}
+        >
+          Revisar publicación
+        </button>
+      </form>
+
+
 
       {modalAbierto && (
         <>
@@ -436,7 +480,7 @@ export const CrearPost: React.FC = () => {
           <div className="modal-backdrop show" />
         </>
       )}
-    </div>
+    </main >
   );
 };
 

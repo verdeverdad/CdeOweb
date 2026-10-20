@@ -46,7 +46,7 @@ export const CATEGORIAS = {
         'VENTA',
         'GRATIFERIA',
     ],
-    PATITAS: [
+    ENCONTRANDO_PATITAS: [
         'PERDIDOS',
         'ENCONTRADOS',
         'ADOPCION',
@@ -61,7 +61,7 @@ export const CATEGORIAS = {
         'PARTICIPACION',
         'GALERIA',
     ],
-    TRABAJO_Y_SERVICIOS: [
+    OFICIOS_Y_SERVICIOS: [
         'BUSCO_SERVICIO',
         'OFERTAS_DE_TRABAJO',
         'BUSCO_TRABAJO',
@@ -83,6 +83,7 @@ export interface Post {
     titulo: string;
     contenido: string;
     localidad: Localidad;
+    localidades: Localidad[];
     categoria: Categoría;
     subCategoria: SubCategoria;
     image?: string;

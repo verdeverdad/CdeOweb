@@ -191,7 +191,17 @@ const eliminarPublicacion = async () => {
                                         {publicacion.categoria}
                                     </span>
                                     <span className="text-muted ms-3">
-                                        📍 {publicacion.localidad.replace(/_/g, " ")}
+                                        📍 
+<p style={{ margin: '0.25rem 0', color: '#666' }}>
+  {publicacion.localidad
+    ? publicacion.localidad.replaceAll('_', ' ')
+    : publicacion.localidades?.length
+      ? publicacion.localidades
+          .map((localidad) => localidad.replaceAll('_', ' '))
+          .join(', ')
+      : 'Sin localidad especificada'}
+</p>
+
                                     </span>
                                 </div>
 

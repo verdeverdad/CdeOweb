@@ -1,17 +1,20 @@
 
+type ValorCampo = string | number | boolean | string[] | null;
+
 type CamposMercadoProps = {
   subCategoria: string;
   localidadesCosta: string[];
-  precio: string;
-  onPrecioChange: (nuevoPrecio: string) => void;
+  valores: Record<string, ValorCampo>;
+  onCampoChange: (nombre: string, valor: ValorCampo) => void;
 };
 
 function CamposMercado({
   subCategoria,
   localidadesCosta,
-  precio,
-  onPrecioChange,
+  valores,
+  onCampoChange,
 }: CamposMercadoProps) {
+const campo = (nombre: string) => String(valores?.[nombre] ?? '');
   return (
     <section className="campos-mercado">
       {subCategoria === 'TRUEQUE' && (
@@ -22,6 +25,10 @@ function CamposMercado({
             </label>
             <textarea
               id="tengo"
+              value={campo('queOfrece')}
+              onChange={(e) =>
+                onCampoChange('queOfrece', e.target.value)
+              }
               placeholder="Contanos qué ofrecés"
               required
             />
@@ -33,6 +40,10 @@ function CamposMercado({
             </label>
             <textarea
               id="busco"
+              value={campo('queBusca')}
+              onChange={(e) =>
+                onCampoChange('queBusca', e.target.value)
+              }
               placeholder="Contanos qué te gustaría recibir"
               required
             />
@@ -44,16 +55,16 @@ function CamposMercado({
             </label>
             <select
               id="localidadIntercambio"
-              defaultValue=""
+              value={campo('localidad')}
+              onChange={(e) =>
+                onCampoChange('localidad', e.target.value)
+              }
               required
             >
-              <option value="" disabled>
-                Seleccioná una localidad
-              </option>
-
-              {localidadesCosta.map((localidad) => (
-                <option key={localidad} value={localidad}>
-                  {localidad.replaceAll('_', ' ')}
+              <option value="">Seleccioná una localidad</option>
+              {localidadesCosta.map((loc) => (
+                <option key={loc} value={loc}>
+                  {loc.replaceAll('_', ' ')}
                 </option>
               ))}
             </select>
@@ -65,6 +76,13 @@ function CamposMercado({
             </label>
             <textarea
               id="descripcionAdicional"
+              value={campo('descripcionAdicional')}
+              onChange={(e) =>
+                onCampoChange(
+                  'descripcionAdicional',
+                  e.target.value
+                )
+              }
               placeholder="Agregá detalles sobre el intercambio"
             />
           </div>
@@ -80,8 +98,10 @@ function CamposMercado({
             type="number"
             min="0.01"
             step="0.01"
-            value={precio}
-            onChange={(e) => onPrecioChange(e.target.value)}
+            value={campo('precio')}
+            onChange={(e) =>
+              onCampoChange('precio', e.target.value)
+            }
             placeholder="Ingresá el precio"
             required
           />
@@ -93,6 +113,10 @@ function CamposMercado({
           <label htmlFor="descripcion">Descripción</label>
           <textarea
             id="descripcion"
+            value={campo('contenido')}
+            onChange={(e) =>
+              onCampoChange('contenido', e.target.value)
+            }
             placeholder="Contanos de qué se trata"
             required
           />

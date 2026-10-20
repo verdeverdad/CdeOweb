@@ -42,8 +42,8 @@ model Post {
 
   // Datos generales
   titulo       String
-  contenido    String
-  localidad    Localidad
+  contenido    String?
+  localidad    Localidad?
   categoria    String
   subCategoria String
   fotos        String[] @default([])

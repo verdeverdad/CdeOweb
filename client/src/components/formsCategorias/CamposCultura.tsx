@@ -1,77 +1,104 @@
+
 import { useState } from 'react';
+
+type ValorCampo = string | number | boolean | string[] | null;
 
 type CamposCulturaProps = {
   subCategoria: string;
   localidadesCosta: string[];
-  costoActividad: string;
-  onCostoActividadChange: (costo: string) => void;
+  valores: Record<string, ValorCampo>;
+  onCampoChange: (nombre: string, valor: ValorCampo) => void;
 };
 
 function CamposCultura({
   subCategoria,
   localidadesCosta,
-  costoActividad,
-  onCostoActividadChange,
+  valores,
+  onCampoChange,
 }: CamposCulturaProps) {
-  const [tipoActividad, setTipoActividad] =
-    useState<'UNICA' | 'RECURRENTE'>('UNICA');
+  const campo = (nombre: string, defecto = '') =>
+    String(valores[nombre] ?? defecto);
 
-  const [frecuencia, setFrecuencia] =
-    useState<'SEMANAL' | 'MENSUAL'>('SEMANAL');
-
-  const [diaSemana, setDiaSemana] = useState('MARTES');
-
-  const [reglaMensual, setReglaMensual] =
-    useState<'DIA_DEL_MES' | 'ORDINAL'>('DIA_DEL_MES');
-
-  const [diaMes, setDiaMes] = useState('1');
-  const [ordinalMensual, setOrdinalMensual] = useState('PRIMER');
-  const [diaSemanaMensual, setDiaSemanaMensual] = useState('MARTES');
+  const [tipoActividad, setTipoActividad] = useState(String(valores?.tipoActividad ?? 'UNICA')
+  );
+  const [frecuencia, setFrecuencia] = useState(
+    campo('frecuencia', 'SEMANAL')
+  );
+  const [reglaMensual, setReglaMensual] = useState(
+    campo('reglaMensual', 'DIA_DEL_MES')
+  );
 
   const esCursoOTaller =
     subCategoria === 'CURSOS' || subCategoria === 'TALLERES';
 
+  const recurrente =
+    esCursoOTaller && tipoActividad === 'RECURRENTE';
+
+  const cambiar = (nombre: string, valor: string) => {
+    onCampoChange(nombre, valor);
+  };
+
   return (
     <section className="campos-cultura">
-      <h2>Datos de la actividad</h2>
-
       {esCursoOTaller && (
         <div className="campo">
-          <label htmlFor="tipoActividad">
-            ¿Cómo se realiza la actividad?
-          </label>
+          <label htmlFor="tipoActividad">Tipo de actividad</label>
           <select
             id="tipoActividad"
             value={tipoActividad}
-            onChange={(e) =>
-              setTipoActividad(e.target.value as 'UNICA' | 'RECURRENTE')
-            }
+            onChange={(e) => {
+              const valor = e.target.value;
+              setTipoActividad(valor);
+              cambiar('tipoActividad', valor);
+            }}
+            required
           >
-            <option value="UNICA">Una sola fecha</option>
-            <option value="RECURRENTE">Se repite periódicamente</option>
+            <option value="UNICA">Actividad única</option>
+            <option value="RECURRENTE">Actividad recurrente</option>
           </select>
         </div>
       )}
 
-      {(!esCursoOTaller || tipoActividad === 'UNICA') && (
+      {!recurrente && (
         <div className="campo">
-          <label htmlFor="fechaActividad">Fecha</label>
-          <input id="fechaActividad" type="date" required />
+          <label htmlFor="fechaActividad">Fecha de la actividad</label>
+          <input
+            id="fechaActividad"
+            type="date"
+            value={campo('fechaActividad')}
+            onChange={(e) =>
+              cambiar('fechaActividad', e.target.value)
+            }
+            required
+          />
         </div>
       )}
 
-      {esCursoOTaller && tipoActividad === 'RECURRENTE' && (
+      {recurrente && (
         <>
           <div className="campo">
             <label htmlFor="fechaInicio">Fecha de inicio</label>
-            <input id="fechaInicio" type="date" required />
+            <input
+              id="fechaInicio"
+              type="date"
+              value={campo('fechaInicio')}
+              onChange={(e) =>
+                cambiar('fechaInicio', e.target.value)
+              }
+              required
+            />
           </div>
 
           <div className="campo">
-            <label htmlFor="fechaFin">
-              Fecha de finalización (opcional)
-            </label>
-            <input id="fechaFin" type="date" />
+            <label htmlFor="fechaFin">Fecha de finalización (opcional)</label>
+            <input
+              id="fechaFin"
+              type="date"
+              value={campo('fechaFin')}
+              onChange={(e) =>
+                cambiar('fechaFin', e.target.value)
+              }
+            />
           </div>
 
           <div className="campo">
@@ -79,12 +106,15 @@ function CamposCultura({
             <select
               id="frecuencia"
               value={frecuencia}
-              onChange={(e) =>
-                setFrecuencia(e.target.value as 'SEMANAL' | 'MENSUAL')
-              }
+              onChange={(e) => {
+                const valor = e.target.value;
+                setFrecuencia(valor);
+                cambiar('frecuencia', valor);
+              }}
+              required
             >
-              <option value="SEMANAL">Todas las semanas</option>
-              <option value="MENSUAL">Todos los meses</option>
+              <option value="SEMANAL">Semanal</option>
+              <option value="MENSUAL">Mensual</option>
             </select>
           </div>
 
@@ -93,16 +123,25 @@ function CamposCultura({
               <label htmlFor="diaSemana">Día de la semana</label>
               <select
                 id="diaSemana"
-                value={diaSemana}
-                onChange={(e) => setDiaSemana(e.target.value)}
+                value={campo('diaSemana', 'MARTES')}
+                onChange={(e) =>
+                  cambiar('diaSemana', e.target.value)
+                }
+                required
               >
-                <option value="LUNES">Lunes</option>
-                <option value="MARTES">Martes</option>
-                <option value="MIERCOLES">Miércoles</option>
-                <option value="JUEVES">Jueves</option>
-                <option value="VIERNES">Viernes</option>
-                <option value="SABADO">Sábado</option>
-                <option value="DOMINGO">Domingo</option>
+                {[
+                  'LUNES',
+                  'MARTES',
+                  'MIERCOLES',
+                  'JUEVES',
+                  'VIERNES',
+                  'SABADO',
+                  'DOMINGO',
+                ].map((dia) => (
+                  <option key={dia} value={dia}>
+                    {dia.charAt(0) + dia.slice(1).toLowerCase()}
+                  </option>
+                ))}
               </select>
             </div>
           )}
@@ -110,60 +149,60 @@ function CamposCultura({
           {frecuencia === 'MENSUAL' && (
             <>
               <div className="campo">
-                <label htmlFor="reglaMensual">¿Cómo se repite?</label>
+                <label htmlFor="reglaMensual">
+                  Regla mensual
+                </label>
                 <select
                   id="reglaMensual"
                   value={reglaMensual}
-                  onChange={(e) =>
-                    setReglaMensual(
-                      e.target.value as 'DIA_DEL_MES' | 'ORDINAL'
-                    )
-                  }
+                  onChange={(e) => {
+                    const valor = e.target.value;
+                    setReglaMensual(valor);
+                    cambiar('reglaMensual', valor);
+                  }}
+                  required
                 >
-                  <option value="DIA_DEL_MES">
-                    Un día específico del mes
-                  </option>
-                  <option value="ORDINAL">
-                    Un día de la semana específico
-                  </option>
+                  <option value="DIA_DEL_MES">Día del mes</option>
+                  <option value="ORDINAL">Día de la semana por orden</option>
                 </select>
               </div>
 
-              {reglaMensual === 'DIA_DEL_MES' && (
+              {reglaMensual === 'DIA_DEL_MES' ? (
                 <div className="campo">
                   <label htmlFor="diaMes">Día del mes</label>
-                  <select
+                  <input
                     id="diaMes"
-                    value={diaMes}
-                    onChange={(e) => setDiaMes(e.target.value)}
-                  >
-                    {Array.from({ length: 31 }, (_, i) => i + 1).map(
-                      (dia) => (
-                        <option key={dia} value={dia}>
-                          Día {dia}
-                        </option>
-                      )
-                    )}
-                  </select>
+                    type="number"
+                    min="1"
+                    max="31"
+                    value={campo('diaMes', '1')}
+                    onChange={(e) =>
+                      cambiar('diaMes', e.target.value)
+                    }
+                    required
+                  />
                 </div>
-              )}
-
-              {reglaMensual === 'ORDINAL' && (
+              ) : (
                 <>
                   <div className="campo">
                     <label htmlFor="ordinalMensual">
-                      ¿Cuál semana del mes?
+                      Orden del día
                     </label>
                     <select
                       id="ordinalMensual"
-                      value={ordinalMensual}
-                      onChange={(e) => setOrdinalMensual(e.target.value)}
+                      value={campo('ordinalMensual', 'PRIMER')}
+                      onChange={(e) =>
+                        cambiar('ordinalMensual', e.target.value)
+                      }
+                      required
                     >
-                      <option value="PRIMER">Primer</option>
-                      <option value="SEGUNDO">Segundo</option>
-                      <option value="TERCER">Tercer</option>
-                      <option value="CUARTO">Cuarto</option>
-                      <option value="ULTIMO">Último</option>
+                      {['PRIMER', 'SEGUNDO', 'TERCER', 'CUARTO', 'ULTIMO'].map(
+                        (orden) => (
+                          <option key={orden} value={orden}>
+                            {orden.charAt(0) + orden.slice(1).toLowerCase()}
+                          </option>
+                        )
+                      )}
                     </select>
                   </div>
 
@@ -173,16 +212,25 @@ function CamposCultura({
                     </label>
                     <select
                       id="diaSemanaMensual"
-                      value={diaSemanaMensual}
-                      onChange={(e) => setDiaSemanaMensual(e.target.value)}
+                      value={campo('diaSemanaMensual', 'MARTES')}
+                      onChange={(e) =>
+                        cambiar('diaSemanaMensual', e.target.value)
+                      }
+                      required
                     >
-                      <option value="LUNES">Lunes</option>
-                      <option value="MARTES">Martes</option>
-                      <option value="MIERCOLES">Miércoles</option>
-                      <option value="JUEVES">Jueves</option>
-                      <option value="VIERNES">Viernes</option>
-                      <option value="SABADO">Sábado</option>
-                      <option value="DOMINGO">Domingo</option>
+                      {[
+                        'LUNES',
+                        'MARTES',
+                        'MIERCOLES',
+                        'JUEVES',
+                        'VIERNES',
+                        'SABADO',
+                        'DOMINGO',
+                      ].map((dia) => (
+                        <option key={dia} value={dia}>
+                          {dia.charAt(0) + dia.slice(1).toLowerCase()}
+                        </option>
+                      ))}
                     </select>
                   </div>
                 </>
@@ -193,54 +241,78 @@ function CamposCultura({
       )}
 
       <div className="campo">
-        <label htmlFor="horaActividad">Hora</label>
-        <input id="horaActividad" type="time" required />
+        <label htmlFor="horaActividad">Horario</label>
+        <input
+          id="horaActividad"
+          type="time"
+          value={campo('horaActividad')}
+          onChange={(e) =>
+            cambiar('horaActividad', e.target.value)
+          }
+          required
+        />
       </div>
 
       <div className="campo">
         <label htmlFor="localidadCultura">Localidad</label>
-        <select id="localidadCultura" defaultValue="" required>
-          <option value="" disabled>
-            Seleccioná una localidad
-          </option>
-          {localidadesCosta.map((localidad) => (
-            <option key={localidad} value={localidad}>
-              {localidad.replaceAll('_', ' ')}
+        <select
+          id="localidadCultura"
+          value={campo('localidad')}
+          onChange={(e) => cambiar('localidad', e.target.value)}
+          required
+        >
+          <option value="">Seleccioná una localidad</option>
+          {localidadesCosta.map((loc) => (
+            <option key={loc} value={loc}>
+              {loc.replaceAll('_', ' ')}
             </option>
           ))}
         </select>
       </div>
 
       <div className="campo">
-        <label htmlFor="lugarActividad">Dirección</label>
+        <label htmlFor="lugarActividad">
+          Dirección o lugar (opcional)
+        </label>
         <input
           id="lugarActividad"
           type="text"
-          placeholder="Lugar de la actividad"
+          value={campo('lugarActividad')}
+          onChange={(e) =>
+            cambiar('lugarActividad', e.target.value)
+          }
+          placeholder="Ej.: Centro cultural, calle y número"
         />
       </div>
 
       <div className="campo">
-        <label htmlFor="costoActividad">Costo</label>
+        <label htmlFor="costoActividad">Costo de la actividad</label>
         <select
           id="costoActividad"
-          value={costoActividad}
-          onChange={(e) => onCostoActividadChange(e.target.value)}
+          value={campo('costoActividad', 'GRATIS')}
+          onChange={(e) =>
+            cambiar('costoActividad', e.target.value)
+          }
+          required
         >
           <option value="GRATIS">Gratis</option>
           <option value="CON_COSTO">Con costo</option>
         </select>
       </div>
 
-      {costoActividad === 'CON_COSTO' && (
+      {campo('costoActividad', 'GRATIS') === 'CON_COSTO' && (
         <div className="campo">
           <label htmlFor="importeActividad">Importe</label>
           <input
             id="importeActividad"
             type="number"
-            min="0"
-            step="any"
-            placeholder="Importe de la actividad"
+            min="0.01"
+            step="0.01"
+            value={campo('importeActividad')}
+            onChange={(e) =>
+              cambiar('importeActividad', e.target.value)
+            }
+            required
           />
         </div>
       )}

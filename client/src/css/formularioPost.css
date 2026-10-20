@@ -3,24 +3,24 @@
     max-width: 720px;
     margin: 40px auto;
     padding: 32px;
-    background: #ffffff;
+    background: var(--blanco);
     border: 1px solid #e2e8f0;
     border-radius: 16px;
     box-shadow: 0 8px 24px rgba(0, 0, 0, 0.06);
-    color: #263238;
+    color: var(--violeta);
     font-family: Arial, sans-serif;
 }
 
 .formulario-prueba h1 {
     margin: 0 0 28px;
-    color: #245c50;
+    color: var(--violeta);
     font-size: 28px;
     text-align: center;
 }
 
 .formulario-prueba h2 {
     margin: 0 0 20px;
-    color: #245c50;
+    color: var(--violeta);
     font-size: 21px;
 }
 
@@ -44,8 +44,8 @@
     padding: 12px 14px;
     border: 1px solid #cbd5d1;
     border-radius: 8px;
-    background: #ffffff;
-    color: #263238;
+    background: var(--blanco);
+    color: var(--violeta);
     font: inherit;
     font-size: 15px;
     transition: border-color 0.2s, box-shadow 0.2s;
@@ -60,7 +60,7 @@
 .formulario-prueba select:focus,
 .formulario-prueba textarea:focus {
     outline: none;
-    border-color: #368875;
+    border-color: var(--violeta);
     box-shadow: 0 0 0 3px rgba(54, 136, 117, 0.15);
 }
 
@@ -81,7 +81,7 @@
     border: none;
     border-radius: 8px;
     background: #286b5b;
-    color: #ffffff;
+    color: var(--blanco);
     font-size: 16px;
     font-weight: 600;
     cursor: pointer;
@@ -147,7 +147,7 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0.65rem 0.75rem;
-        background-color: #ffffff;
+        background-color: var(--blanco);
         color: #252a34;
         border: 1px solid #dce1e8;
         border-radius: 6px;
@@ -212,7 +212,7 @@
         box-sizing: border-box;
         margin: 0;
         padding: 0.65rem 0.75rem;
-        background-color: #ffffff;
+        background-color: var(--blanco);
         color: #252a34;
         border: 1px solid #dce1e8;
         border-radius: 6px;

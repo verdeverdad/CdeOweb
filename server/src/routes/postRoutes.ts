@@ -22,7 +22,7 @@ router.get('/', async (req, res) => {
 });
 
 
- // Obtener las publicaciones del usuario autenticado
+// Obtener las publicaciones del usuario autenticado
 router.get('/mis-publicaciones', verificarToken, async (req: AuthRequest, res) => {
   try {
     const userId = req.user!.userId;
@@ -264,6 +264,43 @@ router.post('/', verificarToken, async (req: AuthRequest, res) => {
     subCategoria,
     fecha,
     hora,
+
+    // Mercado
+    queOfrece,
+    queBusca,
+    descripcionAdicional,
+    precio,
+
+    // Trabajo y servicios
+    localidades,
+
+    // Cultura
+    tipoActividad,
+    fechaActividad,
+    fechaInicio,
+    fechaFin,
+    frecuencia,
+    diaSemana,
+    reglaMensual,
+    diaMes,
+    ordinalMensual,
+    diaSemanaMensual,
+    horaActividad,
+    lugarActividad,
+    costoActividad,
+    importeActividad,
+
+    // Viajes
+    origen,
+    destino,
+    fechaViaje,
+    horaViaje,
+    cantidadPasajeros,
+    plazasDisponibles,
+    compartirGastos,
+    aportePorPersona,
+    horarioDisponible,
+    modalidadCobro,
   } = req.body;
 
   const authorId = req.user!.userId;
@@ -279,6 +316,63 @@ router.post('/', verificarToken, async (req: AuthRequest, res) => {
         subCategoria: subCategoria || '',
         fecha: fecha || new Date().toISOString(),
         hora: hora || '',
+
+        // Mercado
+        queOfrece,
+        queBusca,
+        descripcionAdicional,
+        precio: precio != null && precio !== '' ? precio : undefined,
+
+        // Trabajo y servicios
+        localidades: localidades ?? [],
+
+        // Cultura
+        tipoActividad,
+        fechaActividad: fechaActividad
+          ? new Date(`${fechaActividad}T00:00:00.000Z`)
+          : undefined,
+        fechaInicio: fechaInicio
+          ? new Date(`${fechaInicio}T00:00:00.000Z`)
+          : undefined,
+
+        fechaFin: fechaFin
+          ? new Date(`${fechaFin}T00:00:00.000Z`)
+          : undefined,
+        frecuencia,
+        diaSemana,
+        reglaMensual,
+        diaMes: diaMes != null && diaMes !== '' ? Number(diaMes) : undefined,
+        ordinalMensual,
+        diaSemanaMensual,
+        horaActividad,
+        lugarActividad,
+        costoActividad,
+        importeActividad:
+          importeActividad != null && importeActividad !== ''
+            ? importeActividad
+            : undefined,
+
+        // Viajes
+        origen,
+        destino,
+        fechaViaje: fechaViaje
+          ? new Date(`${fechaViaje}T00:00:00.000Z`)
+          : undefined, horaViaje,
+        cantidadPasajeros:
+          cantidadPasajeros != null && cantidadPasajeros !== ''
+            ? Number(cantidadPasajeros)
+            : undefined,
+        plazasDisponibles:
+          plazasDisponibles != null && plazasDisponibles !== ''
+            ? Number(plazasDisponibles)
+            : undefined,
+        compartirGastos,
+        aportePorPersona:
+          aportePorPersona != null && aportePorPersona !== ''
+            ? aportePorPersona
+            : undefined,
+        horarioDisponible,
+        modalidadCobro,
       },
     });
 

@@ -108,7 +108,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
           */}
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
-                      <span className={`badge ${post.categoria === 'PATITAS' ? 'bg-danger' :
+                      <span className={`badge ${post.categoria === 'ENCONTRANDO_PATITAS' ? 'bg-danger' :
                         post.categoria === 'MERCADO' ? 'bg-primary' : 'bg-warning'
                         }`}>
                         {post.categoria}
