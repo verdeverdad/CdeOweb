@@ -1,6 +1,6 @@
 :root {
   --blanco: #fdfdfd;
-  --negro: #181818;
+  --negro: #000003;
   --amarillo: #ffcc14;
   --amarilloClaro: #FFE485;
   --violeta: #6c2a86;
@@ -10,9 +10,9 @@
   --verdeClaro: #44ecac;
   --verde: #81b622;
   --verdeOscuro: #0b9209;
-  --turqueza: #0097b2;
+  --turqueza: #00A5C2;
   --azul: #2f45d6;
-  --naranja: #f15a24;
+  --naranja: #F36F3F;
   --gris: #585454;
   --grisOscuro: #333333;
   --grisClaro: #aeaeae;
