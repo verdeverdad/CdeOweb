@@ -20,24 +20,34 @@
 
 .badge-mercado {
   background-color: var(--rosa);
+  color: var(--negro);
+
 }
 
 .badge-cultura {
   background-color: var(--amarillo);
+  color: var(--negro);
+
 }
 
 .badge-comunidad {
   background-color: var(--naranja);
+  color: var(--negro);
 }
 
-.badge-trabajo{
+.badge-trabajo {
   background-color: var(--turqueza);
+  color: var(--negro);
+
 }
 
-.badge-viajes{
-  background-color: var(--verde-oscuro);
+.badge-viajes {
+  background-color: var(--verde);
+  color: var(--negro);
+
 }
+
 .badge-patitas {
   background-color: var(--violeta);
-}
 
+}

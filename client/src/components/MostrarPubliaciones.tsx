@@ -110,29 +110,29 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span
                         className={`badge ${post.categoria === 'ENCONTRANDO_PATITAS'
-                            ? 'badge-patitas'
-                            : post.categoria === 'MERCADO'
-                              ? 'badge-mercado'
-                              : post.categoria === 'CULTURA'
-                                ? 'badge-cultura'
-                                : post.categoria === 'COMUNIDAD'
-                                  ? 'badge-comunidad'
-                                  : post.categoria === 'OFICIOS_Y_SERVICIOS'
-                                    ? 'badge-trabajo'
-                                    : post.categoria === 'VIAJES'
-                                      ? 'badge-viajes'
-                                      : ''
+                          ? 'badge-patitas'
+                          : post.categoria === 'MERCADO'
+                            ? 'badge-mercado'
+                            : post.categoria === 'CULTURA'
+                              ? 'badge-cultura'
+                              : post.categoria === 'COMUNIDAD'
+                                ? 'badge-comunidad'
+                                : post.categoria === 'OFICIOS_Y_SERVICIOS'
+                                  ? 'badge-trabajo'
+                                  : post.categoria === 'VIAJES'
+                                    ? 'badge-viajes'
+                                    : ''
                           }`}
                       >
                         {post.categoria}
                       </span>
                       <small className="text-muted">📍  {post.localidad
-                                        ? post.localidad.replaceAll('_', ' ')
-                                        : post.localidades?.length
-                                            ? post.localidades
-                                                .map((localidad) => localidad.replaceAll('_', ' '))
-                                                .join(', ')
-                                            : 'Sin localidad especificada'}</small>
+                        ? post.localidad.replaceAll('_', ' ')
+                        : post.localidades?.length
+                          ? post.localidades
+                            .map((localidad) => localidad.replaceAll('_', ' '))
+                            .join(', ')
+                          : 'Sin localidad especificada'}</small>
                     </div>
 
                     <h5 className="card-title fw-bold">
@@ -151,6 +151,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                       <Link
                         to={`/publicaciones/${post.id}`}
                         className="btn btn-primary btn-sm"
+                        aria-label={`Ver publicación: ${post.titulo}`}
                       >
                         VER PUBLICACIÓN
                       </Link>

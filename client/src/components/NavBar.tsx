@@ -36,15 +36,21 @@ const NavBar = (): ReactElement => {
         <div className="d-flex justify-content-between align-items-center w-100">
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
-              <img src={MenuIcon} alt="Menú" width={50} height={50} /><b></b>
-              <small className="fw-bold" style={{color: 'var(--blanco)', fontSize: '18px',}}>MENÚ</small>
+              <img src={MenuIcon} alt="Boton de Menú" width={50} height={50} /><b></b>
+              <small className="fw-bold" style={{color:'var(--blanco)',textShadow: '0 1px 3px #000',  backgroundColor: 'rgb(0 0 0 / 5%)',
+  padding: '0.2rem 0.25rem',
+  borderRadius: '0.8rem',
+  textDecoration: 'none', fontSize: '18px', }}>MENÚ</small>
             </div>
           </Navbar.Toggle>
 
           <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
-              <img src={PerfilIcon} alt="Perfil" width={50} height={50} />
-              <small className="fw-bold" style={{ color:'var(--blanco)', fontSize: '18px',  }}>PERFIL</small>
+              <img src={PerfilIcon} alt="Boton de Perfil" width={50} height={50} />
+              <small className="fw-bold" style={{ color:'var(--blanco)',textShadow: '0 1px 3px #000',  backgroundColor: 'rgb(0 0 0 / 5%)',
+  padding: '0.2rem 0.25rem',
+  borderRadius: '0.8rem',
+  textDecoration: 'none', fontSize: '18px',  }}>PERFIL</small>
             </div>
           </Nav.Link>
         </div>

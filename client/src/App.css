@@ -25,6 +25,10 @@
   border-color: transparent !important;
 }
 
+.navbrar a {
+  text-shadow: 0 1px 3px #000;
+}
+
 .navbar-toggler-icon {
   width: 2.5rem;
   /* Tamaño horizontal */
