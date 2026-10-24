@@ -68,7 +68,7 @@ const NavBar = (): ReactElement => {
 
             <hr className="bg-dark" />
             <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center pt-2">
-              <img src={PerfilIcon} alt="Perfil" width={40} height={40} />
+              <img src={PerfilIcon} alt="Boton de Perfil" width={40} height={40} />
               <span style={{ color: 'var(--violeta)', fontWeight: 'bold', }}>MI PERFIL</span>
             </Nav.Link>
           </Nav>
