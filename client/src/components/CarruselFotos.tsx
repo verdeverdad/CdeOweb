@@ -5,12 +5,14 @@ interface CarruselFotosProps {
   fotos: string[];
   titulo: string;
   onAmpliar: (foto: string) => void;
+  esDetalle: boolean;
 }
 
 export default function CarruselFotos({
   fotos,
   titulo,
   onAmpliar,
+  esDetalle,
 }: CarruselFotosProps) {
   const [indiceActual, setIndiceActual] = useState(0);
 
@@ -45,9 +47,9 @@ export default function CarruselFotos({
           className="card-img-top"
           alt={`${titulo} — foto ${indiceActual + 1} de ${fotos.length}`}
           style={{
-            height: "200px",
+            height: esDetalle ? "450px" : "200px",
             objectFit: "cover",
-            borderRadius: '10px',
+            borderRadius: "10px",
           }}
         />
       </button>
