@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import type { Post, Categoría } from "../types";
 import { Link } from "react-router-dom";
+import CarruselFotos from "../components/CarruselFotos";
 
 // Definición de las Props (usamos tu Enum de Categoría)
 interface MostrarPublicacionesProps {
@@ -97,15 +98,14 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
             publicacionesFiltradas.map((post) => (
               <div className="col" key={post.id}>
                 <div className="card h-100 shadow-sm border-0">
-                  {/* Imagen (con click para ampliar) 
-                  <img
-                    src={post.image || 'https://via.placeholder.com/300x200?text=Costa+de+Oro'}
-                    className="card-img-top"
-                    alt={post.titulo}
-                    style={{ height: "200px", objectFit: "cover", cursor: "pointer" }}
-                    onClick={() => setImgAmpliada(post.image || '')}
+                  
+                  <CarruselFotos
+                    fotos={Array.isArray(post.fotos) ? post.fotos : []}
+                    titulo={post.titulo}
+                    onAmpliar={setImgAmpliada}
                   />
-          */}
+
+
                   <div className="card-body">
                     <div className="d-flex justify-content-between align-items-center mb-2">
                       <span
@@ -158,7 +158,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
 
                       <button
                         className="btn btn-outline-primary btn-sm"
-                        onClick={() => handleContactPress(post.author?.telefono)}
+                        onClick={() => handleContactPress(post.author?.telefono ?? undefined)}
                       >
                         CONTACTAR WHATSAPP
                       </button>

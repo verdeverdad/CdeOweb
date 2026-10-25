@@ -10,6 +10,7 @@ import CamposTrabajosServicios from '../components/formsCategorias/CamposTrabajo
 import CamposViajes from '../components/formsCategorias/CamposViajes';
 import '../css/formularioPost.css'
 import CamposComunidad from '../components/formsCategorias/CamposComunidad';
+import RecortadorFoto from '../components/RecortarFoto';
 
 export const CrearPost: React.FC = () => {
   const navigate = useNavigate();
@@ -32,6 +33,82 @@ export const CrearPost: React.FC = () => {
   const [error, setError] = useState('');
   const [publicacionCreadaId, setPublicacionCreadaId] =
     useState<string | null>(null);
+  const [fotosSeleccionadas, setFotosSeleccionadas] = useState<
+    { archivo: File; vistaPrevia: string }[]
+  >([]);
+  const [fotoEnRecorte, setFotoEnRecorte] = useState<File | null>(null);
+  const [colaFotos, setColaFotos] = useState<File[]>([]);
+
+
+  const seleccionarFotos = (
+    e: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    const archivos = Array.from(e.target.files ?? []).filter(
+      (archivo) => archivo.type.startsWith('image/')
+    );
+
+    const disponibles = 5 - fotosSeleccionadas.length;
+
+    if (archivos.length > disponibles) {
+      setError(
+        `Podés tener un máximo de 5 fotos. Te quedan ${disponibles} lugar(es).`
+      );
+    } else {
+      setError('');
+    }
+
+    const permitidos = archivos.slice(0, Math.max(0, disponibles));
+
+    if (permitidos.length > 0) {
+      setFotoEnRecorte(permitidos[0]);
+      setColaFotos(permitidos.slice(1));
+    }
+
+    // Permite volver a seleccionar el mismo archivo.
+    e.target.value = '';
+  };
+
+  const confirmarFotoRecortada = (archivo: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const vistaPrevia = String(reader.result ?? '');
+
+      if (vistaPrevia) {
+        setFotosSeleccionadas((anteriores) => [
+          ...anteriores,
+          { archivo, vistaPrevia },
+        ]);
+      }
+
+      if (colaFotos.length > 0) {
+        setFotoEnRecorte(colaFotos[0]);
+        setColaFotos((anteriores) => anteriores.slice(1));
+      } else {
+        setFotoEnRecorte(null);
+      }
+    };
+
+    reader.onerror = () => {
+      setError('No se pudo preparar la vista previa de la foto.');
+      setFotoEnRecorte(null);
+      setColaFotos([]);
+    };
+
+    reader.readAsDataURL(archivo);
+  };
+
+  const cancelarRecorte = () => {
+    setFotoEnRecorte(null);
+    setColaFotos([]);
+  };
+
+
+  const quitarFoto = (indice: number) => {
+    setFotosSeleccionadas((anteriores) =>
+      anteriores.filter((_, i) => i !== indice)
+    );
+  };
 
   const actualizarCampo = (
     nombre: string,
@@ -44,20 +121,20 @@ export const CrearPost: React.FC = () => {
   };
 
   const handleSubmit = (e: React.FormEvent) => {
-  e.preventDefault();
+    e.preventDefault();
 
-  if (
-    !formData.titulo?.trim() ||
-    !formData.categoria ||
-    !formData.subCategoria
-  ) {
-    setError('Completá el título, la categoría y la subcategoría.');
-    return;
-  }
+    if (
+      !formData.titulo?.trim() ||
+      !formData.categoria ||
+      !formData.subCategoria
+    ) {
+      setError('Completá el título, la categoría y la subcategoría.');
+      return;
+    }
 
-  setError('');
-  setModalAbierto(true);
-};
+    setError('');
+    setModalAbierto(true);
+  };
 
 
 
@@ -105,23 +182,32 @@ export const CrearPost: React.FC = () => {
       const camposParaEnviar = { ...camposEspecificos };
       delete camposParaEnviar.importeTraslado;
 
+
+      const datosPublicacion = {
+        ...camposParaEnviar,
+        titulo: formData.titulo.trim(),
+        contenido,
+        localidad,
+        categoria: formData.categoria,
+        subCategoria: formData.subCategoria,
+        fecha: ahora.toISOString().split('T')[0],
+        hora: ahora.toTimeString().split(' ')[0],
+      };
+
+      const formDataEnvio = new FormData();
+
+      formDataEnvio.append('datos', JSON.stringify(datosPublicacion));
+
+      fotosSeleccionadas.forEach(({ archivo }) => {
+        formDataEnvio.append('fotos', archivo);
+      });
+
       const response = await fetch(`${apiUrl}/api/posts`, {
         method: 'POST',
         credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...camposParaEnviar,
-          titulo: formData.titulo.trim(),
-          contenido,
-          localidad,
-          categoria: formData.categoria,
-          subCategoria: formData.subCategoria,
-          fecha: ahora.toISOString().split('T')[0],
-          hora: ahora.toTimeString().split(' ')[0],
-        }),
+        body: formDataEnvio,
       });
+
 
       const data = await response.json().catch(() => null);
 
@@ -259,6 +345,58 @@ export const CrearPost: React.FC = () => {
           />
         </div>
 
+        {/* FOTOS */}
+        <div className="campo">
+          <label htmlFor="fotos" className="form-label">
+            Fotos
+          </label>
+
+          <input
+            id="fotos"
+            type="file"
+            className="form-control"
+            accept="image/*"
+            multiple
+            disabled={fotoEnRecorte !== null}
+            onChange={seleccionarFotos}
+          />
+
+          <small className="text-muted">
+            Podés seleccionar una o varias imágenes.
+          </small>
+
+          {fotosSeleccionadas.length > 0 && (
+            <div className="d-flex flex-wrap gap-3 mt-3">
+              {fotosSeleccionadas.map((foto, indice) => (
+                <div
+                  key={`${foto.archivo.name}-${indice}`}
+                  className="position-relative"
+                  style={{ width: '120px' }}
+                >
+                  <img
+                    src={foto.vistaPrevia}
+                    alt={`Vista previa de ${foto.archivo.name}`}
+                    style={{
+                      width: '120px',
+                      height: '100px',
+                      objectFit: 'cover',
+                      borderRadius: '8px',
+                    }}
+                  />
+
+                  <button
+                    type="button"
+                    className="btn btn-sm btn-outline-danger mt-1 w-100"
+                    onClick={() => quitarFoto(indice)}
+                    aria-label={`Quitar ${foto.archivo.name}`}
+                  >
+                    Quitar
+                  </button>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
 
         {/* Descripción general: se muestra en las categorías que la necesitan */}
         {formData.categoria !== 'MERCADO' &&
@@ -333,7 +471,7 @@ export const CrearPost: React.FC = () => {
         {formData.categoria === 'VIAJES' && (
           <CamposViajes
             subCategoria={formData.subCategoria ?? ''}
-            
+
             valores={camposEspecificos}
             onCampoChange={actualizarCampo}
           />
@@ -353,7 +491,13 @@ export const CrearPost: React.FC = () => {
         </button>
       </form>
 
-
+      {fotoEnRecorte && (
+        <RecortadorFoto
+          archivo={fotoEnRecorte}
+          onConfirmar={confirmarFotoRecortada}
+          onCancelar={cancelarRecorte}
+        />
+      )}
 
       {modalAbierto && (
         <>
