@@ -88,7 +88,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
   };
 
   // Función para contactar por WhatsApp (adaptada para Web)
- {/* const handleContactPress = (telefono?: string) => {
+  {/* const handleContactPress = (telefono?: string) => {
     if (!telefono) {
       alert("El usuario no ha proporcionado un número de teléfono.");
       return;
@@ -139,6 +139,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                     fotos={Array.isArray(post.fotos) ? post.fotos : []}
                     titulo={post.titulo}
                     onAmpliar={setImgAmpliada}
+                    esDetalle={false}
                   />
 
 

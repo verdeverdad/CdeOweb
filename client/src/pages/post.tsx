@@ -3,6 +3,7 @@ import { useParams } from "react-router-dom";
 import type { Post as PostType } from "../types";
 import EditarPost from "../components/editarPost";
 import CarruselFotos from "../components/CarruselFotos";
+import VolverAtras from "../components/BackButton";
 
 interface UsuarioActual {
     id: string;
@@ -197,10 +198,11 @@ export default function Post() {
 
     return (
         <main className="container mt-4 mb-5">
+            <VolverAtras></VolverAtras>
             <div className="row justify-content-center">
                 <div className="col-12 col-lg-9">
                     <article
-                        className="card h-100 shadow-sm"
+                        className="card  shadow-sm"
                         style={{
                             border: `1px solid ${coloresCategoria[publicacion.categoria]}`,
                             borderRadius: "12px",
@@ -224,6 +226,7 @@ export default function Post() {
                                     fotos={Array.isArray(publicacion.fotos) ? publicacion.fotos : []}
                                     titulo={publicacion.titulo}
                                     onAmpliar={setImgAmpliada}
+                                    esDetalle={true}
                                 />
 
                                 <div className="card-body p-4">
@@ -344,7 +347,7 @@ export default function Post() {
                                             {publicacion.author?.nombre || "Usuario"}
                                         </p>
                                         <p className="mb-1">
-                                            <strong>Fecha:</strong> {publicacion.fecha}
+                                            <strong>Fecha:</strong> {formatearFecha(publicacion.fecha)}
                                         </p>
                                         {publicacion.hora && (
                                             <p className="mb-0">
