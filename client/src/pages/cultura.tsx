@@ -3,7 +3,7 @@ import MostrarPublicaciones from "../components/MostrarPubliaciones";
 export default function Cultura() {
     return (
         <>
-        <h1 style={{ color: "red"} }>C U L T U R A</h1>
+        <h1 style={{textAlign: 'center', backgroundColor: 'var(--amarillo)', color: 'var(--violeta)', fontSize: '2.4rem'}}>CULTURA</h1>
             <MostrarPublicaciones filtroCategoria="CULTURA"/>
 
         </>

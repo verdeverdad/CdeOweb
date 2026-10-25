@@ -8,6 +8,34 @@ interface MostrarPublicacionesProps {
   filtroCategoria?: Categoría;
 }
 
+const coloresCategoria: Record<Categoría, string> = {
+  MERCADO: "var(--rosa)",
+  CULTURA: "var(--amarillo)",
+  COMUNIDAD: "var(--naranja)",
+  OFICIOS_Y_SERVICIOS: "var(--turqueza)",
+  VIAJES: "var(--verde)",
+  ENCONTRANDO_PATITAS: "var(--violeta)",
+};
+
+const formatearFecha = (fecha?: string | null) => {
+  if (!fecha) return "";
+
+  const fechaNormalizada = fecha.includes("T")
+    ? fecha
+    : `${fecha}T12:00:00`;
+
+  const fechaDate = new Date(fechaNormalizada);
+
+  if (Number.isNaN(fechaDate.getTime())) return fecha;
+
+  return fechaDate.toLocaleDateString("es-UY", {
+    day: "numeric",
+    month: "long",
+    year: "numeric",
+    timeZone: "UTC",
+  });
+};
+
 export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublicacionesProps) {
   const [publicaciones, setPublicaciones] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -60,14 +88,14 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
   };
 
   // Función para contactar por WhatsApp (adaptada para Web)
-  const handleContactPress = (telefono?: string) => {
+ {/* const handleContactPress = (telefono?: string) => {
     if (!telefono) {
       alert("El usuario no ha proporcionado un número de teléfono.");
       return;
     }
     const numeroLimpio = telefono.replace(/[\s-()]/g, '');
     window.open(`https://wa.me/${numeroLimpio}`, '_blank');
-  };
+  };*/}
 
   // Lógica de filtrado
   const publicacionesFiltradas = filtroCategoria
@@ -97,8 +125,16 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
           {publicacionesFiltradas.length > 0 ? (
             publicacionesFiltradas.map((post) => (
               <div className="col" key={post.id}>
-                <div className="card h-100 shadow-sm border-0">
-                  
+
+                <div
+                  className="card h-100 shadow-sm"
+                  style={{
+                    border: `1px solid ${coloresCategoria[post.categoria]}`,
+                    borderRadius: "12px",
+                    overflow: "hidden",
+                  }}
+                >
+
                   <CarruselFotos
                     fotos={Array.isArray(post.fotos) ? post.fotos : []}
                     titulo={post.titulo}
@@ -124,7 +160,7 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                                     : ''
                           }`}
                       >
-                        {post.categoria}
+                        {post.subCategoria.replaceAll("_", " ")}
                       </span>
                       <small className="text-muted">📍  {post.localidad
                         ? post.localidad.replaceAll('_', ' ')
@@ -143,31 +179,124 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
                         {post.titulo}
                       </Link>
                     </h5>
+
+
+                    {/* Datos destacados según la categoría */}
+                    <div className="small mb-2">
+
+                      {post.categoria === "MERCADO" && (
+                        <>
+                          {post.precio != null && post.precio !== "" && (
+                            <p className="mb-1 fw-bold">
+                              💰 ${post.precio}
+                            </p>
+                          )}
+
+                          {post.queOfrece && (
+                            <p className="mb-1">
+                              <strong>Ofrece:</strong> {post.queOfrece}
+                            </p>
+                          )}
+
+                          {post.queBusca && (
+                            <p className="mb-1">
+                              <strong>Busca:</strong> {post.queBusca}
+                            </p>
+                          )}
+                        </>
+                      )}
+
+                      {post.categoria === "CULTURA" && (
+                        <>
+                          📅 {formatearFecha(post.fechaActividad || post.fechaInicio)}
+                          {post.fechaFin && ` — ${formatearFecha(post.fechaFin)}`}
+
+                          {post.horaActividad && (
+                            <p className="mb-1">
+                              🕒 {post.horaActividad}
+                            </p>
+                          )}
+
+                          {post.lugarActividad && (
+                            <p className="mb-1">
+                              📍 {post.lugarActividad}
+                            </p>
+                          )}
+
+                          {post.tipoActividad && (
+                            <p className="mb-1">
+                              {post.tipoActividad}
+                            </p>
+                          )}
+                        </>
+                      )}
+
+                      {post.categoria === "VIAJES" && (
+                        <>
+                          {(post.origen || post.destino) && (
+                            <p className="mb-1 fw-bold">
+                              🚗 {post.origen || "Origen sin especificar"}
+                              {" → "}
+                              {post.destino || "Destino sin especificar"}
+                            </p>
+                          )}
+
+                          {post.fechaViaje && (
+                            <p className="mb-1">
+                              📅 {formatearFecha(post.fechaViaje)}
+                            </p>
+                          )}
+
+                          {post.horaViaje && (
+                            <p className="mb-1">
+                              🕒 {post.horaViaje}
+                            </p>
+                          )}
+
+                          {post.plazasDisponibles != null && (
+                            <p className="mb-1">
+                              👥 Plazas disponibles: {post.plazasDisponibles}
+                            </p>
+                          )}
+                        </>
+                      )}
+
+                      {post.categoria === "OFICIOS_Y_SERVICIOS" && (
+                        <p className="mb-1">
+                          📍 {post.localidades?.length
+                            ? post.localidades
+                              .map(localidad => localidad.replaceAll("_", " "))
+                              .join(", ")
+                            : post.localidad?.replaceAll("_", " ") || "Localidad no especificada"}
+                        </p>
+                      )}
+
+                    </div>
+
                     <p className="card-text text-secondary text-truncate-2">
                       {post.contenido}
                     </p>
 
                     <div className="d-grid gap-2 mt-3">
+
                       <Link
                         to={`/publicaciones/${post.id}`}
-                        className="btn btn-primary btn-sm"
+                        className="btn btn-sm fw-bold"
+                        style={{
+                          backgroundColor: coloresCategoria[post.categoria],
+                          borderColor: coloresCategoria[post.categoria],
+                          color: post.categoria === "ENCONTRANDO_PATITAS" ? 'var(--blanco)' : "va(--negro)",
+                        }}
                         aria-label={`Ver publicación: ${post.titulo}`}
                       >
                         VER PUBLICACIÓN
                       </Link>
 
-                      <button
-                        className="btn btn-outline-primary btn-sm"
-                        onClick={() => handleContactPress(post.author?.telefono ?? undefined)}
-                      >
-                        CONTACTAR WHATSAPP
-                      </button>
+
+
                     </div>
                   </div>
 
-                  <div className="card-footer bg-transparent border-0 text-muted">
-                    <small>Publicado por: {post.author?.nombre}</small>
-                  </div>
                 </div>
               </div>
             ))

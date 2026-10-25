@@ -47,6 +47,7 @@ export default function CarruselFotos({
           style={{
             height: "200px",
             objectFit: "cover",
+            borderRadius: '10px',
           }}
         />
       </button>
