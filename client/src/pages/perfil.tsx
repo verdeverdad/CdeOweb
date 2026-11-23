@@ -165,6 +165,8 @@ export const Perfil: React.FC = () => {
 
 
     return (<>
+
+        {user && <h1 style={{ textAlign: 'center', color: 'var(--violeta)', fontSize: '2.4rem' }}>MI PERFIL</h1>}
         <VolverAtras></VolverAtras>
         <div className="auth-container">
 
