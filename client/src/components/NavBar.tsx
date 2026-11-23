@@ -37,20 +37,24 @@ const NavBar = (): ReactElement => {
           <Navbar.Toggle aria-controls="basic-navbar-nav" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
               <img src={MenuIcon} alt="Boton de Menú" width={50} height={50} /><b></b>
-              <small className="fw-bold" style={{color:'var(--blanco)',textShadow: '0 1px 3px #000',  backgroundColor: 'rgb(0 0 0 / 5%)',
-  padding: '0.2rem 0.25rem',
-  borderRadius: '0.8rem',
-  textDecoration: 'none', fontSize: '18px', }}>MENÚ</small>
+              <small className="fw-bold" style={{
+                color: 'var(--blanco)', textShadow: '0 1px 3px #000', backgroundColor: 'rgb(0 0 0 / 5%)',
+                padding: '0.2rem 0.25rem',
+                borderRadius: '0.8rem',
+                textDecoration: 'none', fontSize: '18px',
+              }}>MENÚ</small>
             </div>
           </Navbar.Toggle>
 
           <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center" style={{ zIndex: 1020 }}>
             <div className="d-flex flex-column align-items-center">
-              <img src={PerfilIcon} alt="Boton de Perfil" width={50} height={50} />
-              <small className="fw-bold" style={{ color:'var(--blanco)',textShadow: '0 1px 3px #000',  backgroundColor: 'rgb(0 0 0 / 5%)',
-  padding: '0.2rem 0.25rem',
-  borderRadius: '0.8rem',
-  textDecoration: 'none', fontSize: '18px',  }}>PERFIL</small>
+              <img src={PerfilIcon} alt="Boton de Perfil" width={48} height={48} style={{ marginBottom: '-0.3rem' }} />
+              <small className="fw-bold" style={{
+                color: 'var(--blanco)', textShadow: '0 1px 3px #000', backgroundColor: 'rgb(0 0 0 / 5%)',
+                padding: '0.2rem 0.25rem',
+                borderRadius: '0.8rem',
+                textDecoration: 'none', fontSize: '18px', marginBottom: '-0.7rem'
+              }}>PERFIL</small>
             </div>
           </Nav.Link>
         </div>
@@ -67,14 +71,14 @@ const NavBar = (): ReactElement => {
             <Nav.Link as={Link} to="/encontrando_patitas">MASCOTAS</Nav.Link>
 
             <hr className="bg-dark" />
-            <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center pt-2">
-              <img src={PerfilIcon} alt="Boton de Perfil" width={40} height={40} />
+            <Nav.Link as={Link} to="/perfil" className="d-flex flex-column align-items-center mt-5">
+              <img src={PerfilIcon} alt="Boton de Perfil" width={36} height={36} />
               <span style={{ color: 'var(--violeta)', fontWeight: 'bold', }}>MI PERFIL</span>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
 
-        {/* SECCIÓN INFERIOR */}
+        {/* SECCIÓN INFERIOR  BUSCAR*/}
         <div className="w-100 mt-auto pb-1">
           <Form className="d-flex w-100" onSubmit={(e: React.FormEvent) => e.preventDefault()}>
             <Form.Control
