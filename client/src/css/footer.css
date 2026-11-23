@@ -1,0 +1,113 @@
+.footer {
+    min-height: 220px;
+    display: flex;
+    width: 100%;
+    height: auto;
+    overflow: hidden;
+    margin-top: 2rem;
+    background-position: left center;
+}
+
+
+.footer__inner {
+    width: 100%;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2.5rem 1.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+/* Columna izquierda */
+.footer__brand {
+    max-width: 340px;
+}
+
+
+.footer__credit {
+    margin: 1rem 0 0;
+    font-size: 0.95rem;
+    color: var(--blanco);
+    text-shadow: 0 1px 6px rgba(0, 0, 0, 0.75);
+    bottom: 5px;
+    display: flex;
+    justify-content: center;
+}
+
+.footer__credit span {
+    font-weight: 600;
+    color: #ffffff;
+
+}
+
+/* Columna derecha: enlaces alineados a la derecha */
+.footer>div {
+    width: 100%;
+}
+
+.footer__nav {
+    flex: 0 1 440px;
+    margin-left: auto;
+    text-align: right;
+
+}
+
+.footer__links {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(1, minmax(120px, 1fr));
+    justify-items: end;
+    gap: 0.65rem 1rem;
+
+}
+
+.footer__link {
+    color: var(--blanco);
+    text-decoration: none;
+    font-size: 1rem;
+    font-weight: 500;
+    text-shadow: 2px 4px 6px rgb(9, 8, 8);
+    transition: color 0.2s ease, transform 0.2s ease;
+    display: inline-block;
+}
+
+.footer__link:hover,
+.footer__link:focus-visible {
+    color: #f7c61e;
+    transform: translateX(3px);
+    outline: none;
+}
+
+/* Responsive para móviles */
+@media (max-width: 768px) {
+    .footer {
+        min-height: 260px;
+        background-position: left center;
+        background-size: cover;
+    }
+
+    .footer__inner {
+        flex-direction: column;
+        align-items: flex-end;
+        gap: 1.5rem;
+        padding: 1.5rem 1rem;
+    }
+
+    .footer__nav {
+        width: 100%;
+        max-width: none;
+        flex: none;
+        margin-left: 0;
+        text-align: right;
+    }
+
+    .footer__links {
+        grid-template-columns: repeat(1, minmax(0, 1fr));
+        justify-items: end;
+        gap: 0.6rem 1rem;
+        text-shadow: 2px 4px 6px rgb(9, 8, 8);
+    }
+}

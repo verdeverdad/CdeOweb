@@ -12,6 +12,7 @@ import CrearPost from './pages/CrearPost'
 import BotonFlotante from './components/botonFlotante'
 import OficiosYServicios from './pages/oficios_y_servicios'
 import Comunidad from './pages/la_comunidad'
+import Footer from './components/footer'
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
         <Route path="/crearPost" element={<CrearPost />} />
         <Route path="/perfil" element={<Perfil />} />
       </Routes>
+      <Footer></Footer>
 
     </>
   )

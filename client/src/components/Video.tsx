@@ -10,7 +10,7 @@ const VideoHero: React.FC<VideoHeroProps> = ({ videoId, titulo = "YouTube video 
   const embedUrl = `https://www.youtube.com/embed/${videoId}?autoplay=1&mute=1&playlist=${videoId}&loop=1`;
 
   return (
-    <Row className="mb-4">
+    <Row className="mb-4 mt-3">
       {/* Solo usamos las clases de Bootstrap. "ratio-16x9" mantiene la forma perfecta siempre */}
       <Col>
         <div className="ratio ratio-16x9 shadow-sm rounded overflow-hidden">
