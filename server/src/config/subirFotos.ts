@@ -4,7 +4,8 @@ import { Readable } from 'node:stream';
 import type { Express } from 'express';
 
 export async function subirFotosCloudinary(
-  archivos: Express.Multer.File[]
+  archivos: Express.Multer.File[],
+  carpeta = 'Costa-de-Oro/publicaciones'
 ): Promise<string[]> {
   return Promise.all(
     archivos.map(
@@ -12,7 +13,7 @@ export async function subirFotosCloudinary(
         new Promise<string>((resolve, reject) => {
           const stream = cloudinary.uploader.upload_stream(
             {
-              folder: 'Costa-de-Oro/publicaciones',
+              folder: carpeta,
               resource_type: 'image',
             },
             (error, resultado) => {

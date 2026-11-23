@@ -1,7 +1,7 @@
 .auth-container {
   display: flex;
   justify-content: center;
-  align-items: center;
+  align-items: start;
   min-height: 100vh;
   background-color: var(--blanco);
   font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
@@ -14,11 +14,12 @@
   border-radius: 12px;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.08);
   width: 100%;
-  max-width: 400px;
+  max-width: 500px;
   box-sizing: border-box;
 }
 
-.auth-card h2 {
+.auth-card h2,
+.auth-card h3 {
   margin: 0 0 0.5rem 0;
   color: var(--violeta);
   font-size: 1.75rem;
@@ -27,8 +28,8 @@
 
 .auth-subtitle {
   margin: 0 0 1.5rem 0;
-  color: var(--violeta);
-  font-size: 0.9rem;
+  color: var(--negro);
+  font-size: 1.1rem;
   text-align: center;
 }
 
@@ -36,6 +37,27 @@
   display: flex;
   flex-direction: column;
   gap: 1.2rem;
+}
+
+.user-info {
+  width: fit-content;
+  /* Se ajusta al ancho del contenido (o usa max-width: 600px) */
+  max-width: 100%;
+  /* Evita desbordes en pantallas pequeñas */
+  margin: 0 auto;
+  /* Centra el bloque horizontalmente */
+  text-align: left;
+  /* Texto alineado a la izquierda */
+}
+
+.button-group {
+  display: flex;
+  justify-Content: center;
+  gap: 0.5rem
+}
+
+strong {
+  color: var(--violeta)
 }
 
 .form-group {

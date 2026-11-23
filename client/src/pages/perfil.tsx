@@ -84,6 +84,7 @@ export const Perfil: React.FC = () => {
                         telefono: data.user.telefono,
                         localidad: data.user.localidad,
                         rol: data.user.role,
+                        fotoUrl: data.user.fotoUrl,
                     },
                 });
             } catch (error) {
@@ -102,7 +103,7 @@ export const Perfil: React.FC = () => {
     }
 
 
-    const handleSave = async (updatedUser: User) => {
+    const handleSave = async (updatedUser: User, foto?: File | null) => {
         const rawApiUrl =
             import.meta.env.VITE_API_URL ||
             'https://cdeoweb.onrender.com';
@@ -110,13 +111,19 @@ export const Perfil: React.FC = () => {
         const API_URL = rawApiUrl.trim().replace(/\/+$/, '');
 
         try {
+            const formData = new FormData();
+            formData.append('datos', JSON.stringify(updatedUser));
+
+            if (foto) {
+                formData.append('foto', foto);
+            } else if (foto === null) {
+                formData.append('eliminarFoto', 'true');
+            }
+
             const response = await fetch(`${API_URL}/api/users/profile`, {
                 method: 'PUT',
                 credentials: 'include',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatedUser),
+                body: formData,
             });
 
             const data = await response.json();
@@ -134,6 +141,7 @@ export const Perfil: React.FC = () => {
                     telefono: data.user.telefono,
                     localidad: data.user.localidad,
                     rol: data.user.role,
+                    fotoUrl: data.user.fotoUrl,
                 },
                 ...(data.profile
                     ? {

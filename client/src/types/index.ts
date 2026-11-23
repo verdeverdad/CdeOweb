@@ -152,6 +152,7 @@ export interface UserData {
     telefono?: string;
     localidad?: Localidad;
     rol?: Role;
+    fotoUrl?: string | null;
 
 }
 

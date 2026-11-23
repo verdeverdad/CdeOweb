@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import type { User } from '../types';
 import type { Post } from '../types';
+import MostrarPublicaciones from './MostrarPubliaciones';
 
 interface UserProfileProps {
     user: User;
@@ -61,28 +62,33 @@ export const UserProfile: React.FC<UserProfileProps> = ({
     }, []);
 
 
-    return (
-        <div className="auth-card">
-            <h2>Mi Perfil</h2>
-            <p className="auth-subtitle">¡Bienvenido de nuevo!</p>
+    return (<>
+        <div className="auth-card" style={{ maxWidth: '900px' }}>
 
+            {user.userData.fotoUrl && (
+                <img
+                    src={user.userData.fotoUrl}
+                    alt={`Imagen de perfil de ${user.userData.nombre ?? 'usuario'}`}
+                    style={{
+                        display: 'block',
+                        width: '112px',
+                        height: '112px',
+                        margin: '0 auto 1.5rem',
+                        borderRadius: '50%',
+                        objectFit: 'cover',
+                    }}
+                />
+            )}
+            <h2>{user.userData.nombre}</h2>
+            <p className='auth-subtitle'>
+                {user.userData.email}
+            </p>
             <div
-                className="user-info"
-                style={{ marginBottom: '1.5rem', textAlign: 'left' }}
+                className="user-info" style={{ marginBottom: '1.5rem', textAlign: 'left' }}
             >
-                {user.userData.nombre && (
-                    <p>
-                        <strong>Nombre:</strong> {user.userData.nombre}
-                    </p>
-                )}
-
-                <p>
-                    <strong>Correo:</strong> {user.userData.email}
-                </p>
-
                 {user.userData.localidad && (
                     <p>
-                        <strong>Localidad:</strong> {user.userData.localidad}
+                        <strong>Localidad:</strong> {user.userData.localidad.replaceAll('_', ' ')}
                     </p>
                 )}
 
@@ -99,62 +105,42 @@ export const UserProfile: React.FC<UserProfileProps> = ({
                 )}
             </div>
 
-            <button
-                type="button"
-                onClick={onEdit}
-                className="submit-btn"
-            >
-                Modificar perfil
-            </button>
+            <div className="button-group" >
+                <button
+                    type="button"
+                    onClick={onEdit}
+                    className="submit-btn"
+                >
+                    Modificar perfil
+                </button>
 
-            <button
-                type="button"
-                onClick={onLogout}
-                className="submit-btn"
-                style={{ backgroundColor: '#dc2626' }}
-            > Cerrar Sesión
-            </button>
-
-            <section className="auth-card" style={{ textAlign: 'left', marginBottom: '1.5rem' }}>
+                <button
+                    type="button"
+                    onClick={onLogout}
+                    className="submit-btn"
+                    style={{ backgroundColor: '#dc2626', marginLeft: '0.8rem' }}
+                > Cerrar Sesión
+                </button>
+            </div>
+            <section style={{ width: '100%', marginBottom: '1.5rem', marginTop: '5rem' }}>
                 <h3>Mis publicaciones</h3>
 
                 {cargandoPublicaciones ? (
-                    <p>Cargando publicaciones...</p>
+                    <p style={{ textAlign: 'center' }}>Cargando publicaciones...</p>
                 ) : errorPublicaciones ? (
                     <p role="alert">{errorPublicaciones}</p>
                 ) : publicaciones.length === 0 ? (
-                    <p>Todavía no tenés publicaciones.</p>
+                    <p style={{ textAlign: 'center' }}>Todavía no tenés publicaciones.</p>
                 ) : (
-                    <ul style={{ listStyle: 'none', padding: 0 }}>
-                        {publicaciones.map((publicacion) => (
-                            <li
-                                key={publicacion.id}
-                                style={{
-                                    borderBottom: '1px solid #ddd',
-                                    padding: '0.75rem 0',
-                                }}
-                            >
-                                <a href={`/publicaciones/${publicacion.id}`}>
-                                    {publicacion.titulo}
-                                </a>
-
-
-                                <p style={{ margin: '0.25rem 0', color: '#666' }}>
-                                    {publicacion.localidad
-                                        ? publicacion.localidad.replaceAll('_', ' ')
-                                        : publicacion.localidades?.length
-                                            ? publicacion.localidades
-                                                .map((localidad) => localidad.replaceAll('_', ' '))
-                                                .join(', ')
-                                            : 'Sin localidad especificada'}
-                                </p>
-
-                            </li>
-                        ))}
-                    </ul>
+                    <MostrarPublicaciones
+                        publicacionesExternas={publicaciones}
+                        cargandoExternamente={cargandoPublicaciones}
+                        columnas={1}
+                    />
                 )}
             </section>
 
         </div>
+    </>
     );
 };

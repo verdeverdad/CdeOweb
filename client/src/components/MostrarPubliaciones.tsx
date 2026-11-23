@@ -6,6 +6,9 @@ import CarruselFotos from "../components/CarruselFotos";
 // Definición de las Props (usamos tu Enum de Categoría)
 interface MostrarPublicacionesProps {
   filtroCategoria?: Categoría;
+  publicacionesExternas?: Post[];
+  cargandoExternamente?: boolean;
+  columnas?: 1 | 2 | 3 | 4;
 }
 
 const coloresCategoria: Record<Categoría, string> = {
@@ -36,56 +39,48 @@ const formatearFecha = (fecha?: string | null) => {
   });
 };
 
-export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublicacionesProps) {
-  const [publicaciones, setPublicaciones] = useState<Post[]>([]);
-  const [loading, setLoading] = useState(true);
+export default function MostrarPublicaciones({
+  filtroCategoria,
+  publicacionesExternas,
+  cargandoExternamente,
+  columnas,
+}: MostrarPublicacionesProps) {
+  const [publicaciones, setPublicaciones] = useState<Post[]>(publicacionesExternas ?? []);
+  const [loading, setLoading] = useState(cargandoExternamente ?? true);
   const [imgAmpliada, setImgAmpliada] = useState<string | null>(null);
 
-  // Cargamos los datos al montar el componente o cambiar el filtro
   useEffect(() => {
-    fetchPublicaciones();
-  }, [filtroCategoria]);
+    if (publicacionesExternas !== undefined) return;
 
-  const fetchPublicaciones = async () => {
-    try {
-      setLoading(true);
+    const cargarPublicaciones = async () => {
+      try {
+        setLoading(true);
 
-      const rawApiUrl =
-        import.meta.env.VITE_API_URL ||
-        "https://cdeoweb.onrender.com";
+        const rawApiUrl =
+          import.meta.env.VITE_API_URL ||
+          "https://cdeoweb.onrender.com";
 
-      const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
+        const API_URL = rawApiUrl.trim().replace(/\/+$/, "");
+        const response = await fetch(`${API_URL}/api/posts`);
 
-      const response = await fetch(`${API_URL}/api/posts`);
+        if (!response.ok) {
+          throw new Error(`Error HTTP ${response.status}`);
+        }
 
-      console.log("Status:", response.status);
-      console.log("URL:", `${API_URL}/api/posts`);
-
-      const texto = await response.text();
-
-      console.log("Respuesta del servidor:", texto);
-
-      if (!response.ok) {
-        throw new Error(
-          `Error HTTP ${response.status}: ${texto}`
-        );
+        const data = await response.json() as Post[];
+        setPublicaciones(data);
+      } catch (error) {
+        console.error("Error al obtener publicaciones:", error);
+      } finally {
+        setLoading(false);
       }
+    };
 
-      const data = JSON.parse(texto);
+    void cargarPublicaciones();
+  }, [filtroCategoria, publicacionesExternas]);
 
-      console.log("✅ Éxito:", data);
-
-      setPublicaciones(data);
-
-    } catch (error) {
-      console.error(
-        "Error al obtener publicaciones:",
-        error
-      );
-    } finally {
-      setLoading(false);
-    }
-  };
+  const publicacionesActuales = publicacionesExternas ?? publicaciones;
+  const cargandoActual = cargandoExternamente ?? loading;
 
   // Función para contactar por WhatsApp (adaptada para Web)
   {/* const handleContactPress = (telefono?: string) => {
@@ -99,29 +94,29 @@ export default function MostrarPublicaciones({ filtroCategoria }: MostrarPublica
 
   // Lógica de filtrado
   const publicacionesFiltradas = filtroCategoria
-    ? publicaciones.filter(
+    ? publicacionesActuales.filter(
       post => post.categoria === filtroCategoria
     )
-    : publicaciones;
-
-  console.log("PUBLICACIONES:", publicaciones);
-  console.log("FILTRADAS:", publicacionesFiltradas);
-  console.log("filtroCategoria:", filtroCategoria);
-  console.log(
-    "categorias de los posts:",
-    publicaciones.map(post => post.categoria)
-  );
+    : publicacionesActuales;
 
   return (
     <div className="container mt-4">
-      {loading ? (
+      {cargandoActual ? (
         <div className="d-flex justify-content-center my-5">
           <div className="spinner-border text-primary" role="status">
             <span className="visually-hidden">Cargando...</span>
           </div>
         </div>
       ) : (
-        <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
+        <div
+          className={`row g-4 ${columnas === 1
+            ? 'row-cols-1'
+            : columnas === 2
+              ? 'row-cols-1 row-cols-md-2'
+              : columnas === 4
+                ? 'row-cols-1 row-cols-md-2 row-cols-lg-4'
+                : 'row-cols-1 row-cols-md-2 row-cols-lg-3'}`}
+        >
           {publicacionesFiltradas.length > 0 ? (
             publicacionesFiltradas.map((post) => (
               <div className="col" key={post.id}>

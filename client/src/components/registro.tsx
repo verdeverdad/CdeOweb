@@ -1,13 +1,15 @@
 import React, { useState } from 'react';
+import type { UserData } from '../types';
 import type { Role } from '../types';
 import { Localidad } from '../types';
+import RecortadorFoto from './RecortarFoto';
 
 const rawApiUrl =
   import.meta.env.VITE_API_URL ||
   "https://cdeoweb.onrender.com";
 
 interface RegisterFormProps {
-  onRegisterSuccess: (userData: { id: string; nombre: string; email: string; localidad: Localidad; telefono: string; rol: Role; }) => void;
+  onRegisterSuccess: (userData: UserData) => void;
   onSwitchToLogin: () => void;
 }
 
@@ -23,6 +25,12 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
     localidad: '' as Localidad,
     role: 'VECINO' as Role,
   });
+  const [fotoSeleccionada, setFotoSeleccionada] = useState<{
+    archivo: File;
+    vistaPrevia: string;
+  } | null>(null);
+  const [fotoEnRecorte, setFotoEnRecorte] = useState<File | null>(null);
+  const [enviando, setEnviando] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
@@ -31,10 +39,50 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
     });
   };
 
+  const seleccionarFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const archivo = e.target.files?.[0];
+    e.target.value = '';
 
+    if (!archivo) return;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+    if (!archivo.type.startsWith('image/')) {
+      alert('Seleccioná un archivo de imagen');
+      return;
+    }
+
+    setFotoEnRecorte(archivo);
+  };
+
+  const confirmarFotoRecortada = (archivo: File) => {
+    const reader = new FileReader();
+
+    reader.onload = () => {
+      const vistaPrevia = typeof reader.result === 'string' ? reader.result : '';
+
+      if (vistaPrevia) {
+        setFotoSeleccionada({ archivo, vistaPrevia });
+      } else {
+        alert('No se pudo preparar la vista previa de la foto');
+      }
+
+      setFotoEnRecorte(null);
+    };
+
+    reader.onerror = () => {
+      alert('No se pudo preparar la vista previa de la foto');
+      setFotoEnRecorte(null);
+    };
+
+    reader.readAsDataURL(archivo);
+  };
+
+  const handleSubmit = async (e: React.SubmitEvent) => {
     e.preventDefault();
+
+    if (fotoEnRecorte) {
+      alert('Confirmá o cancelá el recorte de la foto antes de registrarte');
+      return;
+    }
 
     const nombre = formData.nombre.trim();
     const email = formData.email.trim().toLowerCase();
@@ -61,19 +109,22 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
     }
 
     try {
+      setEnviando(true);
+      const formDataEnvio = new FormData();
+      formDataEnvio.append('nombre', nombre);
+      formDataEnvio.append('email', email);
+      formDataEnvio.append('telefono', telefono);
+      formDataEnvio.append('password', formData.password);
+      formDataEnvio.append('localidad', formData.localidad);
+      formDataEnvio.append('role', formData.role);
+
+      if (fotoSeleccionada) {
+        formDataEnvio.append('foto', fotoSeleccionada.archivo);
+      }
+
       const response = await fetch(`${API_URL}/api/users/register`, {
         method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          nombre,
-          email,
-          telefono,
-          password: formData.password,
-          localidad: formData.localidad,
-          role: formData.role,
-        }),
+        body: formDataEnvio,
       });
 
       const data = await response.json();
@@ -90,10 +141,13 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
         localidad: data.localidad,
         telefono: data.telefono,
         rol: data.role,
+        fotoUrl: data.fotoUrl,
       });
     } catch (error) {
       console.error('Error al registrar usuario:', error);
       alert('No se pudo conectar con el servidor');
+    } finally {
+      setEnviando(false);
     }
   };
 
@@ -177,6 +231,39 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
         </div>
 
         <div className="form-group">
+          <label htmlFor="fotoPerfil">Imagen de perfil</label>
+          <input
+            type="file"
+            id="fotoPerfil"
+            accept="image/*"
+            onChange={seleccionarFoto}
+            disabled={fotoEnRecorte !== null || enviando}
+          />
+          {fotoSeleccionada && (
+            <div style={{ display: 'flex', alignItems: 'center', gap: '0.75rem' }}>
+              <img
+                src={fotoSeleccionada.vistaPrevia}
+                alt="Vista previa de la imagen de perfil"
+                style={{
+                  width: '72px',
+                  height: '72px',
+                  borderRadius: '50%',
+                  objectFit: 'cover',
+                }}
+              />
+              <button
+                type="button"
+                className="switch-btn"
+                onClick={() => setFotoSeleccionada(null)}
+                disabled={enviando}
+              >
+                Quitar imagen
+              </button>
+            </div>
+          )}
+        </div>
+
+        <div className="form-group">
           <label htmlFor="localidad">Localidad</label>
           <select
             id="localidad"
@@ -207,13 +294,23 @@ export const RegisterForm: React.FC<RegisterFormProps> = ({ onRegisterSuccess, o
           >
             <option value="VECINO">Vecino</option>
             <option value="PERFIL_PUBLICO">Perfil Público (Comercio / Servicio / Emprendimiento)</option>
+            <option value="ADMIN">Administrador</option>
+            <option value="SUPER_ADMIN">Super Administrador</option>
           </select>
         </div>
 
-        <button type="submit" className="submit-btn">
-          Registrarse
+        <button type="submit" className="submit-btn" disabled={enviando}>
+          {enviando ? 'Registrando…' : 'Registrarse'}
         </button>
       </form>
+
+      {fotoEnRecorte && (
+        <RecortadorFoto
+          archivo={fotoEnRecorte}
+          onConfirmar={confirmarFotoRecortada}
+          onCancelar={() => setFotoEnRecorte(null)}
+        />
+      )}
 
       <div className="auth-switch">
         <p>

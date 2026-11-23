@@ -1,10 +1,11 @@
 import React, { useState } from 'react';
 import { Localidad } from '../types';
 import type { User } from '../types';
+import RecortadorFoto from './RecortarFoto';
 
 interface EditarPerfilProps {
     user: User;
-    onSave: (user: User) => void;
+    onSave: (user: User, foto?: File | null) => void;
     onCancel: () => void;
 }
 
@@ -14,6 +15,49 @@ export const EditarPerfil: React.FC<EditarPerfilProps> = ({
     onCancel,
 }) => {
     const [formData, setFormData] = useState<User>(user);
+    const [fotoEnRecorte, setFotoEnRecorte] = useState<File | null>(null);
+    const [fotoNueva, setFotoNueva] = useState<File | null>(null);
+    const [vistaPrevia, setVistaPrevia] = useState<string | null>(null);
+    const [eliminarFoto, setEliminarFoto] = useState(false);
+
+    const seleccionarFoto = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const archivo = e.target.files?.[0];
+        e.target.value = '';
+
+        if (!archivo) return;
+
+        if (!archivo.type.startsWith('image/')) {
+            alert('Seleccioná un archivo de imagen');
+            return;
+        }
+
+        setFotoEnRecorte(archivo);
+    };
+
+    const confirmarFotoRecortada = (archivo: File) => {
+        const reader = new FileReader();
+
+        reader.onload = () => {
+            const preview = typeof reader.result === 'string' ? reader.result : '';
+
+            if (!preview) {
+                alert('No se pudo preparar la vista previa de la foto');
+                return;
+            }
+
+            setFotoNueva(archivo);
+            setVistaPrevia(preview);
+            setEliminarFoto(false);
+            setFotoEnRecorte(null);
+        };
+
+        reader.onerror = () => {
+            alert('No se pudo preparar la vista previa de la foto');
+            setFotoEnRecorte(null);
+        };
+
+        reader.readAsDataURL(archivo);
+    };
 
     const handleChange = (
         e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
@@ -37,10 +81,10 @@ export const EditarPerfil: React.FC<EditarPerfilProps> = ({
             },
         });
     };
-    const handleSubmit = (e: React.FormEvent) => {
+    const handleSubmit = (e: React.SubmitEvent) => {
         e.preventDefault();
 
-        onSave(formData);
+        onSave(formData, eliminarFoto ? null : fotoNueva ?? undefined);
     };
 
     return (
@@ -105,9 +149,62 @@ export const EditarPerfil: React.FC<EditarPerfilProps> = ({
 
                         {Localidad.map((localidad) => (
                             <option key={localidad} value={localidad}>
-                                {localidad}
+                                {localidad.replaceAll('_', ' ')}
                             </option>
                         ))}
+                    </select>
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="fotoPerfil">Imagen de perfil</label>
+                    <input
+                        type="file"
+                        id="fotoPerfil"
+                        accept="image/*"
+                        onChange={seleccionarFoto}
+                        disabled={fotoEnRecorte !== null}
+                    />
+                    {(vistaPrevia ?? (!eliminarFoto && user.userData.fotoUrl)) && (
+                        <img
+                            src={vistaPrevia ?? user.userData.fotoUrl ?? ''}
+                            alt="Vista previa de la imagen de perfil"
+                            style={{
+                                width: '88px',
+                                height: '88px',
+                                borderRadius: '50%',
+                                objectFit: 'cover',
+                            }}
+                        />
+                    )}
+                    {(vistaPrevia ?? user.userData.fotoUrl) && (
+                        <button
+                            type="button"
+                            className="switch-btn"
+                            onClick={() => {
+                                setFotoNueva(null);
+                                setVistaPrevia(null);
+                                setEliminarFoto(true);
+                            }}
+                        >
+                            Quitar imagen
+                        </button>
+                    )}
+                </div>
+
+                <div className="form-group">
+                    <label htmlFor="rol">Tipo de usuario</label>
+                    <select
+                        id="rol"
+                        name="rol"
+                        value={formData.userData.rol ?? 'VECINO'}
+                        onChange={handleChange}
+                    >
+                        <option value="VECINO">Vecino</option>
+                        <option value="PERFIL_PUBLICO">
+                            Perfil Público (Comercio / Servicio / Emprendimiento)
+                        </option>
+                        <option value="ADMIN">Administrador</option>
+                        <option value="SUPER_ADMIN">Super Administrador</option>
                     </select>
                 </div>
 
@@ -190,7 +287,15 @@ export const EditarPerfil: React.FC<EditarPerfilProps> = ({
                 </div>
 
             </form>
+            {fotoEnRecorte && (
+                <RecortadorFoto
+                    archivo={fotoEnRecorte}
+                    onConfirmar={confirmarFotoRecortada}
+                    onCancelar={() => {
+                        setFotoEnRecorte(null);
+                    }}
+                />
+            )}
         </div>
     );
 };
-

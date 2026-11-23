@@ -55,6 +55,7 @@ export const LoginForm: React.FC<LoginFormProps> = ({ onLoginSuccess, onSwitchTo
         telefono: data.user.telefono,
         localidad: data.user.localidad,
         rol: data.user.role,
+        fotoUrl: data.user.fotoUrl,
       });
 
     } catch (error) {

@@ -4,6 +4,8 @@ import jwt from 'jsonwebtoken';
 import * as dotenv from 'dotenv';
 import { verificarToken, type AuthRequest } from '../middleware/auth.js';
 import { Localidad, Role } from '@prisma/client';
+import upload from '../config/upload.js';
+import { subirFotosCloudinary } from '../config/subirFotos.js';
 
 dotenv.config();
 
@@ -13,7 +15,7 @@ const router = Router();
 
 // Registrar usuario
 
-router.post('/register', async (req, res) => {
+router.post('/register', upload.single('foto'), async (req, res) => {
   const {
     email,
     password,
@@ -104,6 +106,12 @@ router.post('/register', async (req, res) => {
 
     // Hash password
     const passwordHash = await bcrypt.hash(password, 10);
+    const fotoUrl = req.file
+      ? (await subirFotosCloudinary(
+          [req.file],
+          'Costa-de-Oro/perfiles'
+        ))[0]
+      : null;
 
     // Create user
     const user = await prisma.user.create({
@@ -113,7 +121,8 @@ router.post('/register', async (req, res) => {
         nombre: cleanName,
         telefono: cleanPhone,
         localidad: localidad as Localidad,
-        role: role as Role
+        role: role as Role,
+        fotoUrl
       }
     });
 
@@ -254,12 +263,28 @@ router.post('/logout', (_req, res) => {
 });
 
 //actualizar perfil
-router.put('/profile', verificarToken, async (req, res) => {
+router.put(
+  '/profile',
+  verificarToken,
+  upload.single('foto'),
+  async (req, res) => {
   const authReq = req as AuthRequest;
 
   try {
     const userId = authReq.user!.userId;
-    const { userData, publicProfile } = req.body;
+    let datos = req.body;
+
+    if (typeof req.body.datos === 'string') {
+      try {
+        datos = JSON.parse(req.body.datos);
+      } catch {
+        return res.status(400).json({
+          error: 'Los datos del perfil no son válidos'
+        });
+      }
+    }
+
+    const { userData, publicProfile } = datos;
 
     if (
       !userData ||
@@ -288,12 +313,32 @@ router.put('/profile', verificarToken, async (req, res) => {
       });
     }
 
+    const allowedRoles = ['VECINO', 'PERFIL_PUBLICO'];
+    const role = userData.rol;
+
+    if (typeof role !== 'string' || !allowedRoles.includes(role)) {
+      return res.status(400).json({
+        error: 'El tipo de usuario seleccionado no es válido'
+      });
+    }
+
+    const fotoUrl = req.file
+      ? (await subirFotosCloudinary(
+          [req.file],
+          'Costa-de-Oro/perfiles'
+        ))[0]
+      : req.body.eliminarFoto === 'true'
+        ? null
+        : undefined;
+
     const user = await prisma.user.update({
       where: { id: userId },
       data: {
         nombre,
         email,
         localidad: localidad as Localidad,
+        role: role as Role,
+        ...(fotoUrl !== undefined ? { fotoUrl } : {}),
         telefono:
           typeof userData.telefono === 'string'
             ? userData.telefono.trim() || null
@@ -339,6 +384,10 @@ router.put('/profile', verificarToken, async (req, res) => {
           userId,
           ...profileData
         }
+      });
+    } else {
+      profile = await prisma.profile.findUnique({
+        where: { userId }
       });
     }
 
