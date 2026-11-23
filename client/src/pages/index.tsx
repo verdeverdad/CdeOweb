@@ -2,9 +2,8 @@ import { Container } from "react-bootstrap"
 import Mapa from "../components/Mapa"
 import MostrarPublicaciones from "../components/MostrarPubliaciones"
 import VideoHero from "../components/Video"
-
 import '../css/formularioPost.css'
-import Footer from "../components/footer"
+
 export default function Home() {
   return (<>
     <Container fluid="md" className="px-3">
@@ -15,6 +14,5 @@ export default function Home() {
       <MostrarPublicaciones filtroCategoria="CULTURA" />
       <MostrarPublicaciones filtroCategoria="ENCONTRANDO_PATITAS" />
     </Container>
-    <Footer></Footer>
   </>)
 }
